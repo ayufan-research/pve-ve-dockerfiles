@@ -1,13 +1,47 @@
-get_deps() {
-  sed -n -e '/^\[dep/,/^\[/{//!p}' "$1" | sed -n -e 's/^\([a-z0-9_-]*\)\s*=.*$/\1/p'
-}
-
 replace_patch_crates_io() {
   sed -i -e '/^\[patch\.crates-io\]/,/^\[/d' "$1"
   echo "[patch.crates-io]" >> "$1"
 }
 
-declare -A not_found_deps
+declare -A found_deps
+declare -A git_deps
+
+while read cargo_path; do
+  cargo_path=$(dirname "$cargo_path")
+  cargo_dep=$(basename "$cargo_path")
+  git_repo=$(git -C "$cargo_path" rev-parse --show-toplevel)
+  found_deps[$cargo_dep]="$cargo_path"
+  git_deps[$cargo_dep]="$git_repo"
+done < <(find "$PWD" -wholename "*/Cargo.toml")
+
+get_deps() {
+  local all=$(sed -n -e '/^\[dep/,/^\[/{//!p}' "$1")
+
+  echo "$all" | grep git | sed -n -e 's/^\([a-z0-9_-]*\)\(\.workspace\)*\s*=.*$/\1 git/p'
+  echo "$all" | grep -v git | sed -n -e 's/^\([a-z0-9_-]*\)\(\.workspace\)*\s*=.*$/\1/p'
+}
+
+get_deps_with_path() {
+  local parent_dep_path="$1"
+  local parent_dep="$2"
+  local parent_dep_git="$3"
+
+  local cargo_dep
+  local cargo_git
+
+  while read cargo_dep cargo_git; do
+    local cargo_dep_path="${found_deps["$cargo_dep"]}"
+    [[ -z "$cargo_dep_path" ]] && cargo_dep_path="${found_deps["$cargo_dep-rs"]}"
+    [[ -z "$cargo_dep_path" ]] && continue
+
+    if [[ -n "$parent_dep_git" ]] && [[ "${git_deps["$parent_dep"]}" == "${git_deps["$cargo_dep"]}" ]]; then
+      get_deps_with_path "$cargo_dep_path/Cargo.toml" "$cargo_dep" "$parent_dep_git"
+    else
+      echo "$cargo_dep $cargo_dep_path"
+      get_deps_with_path "$cargo_dep_path/Cargo.toml" "$cargo_dep" "$cargo_git"
+    fi
+  done < <(get_deps "$parent_dep_path")
+}
 
 update_deps() {
   local cargo_toml="$1"
@@ -15,22 +49,15 @@ update_deps() {
 
   replace_patch_crates_io "$cargo_toml"
 
-  while read cargo_dep; do
-    [[ -n "${not_found_deps[$cargo_dep]}" ]] && continue
+  while read cargo_dep cargo_dep_path; do
+    grep -q "$cargo_dep.*git" "$cargo_toml" && continue # TODO: this is not fully working
 
-    cargo_path=$(find "$PWD" -wholename "*/$cargo_dep/Cargo.toml" -o -wholename "*/$cargo_dep-rs/Cargo.toml" | tail -n 1)
-    if [[ -z "$cargo_path" ]]; then
-      echo "$cargo_package: Cargo dep: $cargo_dep => not found"
-      not_found_deps[$cargo_dep]=1
-      continue
-    fi
-
-    cargo_path=$(dirname "$cargo_path")
-
-    echo "$cargo_package: Cargo dep: $cargo_dep => found => $cargo_path"
-    echo "$cargo_dep = { path = \"$cargo_path\" }" >> "$cargo_toml"
-  done < <(get_deps "$cargo_toml")
+    echo "$cargo_package: Cargo dep: $cargo_dep => found => $cargo_dep_path"
+    echo "$cargo_dep = { path = \"$cargo_dep_path\" }" >> "$cargo_toml"
+  done < <(get_deps_with_path "$cargo_toml" "$cargo_package" "" | sort -u)
 }
+
+search_dir="$1"
 
 while read CARGO_TOML; do
   update_deps "$CARGO_TOML"

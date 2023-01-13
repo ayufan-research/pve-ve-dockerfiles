@@ -1,1 +1,2 @@
 proxmox-perl-rs/pve-rs/Cargo.toml proxmox-schema
+proxmox-backup-qemu/Cargo.toml proxmox-serde proxmox-time proxmox-uuid proxmox-compression proxmox-http proxmox-io proxmox-router

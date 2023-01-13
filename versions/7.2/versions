@@ -11,8 +11,17 @@ proxmox-acme master
 pve-common master
 pve-eslint 44f286589830cb7af5efb772b0415bfe420b7def # Thu Sep 15 11:46:30 2022 +0200
 pve-manager master
+pxar master
+proxmox-backup master
 proxmox-backup-qemu master
 pve-qemu master
 qemu-server master
 spiceterm master
 vncterm master
+proxmox-widget-toolkit master
+pve-apiclient master
+pve-cluster master
+pve-storage master
+pve-guest-common master
+pve-access-control master
+pve-docs master
