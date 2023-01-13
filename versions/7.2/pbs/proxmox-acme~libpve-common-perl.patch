@@ -1,0 +1,24 @@
+From 8cc61b1965f719a57cbd1d712d2737b8a268d76e Mon Sep 17 00:00:00 2001
+From: Docker Compile <docker@compile.dev>
+Date: Fri, 13 Jan 2023 15:55:49 +0000
+Subject: [PATCH] Remove dependency on libpve-common-perl
+
+---
+ debian/control | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/debian/control b/debian/control
+index fb4c4ba..3f85d7b 100644
+--- a/debian/control
++++ b/debian/control
+@@ -4,7 +4,6 @@ Priority: optional
+ Maintainer: Proxmox Support Team <support@proxmox.com>
+ Build-Depends: debhelper (>= 10),
+                libjson-perl <!nocheck>,
+-               libpve-common-perl <!nocheck>,
+ Standards-Version: 4.3.0
+ Homepage: https://www.proxmox.com
+ 
+-- 
+2.30.2
+

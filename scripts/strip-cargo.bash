@@ -3,6 +3,8 @@
 set -eo pipefail
 
 for package in *; do
+  [[ ! -d "$package" ]] && continue
+
   if [[ -f "$package/.cargo/config" ]]; then
     rm -v "$package/.cargo/config"
   fi
@@ -18,7 +20,12 @@ for package in *; do
 
     # change `cargo:native (>= 0.65.0-1),` to `cargo:native <!nocheck>`
     sed -i 's/cargo:native\s*(>=.*)/cargo:native <!nocheck>/g' "$debian_control"
+
+    # change `dh-cargo (>= 25),` to `dh-cargo`
+    sed -i 's/dh-cargo\s*(>=.*)/dh-cargo/g' "$debian_control"
   done < <(find "$package" -wholename '*/debian/control')
+
+  find "$package" -wholename '*/debian/cargo_home/config' -delete
 
   git -C "$package" add .
   if ! git -C "$package" diff --cached --exit-code --quiet; then

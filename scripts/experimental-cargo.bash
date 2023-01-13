@@ -3,6 +3,8 @@
 set -eo pipefail
 
 for package in *; do
+  [[ ! -d "$package" ]] && continue
+
   # enable experimental features
   for cargo in $(find "$package/" -name Cargo.toml); do
     echo "Changing $cargo..."

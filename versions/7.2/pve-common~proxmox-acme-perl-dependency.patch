@@ -1,0 +1,21 @@
+commit 7a48f55a8f054f23260a30837feb2bbe198dfa45
+Author: Fabian Grünbichler <f.gruenbichler@proxmox.com>
+Date:   Tue Jan 10 12:25:54 2023 +0100
+
+    fix typo
+    
+    Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
+
+diff --git a/test/procfs_tests.pl b/test/procfs_tests.pl
+index de094ab..4cf4991 100755
+--- a/test/procfs_tests.pl
++++ b/test/procfs_tests.pl
+@@ -63,7 +63,7 @@ subtest 'test kernel_version parser' => sub {
+ 
+ 	my $res = [ PVE::ProcFSTools::kernel_version() ];
+ 
+-	is_deeply($res, $test->{expect}, "got verison <". $res->[4] ."> same as expected");
++	is_deeply($res, $test->{expect}, "got version <". $res->[4] ."> same as expected");
+     }
+ };
+ 

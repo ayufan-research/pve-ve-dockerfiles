@@ -1,3 +1,18 @@
+dh-cargo proxmox/bullseye
+debcargo-conf proxmox/bullseye
+perlmod master
+proxmox master
+proxmox-apt master
+proxmox-acme-rs master
+proxmox-openid-rs master
+proxmox-resource-scheduling master
 proxmox-perl-rs master
+proxmox-acme master
 pve-common master
 pve-eslint 44f286589830cb7af5efb772b0415bfe420b7def # Thu Sep 15 11:46:30 2022 +0200
+pve-manager master
+proxmox-backup-qemu master
+pve-qemu master
+qemu-server master
+spiceterm master
+vncterm master
