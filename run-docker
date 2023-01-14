@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -xeo pipefail
+
+case "$1" in
+  "")
+    docker rm -f pve-debs
+    docker run --name=pve-debs --cgroupns=host \
+      --privileged \
+      --shm-size=256m \
+      --hostname pve-debs \
+      --publish 8006:8006 \
+      --rm \
+      -t pve-debs /sbin/init
+    ;;
+
+  builder)
+    docker build --build-arg VERSION=7.2 -t builder --target build_env .
+    ;;
+
+  save)
+    docker commit hardcore_archimedes pve-debs
+    ;;
+
+  kill)
+    docker kill pve-debs
+    ;;
+
+  enter)
+    exec docker exec -it pve-debs /bin/bash
+    ;;
+esac

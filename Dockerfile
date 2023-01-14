@@ -8,11 +8,8 @@ RUN apt-get -y update && \
     build-essential git-core \
     lintian pkg-config quilt patch cargo \
     nodejs node-colors node-commander \
-    libudev-dev libapt-pkg-dev \
-    libacl1-dev libpam0g-dev libfuse3-dev \
-    libsystemd-dev uuid-dev libssl-dev \
-    libclang-dev libjson-perl libcurl4-openssl-dev \
-    dh-exec wget
+    dh-exec wget devscripts rsync patchelf xmlto jq && \
+  apt-get install -t bullseye-backports -y meson
 
 RUN wget https://static.rust-lang.org/rustup/rustup-init.sh && \
   chmod +x rustup-init.sh && \

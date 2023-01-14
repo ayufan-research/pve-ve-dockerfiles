@@ -72,7 +72,7 @@ if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs common-deb
 if_installed libpve-common-perl || dinstall pve-common
 if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 if_installed vncterm || dinstall vncterm
-if_installed proxmox-backup-client || dinstall proxmox-backup
+if_installed proxmox-backup-client || dinstall proxmox-backup . deb-all
 if_installed libproxmox-backup-qemu0-dev || dinstall proxmox-backup-qemu
 if_installed pve-qemu-kvm || dinstall pve-qemu
 if_installed spiceterm || dinstall spiceterm
