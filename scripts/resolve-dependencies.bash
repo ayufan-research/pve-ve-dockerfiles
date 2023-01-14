@@ -61,4 +61,11 @@ search_dir="$1"
 
 while read CARGO_TOML; do
   update_deps "$CARGO_TOML"
+
+  git_repo=$(git -C "$(dirname "$CARGO_TOML")" rev-parse --show-toplevel)
+  git -C "$git_repo" add "$(realpath "$CARGO_TOML")"
+  if ! git -C "$git_repo" diff --cached --exit-code --quiet; then
+    git -C "$git_repo" diff --cached | cat
+    git -C "$git_repo" commit -m "resolve-dependencies.bash"
+  fi
 done < <(find $1 -name Cargo.toml)

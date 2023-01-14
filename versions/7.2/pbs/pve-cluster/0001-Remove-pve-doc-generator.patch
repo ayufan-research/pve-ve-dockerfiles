@@ -1,0 +1,24 @@
+From 1c6b8250aea633887fbb0481718f40e24e85850a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 10:59:01 +0100
+Subject: [PATCH] Remove pve-doc-generator
+
+---
+ debian/control | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/debian/control b/debian/control
+index 44a9bc9..5f6aa27 100644
+--- a/debian/control
++++ b/debian/control
+@@ -19,7 +19,6 @@ Build-Depends: check,
+                libsqlite3-dev,
+                libtest-mockmodule-perl,
+                libuuid-perl,
+-               pve-doc-generator (>= 6.0-9~),
+                rrdcached,
+                sqlite3,
+ Standards-Version: 4.5.0
+-- 
+2.34.1
+

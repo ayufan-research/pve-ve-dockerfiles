@@ -1,0 +1,26 @@
+From b58f1f2a3178ad433bb7fdbb8431a55a0de6fce3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 11:09:05 +0100
+Subject: [PATCH] Remove pve-doc-generator
+
+---
+ debian/control | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/debian/control b/debian/control
+index 4a9428e..29608fd 100644
+--- a/debian/control
++++ b/debian/control
+@@ -12,9 +12,7 @@ Build-Depends: debhelper (>= 12~),
+                lintian,
+                perl,
+                pve-cluster (>= 5.0-32),
+-               pve-doc-generator (>= 5.3-3),
+                pve-qemu-kvm | qemu-utils,
+-               zfsutils-linux,
+ Standards-Version: 4.5.1
+ Homepage: https://www.proxmox.com
+ 
+-- 
+2.34.1
+

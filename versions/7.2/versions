@@ -30,3 +30,6 @@ libpve-u2f-server-perl master
 proxmox-websocket-tunnel master
 pve-http-server master
 pve-edk2-firmware master
+pve-firewall master
+pve-container master
+pve-ha-manager master

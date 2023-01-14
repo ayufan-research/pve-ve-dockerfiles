@@ -2,17 +2,12 @@
 
 set -eo pipefail
 
-for patch; do
-  if [[ ! -e $patch ]]; then
-    continue
-  fi
+for p in $1/*/*.patch; do
+  d=$(basename $(dirname "$p"))
 
-  patch_dest=$(basename "$patch". patch)
-  patch_dest=${patch_dest%%~*}
-  patch_dest=${patch_dest%%.*}
-
-  echo "$patch => $patch_dest..."
-  patch -N -p1 -d "$patch_dest" < "$patch"
-  git -C "$patch_dest" add .
-  git -C "$patch_dest" commit -m "$(basename $patch)"
+  echo "$d => $p..."
+  git -C "$d" apply --reverse --check "$(realpath "$p")" &>/dev/null && continue
+  git -C "$d" status &>/dev/null
+  git -C "$d" apply --index "$(realpath "$p")"
+  git -C "$d" commit -m "$(basename "$p" .patch)"
 done

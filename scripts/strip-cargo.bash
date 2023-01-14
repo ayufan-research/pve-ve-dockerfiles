@@ -6,7 +6,7 @@ for package in *; do
   [[ ! -d "$package" ]] && continue
 
   if [[ -f "$package/.cargo/config" ]]; then
-    rm -v "$package/.cargo/config"
+    git -C "$package" rm "$(realpath "$package/.cargo/config")" || rm -f ""$package/.cargo/config""
   fi
 
   while read debian_control; do
@@ -23,11 +23,13 @@ for package in *; do
 
     # change `dh-cargo (>= 25),` to `dh-cargo`
     sed -i 's/dh-cargo\s*(>=.*)/dh-cargo/g' "$debian_control"
+    git -C "$package" add "$(realpath "$debian_control")" || true
   done < <(find "$package" -wholename '*/debian/control')
 
-  find "$package" -wholename '*/debian/cargo_home/config' -delete
+  while read cargo_config; do
+    git -C "$package" rm -f "$(realpath "$cargo_config")" || rm -f "$cargo_config"
+  done < <(find "$package" -wholename '*/debian/cargo_home/config')
 
-  git -C "$package" add .
   if ! git -C "$package" diff --cached --exit-code --quiet; then
     git -C "$package" diff --cached | cat
     git -C "$package" commit -m "strip-cargo.bash"

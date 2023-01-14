@@ -1,31 +1,30 @@
+From 5e5d6d3c38bb1932af2905a238369b0276c3a5ef Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 11:09:59 +0100
+Subject: [PATCH] Remove gluster and cephfs and pbs
+
+---
+ debian/control | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
 diff --git a/debian/control b/debian/control
-index 4a9428e..218076f 100644
+index 29608fd..163a438 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -12,9 +12,7 @@ Build-Depends: debhelper (>= 12~),
-                lintian,
-                perl,
-                pve-cluster (>= 5.0-32),
--               pve-doc-generator (>= 5.3-3),
-                pve-qemu-kvm | qemu-utils,
--               zfsutils-linux,
- Standards-Version: 4.5.1
- Homepage: https://www.proxmox.com
- 
-@@ -25,11 +23,8 @@ Breaks: libpve-guest-common-perl (<< 4.0-3),
+@@ -23,11 +23,9 @@ Breaks: libpve-guest-common-perl (<< 4.0-3),
          pve-container (<< 3.1-2),
          pve-manager (<< 5.2-12),
          qemu-server (<< 6.1-14),
 -Depends: ceph-common (>= 12.2~),
 -         ceph-fuse,
--         cifs-utils,
-+Depends: cifs-utils,
++Depends: 
+          cifs-utils,
           cstream,
 -         glusterfs-client (>= 3.4.0-2),
           libfile-chdir-perl,
           libposix-strptime-perl,
           libpve-apiclient-perl (>= 3.1-1),
-@@ -38,8 +33,6 @@ Depends: ceph-common (>= 12.2~),
+@@ -36,8 +34,6 @@ Depends: ceph-common (>= 12.2~),
           librados2-perl,
           lvm2,
           nfs-common,
@@ -34,3 +33,6 @@ index 4a9428e..218076f 100644
           pve-cluster (>= 5.0-32),
           smartmontools,
           smbclient,
+-- 
+2.34.1
+

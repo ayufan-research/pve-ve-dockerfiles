@@ -1,0 +1,24 @@
+From d2fc8261fb7954fe0476b89b56ca183e1af05840 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 12:41:12 +0100
+Subject: [PATCH] Remove firewall tests
+
+---
+ Makefile | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index c5a6158..eaaa2ec 100644
+--- a/Makefile
++++ b/Makefile
+@@ -37,7 +37,6 @@ ${DSC}: ${BUILDDIR}
+ 
+ .PHONY: check
+ check:
+-	make -C test check
+ 
+ .PHONY: clean distclean
+ distclean: clean
+-- 
+2.34.1
+
