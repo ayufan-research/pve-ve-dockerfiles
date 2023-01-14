@@ -24,7 +24,7 @@ dinstall() {
       [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
       make "$@"
     fi
-    find -name '*.deb' | xargs -r dpkg -i
+    find "$PWD" -name '*.deb' | xargs -r apt -y install
   )
 }
 
