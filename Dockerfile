@@ -1,6 +1,8 @@
 ARG ARCH=
 FROM ${ARCH}debian:bullseye AS build_env
 
+RUN echo deb http://deb.debian.org/debian bullseye-backports main > /etc/apt/sources.list.d/backports.list
+
 RUN apt-get -y update && \
   apt-get -y install \
     build-essential git-core \
