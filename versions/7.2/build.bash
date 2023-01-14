@@ -4,7 +4,7 @@ set -xeo pipefail
 
 apt-get install -f -y
 dpkg --get-selections | grep deinstall | awk '{print $1}' | xargs -r apt-get purge -y || true
-apt-get install -y devscripts rsync patchelf xmlto
+apt-get install -y devscripts rsync patchelf xmlto jq
 apt-get install -t bullseye-backports -y meson
 cargo install debcargo
 
@@ -72,6 +72,7 @@ if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs common-deb
 if_installed libpve-common-perl || dinstall pve-common
 if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 if_installed vncterm || dinstall vncterm
+if_installed proxmox-backup-client || dinstall proxmox-backup
 if_installed libproxmox-backup-qemu0-dev || dinstall proxmox-backup-qemu
 if_installed pve-qemu-kvm || dinstall pve-qemu
 if_installed spiceterm || dinstall spiceterm
@@ -107,5 +108,13 @@ if_installed libjs-extjs || dinstall extjs
 if_installed libjs-qrcodejs || dinstall libjs-qrcodejs
 if_installed pve-manager || dinstall pve-manager
 if_installed proxmox-ve || dinstall proxmox-ve . deb
+
+# libqb0
+# pve-zsync
+# zfsutils-linux
+# ceph-fuse
+# criu
+# glusterfs-client
+# ifupdown
 
 exit

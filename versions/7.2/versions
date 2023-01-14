@@ -49,3 +49,4 @@ corosync-qdevice master
 ksm-control-daemon master
 lxcfs master
 swtpm proxmox/stable-0.8
+proxmox-fuse master
