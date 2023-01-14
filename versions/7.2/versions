@@ -25,3 +25,8 @@ pve-storage master
 pve-guest-common master
 pve-access-control master
 pve-docs master
+librados2-perl master
+libpve-u2f-server-perl master
+proxmox-websocket-tunnel master
+pve-http-server master
+pve-edk2-firmware master
