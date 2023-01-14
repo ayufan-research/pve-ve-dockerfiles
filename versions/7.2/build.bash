@@ -4,9 +4,6 @@ set -xeo pipefail
 
 apt-get install -f -y
 dpkg --get-selections | grep deinstall | awk '{print $1}' | xargs -r apt-get purge -y || true
-apt-get install -y devscripts rsync patchelf xmlto jq
-apt-get install -t bullseye-backports -y meson
-cargo install debcargo
 
 if_installed() {
   dpkg -s "$@" | grep "Status: install ok installed" &> /dev/null

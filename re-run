@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -xeo pipefail
+
+../scripts/clone.bash . ../versions/7.2/versions
+../scripts/strip-cargo.bash
+../scripts/apply-patches.bash ../versions/7.2/pbs/ || true
+../scripts/resolve-dependencies.bash . ../versions/7.2/deps
+chown -R 1000 .
