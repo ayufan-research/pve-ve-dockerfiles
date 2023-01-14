@@ -1,7 +1,7 @@
 From 5e5d6d3c38bb1932af2905a238369b0276c3a5ef Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
 Date: Sat, 14 Jan 2023 11:09:59 +0100
-Subject: [PATCH] Remove gluster and cephfs and pbs
+Subject: [PATCH] Remove gluster and cephfs
 
 ---
  debian/control | 6 +-----
@@ -24,15 +24,6 @@ index 29608fd..163a438 100644
           libfile-chdir-perl,
           libposix-strptime-perl,
           libpve-apiclient-perl (>= 3.1-1),
-@@ -36,8 +34,6 @@ Depends: ceph-common (>= 12.2~),
-          librados2-perl,
-          lvm2,
-          nfs-common,
--         proxmox-backup-client (>= 2.1.10~),
--         proxmox-backup-file-restore,
-          pve-cluster (>= 5.0-32),
-          smartmontools,
-          smbclient,
 -- 
 2.34.1
 
