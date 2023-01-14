@@ -61,14 +61,12 @@ if [[ ! -e pve-perl5.done ]]; then
   touch pve-perl5.done
 fi
 
-if_installed dh-cargo || ( cd dh-cargo && git clean -ffdx && dpkg-buildpackage -uc -us -b && dpkg -i ../dh-cargo*.deb )
-
+if_installed dh-cargo || dpkg_buildpackage dh-cargo
 if_installed corosync || dinstall corosync-pve
 # broken: if_installed corosync-qdevice || dinstall corosync-qdevice
 if_installed ksm-control-daemon || dinstall ksm-control-daemon . all
 if_installed pve-eslint || dinstall pve-eslint
-if_installed libpve-rs-perl || dinstall proxmox-perl-rs pve-rs pve-deb
-if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs common-deb
+if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs pve-deb common-deb
 if_installed libpve-common-perl || dinstall pve-common
 if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 if_installed vncterm || dinstall vncterm

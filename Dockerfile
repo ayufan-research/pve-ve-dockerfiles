@@ -30,7 +30,9 @@ ADD /scripts/ /scripts/
 
 # Build all
 FROM pbs_env as pbs_build
+
 RUN /scripts/clone.bash /src /patches/versions
-RUN /scripts/apply-patches.bash /patches/pbs/*.patch
 RUN /scripts/strip-cargo.bash
+RUN /scripts/apply-patches.bash /patches/pbs/
+RUN /scripts/resolve-dependencies.bash /src /patches/deps
 RUN /patches/build.bash
