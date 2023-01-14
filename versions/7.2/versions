@@ -36,3 +36,11 @@ pve-ha-manager master
 lxc master
 pve-lxc-syscalld master
 criu master
+proxmox-ve master
+proxmox-mail-forward master
+proxmox-mini-journalreader master
+proxmox-i18n master
+pve-xtermjs master
+novnc-pve master
+extjs master
+libjs-qrcodejs master

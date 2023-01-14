@@ -1,0 +1,24 @@
+From 5c3e65cc7f643d22cef35d54394b8dae4726da21 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 19:14:56 +0100
+Subject: [PATCH] Remove pve-doc-generator
+
+---
+ debian/control | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/debian/control b/debian/control
+index d5b87fb9..efd29900 100644
+--- a/debian/control
++++ b/debian/control
+@@ -22,7 +22,6 @@ Build-Depends: debhelper (>= 12~),
+                proxmox-widget-toolkit (>= 3.4-9),
+                pve-cluster,
+                pve-container,
+-               pve-doc-generator (>= 7.2-3),
+                pve-eslint (>= 7.28.0-1),
+                qemu-server (>= 6.0-15),
+                unzip,
+-- 
+2.34.1
+

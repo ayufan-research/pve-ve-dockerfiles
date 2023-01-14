@@ -1,0 +1,24 @@
+From eeb7f3e12bdfce00e7d73e4f8783db06951dc3a2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 19:12:19 +0100
+Subject: [PATCH] Remove pve-doc-generator
+
+---
+ debian/control | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/debian/control b/debian/control
+index 7c49cd1..5f10cd7 100644
+--- a/debian/control
++++ b/debian/control
+@@ -18,7 +18,6 @@ Build-Depends: debhelper (>= 12~),
+                perl,
+                pkg-config,
+                pve-cluster,
+-               pve-doc-generator (>= 6.2-5),
+                pve-edk2-firmware,
+                pve-firewall,
+                pve-ha-manager <!nocheck>,
+-- 
+2.34.1
+

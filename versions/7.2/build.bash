@@ -20,8 +20,8 @@ dinstall() {
     git clean -ffdx
     [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
     if ! make "$@"; then
-      [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
       apt-get -f -y install
+      [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
       make "$@"
     fi
     find -name '*.deb' | xargs -r dpkg -i
@@ -74,9 +74,17 @@ if_installed pve-ha-manager || dinstall pve-ha-manager
 # broken: if_installed criu || dinstall criu criu dinstall
 if_installed lxc-pve || dinstall lxc
 # broken: if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
-#if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
+if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
+if_installed qemu-server || dinstall qemu-server
+if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
+if_installed proxmox-mini-journalreader || dinstall proxmox-mini-journalreader
+# broken: if_installed pve-xtermjs || dinstall pve-xtermjs
+if_installed pve-i18n || dinstall proxmox-i18n . install
+if_installed novnc-pve || dinstall novnc-pve
+if_installed pve-docs || dinstall pve-docs dinstall
+if_installed libjs-extjs || dinstall extjs
+if_installed libjs-qrcodejs || dinstall libjs-qrcodejs
+if_installed pve-manager || dinstall pve-manager
+if_installed proxmox-ve || dinstall proxmox-ve . deb
 
 exit
-if_installed qemu-server || dinstall qemu-server
-if_installed pve-manager || dinstall pve-manager
-if_installed pve-doc-generator || dinstall pve-docs dinstall
