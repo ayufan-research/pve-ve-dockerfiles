@@ -1,0 +1,67 @@
+From b5ccb482f919758e0e8fca76b442e5f947cac541 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 20:45:18 +0100
+Subject: [PATCH] Debian files
+
+---
+ debian/cargo_config |  2 ++
+ debian/control      | 24 ++++++++++++++++++++++++
+ debian/rules        |  2 ++
+ 3 files changed, 28 insertions(+)
+ create mode 100644 debian/cargo_config
+ create mode 100644 debian/control
+
+diff --git a/debian/cargo_config b/debian/cargo_config
+new file mode 100644
+index 0000000..38bd089
+--- /dev/null
++++ b/debian/cargo_config
+@@ -0,0 +1,2 @@
++[build]
++rustflags = []
+diff --git a/debian/control b/debian/control
+new file mode 100644
+index 0000000..6ff328a
+--- /dev/null
++++ b/debian/control
+@@ -0,0 +1,24 @@
++Source: rust-pve-lxc-syscalld
++Section: admin
++Priority: optional
++Build-Depends: debhelper (>= 12),
++ dh-cargo (>= 25),
++ cargo:native,
++ rustc:native,
++ libstd-rust-dev,
++ debhelper (>= 12~),
++ bash-completion
++Maintainer: Proxmox Support Team <support@proxmox.com>
++Standards-Version: 4.6.1
++Vcs-Git: 
++Vcs-Browser: 
++Homepage: https://www.proxmox.com
++X-Cargo-Crate: pve-lxc-syscalld
++Rules-Requires-Root: no
++
++Package: pve-lxc-syscalld
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends},
++Description: PVE LXC syscall daemon
++ A daemon which handles a selected subset of syscalls for unprivileged
++ containers.
+diff --git a/debian/rules b/debian/rules
+index 9f608f5..86bcc9e 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -23,6 +23,8 @@ export DEB_CARGO_PACKAGE=pve-lxc-syscalld
+ override_dh_auto_configure:
+ 	$(CARGO) prepare-debian $(CURDIR)/debian/cargo_registry --link-from-system
+ 	dh_auto_configure
++	mkdir -p debian/cargo_home/
++	cp -av debian/cargo_config debian/cargo_home/config
+ 
+ override_dh_missing:
+ 	dh_missing --fail-missing
+-- 
+2.34.1
+

@@ -33,11 +33,8 @@ dinstall() {
 }
 
 dpkg_buildpackage() {
-  local deb="$1"
-  local d="$2"
-  shift 2
-
-  if_installed "$deb" && return
+  local d="$1"
+  shift
 
   (
     cd "$d/"
@@ -84,7 +81,7 @@ if_installed libpve-access-control || dinstall pve-access-control
 if_installed pve-cluster || dinstall pve-cluster
 if_installed librados2-perl || dinstall librados2-perl
 if_installed libpve-storage-perl || dinstall pve-storage
-dpkg_buildpackage proxmox-websocket-tunnel proxmox-websocket-tunnel
+if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
 if_installed libpve-guest-common-perl || dinstall pve-guest-common
 if_installed libpve-http-server-perl || dinstall pve-http-server
 if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
@@ -92,12 +89,12 @@ if_installed pve-firewall || dinstall pve-firewall
 if_installed pve-ha-manager || dinstall pve-ha-manager
 # broken: if_installed criu || dinstall criu criu dinstall
 if_installed lxc-pve || dinstall lxc
-# broken: if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
+if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
 if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
 if_installed qemu-server || dinstall qemu-server
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-mini-journalreader || dinstall proxmox-mini-journalreader
-dpkg_buildpackage pve-xtermjs pve-xtermjs
+if_installed pve-xtermjs || dpkg_buildpackage pve-xtermjs
 if_installed pve-i18n || dinstall proxmox-i18n . install
 if_installed novnc-pve || dinstall novnc-pve
 if_installed pve-docs || dinstall pve-docs dinstall
