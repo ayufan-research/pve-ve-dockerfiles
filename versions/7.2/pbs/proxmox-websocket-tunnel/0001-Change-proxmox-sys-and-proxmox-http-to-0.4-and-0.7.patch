@@ -1,0 +1,24 @@
+From a127ad07f08b746fdbb50f1c195c724dd1de8dd1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sat, 14 Jan 2023 20:33:50 +0100
+Subject: [PATCH] Change proxmox-sys and proxmox-http to 0.4 and 0.7
+
+---
+ Cargo.toml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Cargo.toml b/Cargo.toml
+index 6210a75..e0057ac 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -24,5 +24,5 @@ tokio = { version = "1", features = ["io-std", "io-util", "macros", "rt-multi-th
+ tokio-stream = { version = "0.1", features = ["io-util"] }
+ tokio-util = "0.7"
+ 
+-proxmox-http = { version = "0.6", features = ["websocket", "client"] }
+-proxmox-sys = "0.3"
++proxmox-http = { version = "0.7", features = ["websocket", "client"] }
++proxmox-sys = "0.4"
+-- 
+2.34.1
+

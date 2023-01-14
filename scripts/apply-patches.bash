@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-for p in $1/*/*.patch; do
+while read p; do
   d=$(basename $(dirname "$p"))
 
   echo "$d => $p..."
@@ -10,4 +10,4 @@ for p in $1/*/*.patch; do
   git -C "$d" status &>/dev/null
   git -C "$d" apply --index "$(realpath "$p")"
   git -C "$d" commit -m "$(basename "$p" .patch)"
-done
+done < <(find "$1" -name '*.patch')

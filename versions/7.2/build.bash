@@ -8,6 +8,10 @@ apt-get install -y devscripts rsync patchelf xmlto
 apt-get install -t bullseye-backports -y meson
 cargo install debcargo
 
+if_installed() {
+  dpkg -S "$@" &> /dev/null
+}
+
 dinstall() {
   local d="$1"
   shift
@@ -28,10 +32,25 @@ dinstall() {
   )
 }
 
-if_installed() {
-  dpkg -S "$@" &> /dev/null
-}
+dpkg_buildpackage() {
+  local deb="$1"
+  local d="$2"
+  shift 2
 
+  if_installed "$deb" && return
+
+  (
+    cd "$d/"
+    git clean -ffdx
+    [[ -e "debian/control" ]] && apt-get -y build-dep "$PWD"
+    mkdir -p .build
+    cp -av * .build/
+    cd .build/
+    dpkg-buildpackage -uc -us -b
+    cd ..
+    find "$PWD" -name "*.deb" | xargs -r apt -y install
+  )
+}
 # copy all PVE into `/usr/share/perl5`
 if [[ ! -e pve-perl5.done ]]; then
   for i in $(find -name PVE); do
@@ -65,7 +84,7 @@ if_installed libpve-access-control || dinstall pve-access-control
 if_installed pve-cluster || dinstall pve-cluster
 if_installed librados2-perl || dinstall librados2-perl
 if_installed libpve-storage-perl || dinstall pve-storage
-# broken: if_installed proxmox-websocket-tunnel || dinstall proxmox-websocket-tunnel
+dpkg_buildpackage proxmox-websocket-tunnel proxmox-websocket-tunnel
 if_installed libpve-guest-common-perl || dinstall pve-guest-common
 if_installed libpve-http-server-perl || dinstall pve-http-server
 if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
@@ -78,7 +97,7 @@ if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTION
 if_installed qemu-server || dinstall qemu-server
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-mini-journalreader || dinstall proxmox-mini-journalreader
-# broken: if_installed pve-xtermjs || dinstall pve-xtermjs
+dpkg_buildpackage pve-xtermjs pve-xtermjs
 if_installed pve-i18n || dinstall proxmox-i18n . install
 if_installed novnc-pve || dinstall novnc-pve
 if_installed pve-docs || dinstall pve-docs dinstall
