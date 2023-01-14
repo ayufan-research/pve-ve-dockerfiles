@@ -9,7 +9,7 @@ apt-get install -t bullseye-backports -y meson
 cargo install debcargo
 
 if_installed() {
-  dpkg -S "$@" &> /dev/null
+  dpkg -s "$@" | grep "Status: install ok installed" &> /dev/null
 }
 
 dinstall() {
@@ -48,6 +48,7 @@ dpkg_buildpackage() {
     find "$PWD" -name "*.deb" | xargs -r apt -y install
   )
 }
+
 # copy all PVE into `/usr/share/perl5`
 if [[ ! -e pve-perl5.done ]]; then
   for i in $(find -name PVE); do
@@ -61,8 +62,10 @@ if [[ ! -e pve-perl5.done ]]; then
 fi
 
 if_installed dh-cargo || ( cd dh-cargo && git clean -ffdx && dpkg-buildpackage -uc -us -b && dpkg -i ../dh-cargo*.deb )
-#( cd proxmox-perl-rs && git clean -fdx && apt-get -y build-dep $PWD/pve-rs && make common-deb pve-deb )
 
+if_installed corosync || dinstall corosync-pve
+# broken: if_installed corosync-qdevice || dinstall corosync-qdevice
+if_installed ksm-control-daemon || dinstall ksm-control-daemon . all
 if_installed pve-eslint || dinstall pve-eslint
 if_installed libpve-rs-perl || dinstall proxmox-perl-rs pve-rs pve-deb
 if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs common-deb
@@ -76,7 +79,7 @@ if_installed proxmox-widget-toolkit || dinstall proxmox-widget-toolkit
 if_installed libpve-apiclient-perl || dinstall pve-apiclient
 if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
 if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
-if_installed pve-cluster || make -C pve-cluster/data install
+if_installed pve-cluster || make -C pve-cluster/data all check install
 if_installed libpve-access-control || dinstall pve-access-control
 if_installed pve-cluster || dinstall pve-cluster
 if_installed librados2-perl || dinstall librados2-perl
@@ -88,9 +91,11 @@ if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
 if_installed pve-firewall || dinstall pve-firewall
 if_installed pve-ha-manager || dinstall pve-ha-manager
 # broken: if_installed criu || dinstall criu criu dinstall
+if_installed lxcfs || dinstall lxcfs
 if_installed lxc-pve || dinstall lxc
 if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
 if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
+if_installed swtpm || dpkg_buildpackage swtpm
 if_installed qemu-server || dinstall qemu-server
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-mini-journalreader || dinstall proxmox-mini-journalreader

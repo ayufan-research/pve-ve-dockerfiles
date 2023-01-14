@@ -44,3 +44,8 @@ pve-xtermjs master
 novnc-pve master
 extjs master
 libjs-qrcodejs master
+corosync-pve master
+corosync-qdevice master
+ksm-control-daemon master
+lxcfs master
+swtpm proxmox/stable-0.8
