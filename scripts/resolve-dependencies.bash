@@ -63,7 +63,7 @@ update_deps() {
   done < <(get_deps_with_path "$cargo_toml" "$cargo_package" "" | sort -u)
 }
 
-search_dir="$1"
+search_dir="${1:-.}"
 
 while read CARGO_TOML; do
   update_deps "$CARGO_TOML"

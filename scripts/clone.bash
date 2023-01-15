@@ -32,11 +32,6 @@ if [[ "$1" == "show-sha" ]]; then
     echo "$1 $REVISION # $CHANGE_TIME"
   }
 else
-  if [[ -n "$1" ]]; then
-    cd "$1"
-    shift
-  fi
-
   perform() {
     if [[ ! -d "$1" ]]; then
       git clone "git://git.proxmox.com/git/$1.git" --recursive

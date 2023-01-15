@@ -34,10 +34,18 @@ ADD /versions/${VERSION}/ /patches/
 ADD /scripts/ /scripts/
 
 # Build all
-FROM pbs_env as pbs_build
-
-RUN /scripts/clone.bash /src /patches/versions
+RUN /scripts/clone.bash /patches/versions
 RUN /scripts/strip-cargo.bash
 RUN /scripts/apply-patches.bash /patches/pbs/
-RUN /scripts/resolve-dependencies.bash /src /patches/deps
+RUN /scripts/apply-patches.bash /patches/pbs-$(dpkg --print-architecture)/
+RUN /scripts/resolve-dependencies.bash
 RUN /patches/build.bash
+RUN /scripts/export-deb.bash /deb
+
+FROM ${ARCH}debian:bullseye AS deb_env
+COPY --from=pbs_env /deb /deb
+
+ADD /scripts/install.bash /deb/
+RUN /scripts/install.bash /deb
+
+CMD ["/sbin/init"]

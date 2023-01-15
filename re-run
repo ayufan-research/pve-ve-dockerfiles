@@ -2,9 +2,9 @@
 
 set -xeo pipefail
 
-../scripts/clone.bash . ../versions/7.2/versions
+../scripts/clone.bash ../versions/7.2/versions
 ../scripts/strip-cargo.bash
 ../scripts/apply-patches.bash ../versions/7.2/pbs/ || [[ -n "$FORCE" ]]
 ../scripts/apply-patches.bash ../versions/7.2/pbs-$(dpkg --print-architecture)/ || [[ -n "$FORCE" ]]
-../scripts/resolve-dependencies.bash . ../versions/7.2/deps
+../scripts/resolve-dependencies.bash
 chown -R 1000 .

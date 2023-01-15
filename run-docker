@@ -17,6 +17,10 @@ case "$arg" in
       -t pve-debs /sbin/init
     ;;
 
+  build)
+    docker build -t pve-debs -f Dockerfile.deb --target deb_env .
+    ;;
+
   builder)
     docker build --build-arg VERSION=7.2 -t builder --target build_env .
     ;;
