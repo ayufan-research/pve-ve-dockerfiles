@@ -1,0 +1,13 @@
+FROM ${ARCH}debian:bullseye AS deb_env
+
+ARG VERSION=master
+ADD /deb/${VERSION}/ /deb
+ADD /scripts/install.bash /deb
+RUN mkdir -p /run/network && \
+  /deb/install.bash /deb
+
+VOLUME /var/lib/proxmox-etc
+VOLUME /var/lib/vz
+
+ADD /scripts/init.bash /init
+CMD ["/init"]
