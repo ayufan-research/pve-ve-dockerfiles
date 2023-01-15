@@ -76,8 +76,6 @@ if_installed libpve-apiclient-perl || dinstall pve-apiclient
 if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
-if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
-if_installed pve-cluster || make -C pve-cluster/data all check install
 
 if_installed libpve-common-perl || dinstall pve-common
 if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
