@@ -49,6 +49,7 @@ dpkg_buildpackage() {
 }
 
 if_installed dh-cargo || dpkg_buildpackage dh-cargo
+if_installed ifupdown2 || dinstall ifupdown2
 if_installed pve-eslint || dinstall pve-eslint
 if_installed proxmox-widget-toolkit || dinstall proxmox-widget-toolkit
 # broken: if_installed libqb0 || dinstall libqb . dinstall DEB_BUILD_OPTIONS=nocheck
@@ -106,7 +107,6 @@ if_installed pve-firewall || dinstall pve-firewall
 if_installed pve-ha-manager || dinstall pve-ha-manager
 if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
 if_installed qemu-server || dinstall qemu-server . dinstall DEB_BUILD_OPTIONS=nocheck
-if_installed ifupdown2 || dinstall ifupdown2
 if_installed pve-manager || dinstall pve-manager . install # required by `pve-docs`
 if_installed pve-docs || dinstall pve-docs
 if_installed pve-manager || dinstall pve-manager
