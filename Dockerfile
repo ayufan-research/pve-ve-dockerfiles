@@ -30,6 +30,9 @@ RUN git config --global user.email "docker@compile.dev" && \
 # Build ALL
 FROM build_env as pbs_env
 
+ARG VERSION=master
+ADD /versions/${VERSION}/ /patches/
+
 ADD /scripts/clone.bash /scripts/
 RUN /scripts/clone.bash /patches/versions
 
@@ -43,8 +46,6 @@ RUN /scripts/apply-patches.bash /patches/pbs-$(dpkg --print-architecture)/
 ADD /scripts/resolve-dependencies.bash /scripts/
 RUN /scripts/resolve-dependencies.bash
 
-ARG VERSION=master
-ADD /versions/${VERSION}/ /patches/
 RUN /patches/build.bash
 
 ADD /scripts/export-deb.bash /scripts/
