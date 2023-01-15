@@ -1,3 +1,4 @@
 docker-compose.override.yml
 tmp/
+tmp2/
 /.env.mk
