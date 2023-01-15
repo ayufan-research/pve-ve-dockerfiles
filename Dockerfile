@@ -26,3 +26,26 @@ RUN cargo install debcargo
 RUN /usr/bin/rustc --version
 RUN git config --global user.email "docker@compile.dev" && \
   git config --global user.name "Docker Compile"
+
+# Compile everything
+FROM build_env AS deb_env
+
+ARG VERSION=master
+ADD . /src
+
+VOLUME /src/tmp
+RUN BUILD=1 /src/build.bash "$VERSION"
+
+# Install dependencies
+FROM ${ARCH}debian:bullseye AS release_env
+
+COPY --from=build_env /deb/${VERSION}/*.deb /deb
+ADD /scripts/install.bash /deb
+RUN mkdir -p /run/network && \
+  /deb/install.bash /deb
+
+VOLUME /var/lib/proxmox-etc
+VOLUME /var/lib/vz
+
+ADD /scripts/init.bash /init
+CMD ["/init"]
