@@ -16,11 +16,20 @@ if [[ -n "$ROOT_ENC_PASSWORD" ]]; then
   unset ROOT_ENC_PASSWORD
 fi
 
-for d in /var/lib/{corosync,pve-cluster,pve-firewall,pve-manager,qemu-server}; do
-  [[ -d "$d" ]] || continue
+persist() {
+  local d="$1"
+  local p="${2:-$(basename "$1")}"
 
-  mv -v "$d" /var/lib/proxmox-etc/
-  ln -sf "/var/lib/proxmox-etc/$(dirname "$d")" "$d"
-done
+  [[ -d "$d" ]] || return
+  mv -v "$d" "/var/lib/proxmox-etc/$p"
+  ln -sf "/var/lib/proxmox-etc/$p" "$d"
+}
+
+persist /etc/network etc-network
+persist /var/lib/corosync
+persist /var/lib/pve-cluster
+persist /var/lib/pve-firewall
+persist /var/lib/pve-manager
+persist /var/lib/qemu-server
 
 exec /sbin/init
