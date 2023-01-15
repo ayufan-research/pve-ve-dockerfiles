@@ -51,34 +51,35 @@ dpkg_buildpackage() {
 if_installed dh-cargo || dpkg_buildpackage dh-cargo
 if_installed pve-eslint || dinstall pve-eslint
 if_installed proxmox-widget-toolkit || dinstall proxmox-widget-toolkit
-# if_installed libqb0 || dinstall libqb . dinstall DEB_BUILD_OPTIONS=nocheck
+# broken: if_installed libqb0 || dinstall libqb . dinstall DEB_BUILD_OPTIONS=nocheck
 if_installed corosync || dinstall corosync-pve
-if_installed libpve-common-perl || dinstall pve-common
-if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 # broken: if_installed corosync-qdevice || dinstall corosync-qdevice
 if_installed ksm-control-daemon || dinstall ksm-control-daemon . all
-if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs pve-deb common-deb
 if_installed vncterm || dinstall vncterm
 if_installed libjs-extjs || dinstall extjs
 if_installed libjs-qrcodejs || dinstall libjs-qrcodejs
 if_installed proxmox-mini-journalreader || dinstall proxmox-mini-journalreader
 if_installed pve-xtermjs || dpkg_buildpackage pve-xtermjs
 if_installed pve-i18n || dinstall proxmox-i18n . deb
+if_installed swtpm || dpkg_buildpackage swtpm
+if_installed novnc-pve || dinstall novnc-pve
+if_installed lxcfs || dinstall lxcfs
+if_installed lxc-pve || dinstall lxc
+if_installed libpve-apiclient-perl || dinstall pve-apiclient
+if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
+if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
+if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
+if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
+
+if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs pve-deb common-deb
+if_installed libpve-common-perl || dinstall pve-common
+if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 if_installed proxmox-backup-client || dinstall proxmox-backup . deb-all
 if_installed libproxmox-backup-qemu0-dev || dinstall proxmox-backup-qemu
 if_installed pve-qemu-kvm || dinstall pve-qemu || if_installed pve-qemu-kvm
 if_installed spiceterm || dinstall spiceterm
 if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
-if_installed swtpm || dpkg_buildpackage swtpm
-if_installed novnc-pve || dinstall novnc-pve
 # broken: if_installed criu || dinstall criu criu dinstall
-if_installed lxcfs || dinstall lxcfs
-if_installed lxc-pve || dinstall lxc
-if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
-if_installed libpve-apiclient-perl || dinstall pve-apiclient
-if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
-if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
-if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
 
 # Fix circular dependencies between pve-access-control and pve-cluster
 if [[ ! -e pve-perl5.done ]]; then
