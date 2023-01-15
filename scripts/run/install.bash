@@ -6,4 +6,4 @@ set -xeo pipefail
 
 echo deb http://deb.debian.org/debian bullseye-backports main > /etc/apt/sources.list.d/backports.list
 apt-get -y update
-find "${1:-$SCRIPT_DIR}" -name '*.deb' | xargs -r apt install -y
+find "$(realpath "${1:-$SCRIPT_DIR}")" -name '*.deb' | xargs -r apt install -y

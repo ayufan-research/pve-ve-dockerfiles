@@ -40,7 +40,7 @@ else
     fi
     git -C "$1" checkout "$2" -f
     [[ -n "$RESET" ]] && ( git -C "$1" reset --hard "origin/$2" || git -C "$1" reset --hard "$2" )
-    git -C "$1" clean -fdx
+    git -C "$1" clean -fdx -e '*.deb'
     git -C "$1" submodule update --init --recursive
   }
 fi

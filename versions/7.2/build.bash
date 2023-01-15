@@ -20,7 +20,7 @@ dinstall() {
 
   (
     cd "$d/"
-    git clean -ffdx
+    git clean -ffdx -e '*.deb'
     [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
     if ! make "$@"; then
       apt-get -f -y install
