@@ -7,52 +7,24 @@ arg="$1"
 
 case "$arg" in
   "")
-    docker rm -f pve-debs
-    docker run --name=pve-debs --cgroupns=host \
+    docker rm -f pve-ve-release
+    docker run --name=pve-ve-release --cgroupns=host \
       --privileged \
       --shm-size=256m \
-      --hostname pve-debs \
+      --hostname pve-ve-release \
       --publish 8006:8006 \
+      -e ROOT_PASSWORD=root1 \
+      --volume "$PWD/tmp/proxmox/etc:/var/lib/proxmox-etc" \
+      --volume "$PWD/tmp/proxmox/vz:/var/lib/vz" \
       --rm \
-      -t pve-debs /sbin/init
-    ;;
-
-  build)
-    docker build -t pve-debs -f Dockerfile.deb --target deb_env .
-    ;;
-
-  builder)
-    docker build --build-arg VERSION=7.2 -t builder --target build_env .
-    ;;
-
-  enter-builder)
-    $0 builder
-    docker run --name=pbs_build_env --rm -it -v "$PWD:$PWD" -w "$PWD" builder "$@"
-    ;;
-
-  snapshot)
-    docker commit pbs_build_env pbs_build_env
-    docker tag pbs_build_env builder
-    ;;
-
-  enter-pbs-build-env)
-    docker run --name=pbs_build_env --rm -it -v "$PWD:$PWD" -w "$PWD" pbs_build_env "$@"
-    ;;
-
-  enter-pbs-env)
-    docker build --build-arg VERSION=7.2 -t pbs_env --target pbs_env .
-    docker run --rm -it -v "$PWD:$PWD" -w "$PWD" pbs_env "$@"
-    ;;
-
-  save)
-    docker commit pbs_build_env pve-debs
+      -t pve-ve-release
     ;;
 
   kill)
-    docker kill pve-debs
+    docker kill pve-ve-release
     ;;
 
   enter)
-    exec docker exec -it pve-debs /bin/bash
+    exec docker exec -it pve-ve-release /bin/bash
     ;;
 esac

@@ -12,8 +12,8 @@ RUN /src/scripts/build/all.bash "$VERSION"
 # Install debian packages
 FROM ${ARCH}debian:bullseye AS release_env
 
-COPY --from=deb_env /deb/${VERSION}/*.deb /deb
-ADD /scripts/run/init.bash /
+ARG VERSION=master
+COPY --from=deb_env /src/deb/${VERSION}/*.deb /deb/
 ADD /scripts/run/install.bash /deb
 RUN mkdir -p /run/network && \
   /deb/install.bash /deb
@@ -21,4 +21,5 @@ RUN mkdir -p /run/network && \
 VOLUME /var/lib/proxmox-etc
 VOLUME /var/lib/vz
 
+ADD /scripts/run/init.bash /
 CMD ["/init.bash"]

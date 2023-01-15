@@ -19,7 +19,7 @@ fi
 for d in /var/lib/{corosync,pve-cluster,pve-firewall,pve-manager,qemu-server}; do
   [[ -d "$d" ]] || continue
 
-  mv -av "$d" /var/lib/proxmox-etc/
+  mv -v "$d" /var/lib/proxmox-etc/
   ln -sf "/var/lib/proxmox-etc/$(dirname "$d")" "$d"
 done
 
