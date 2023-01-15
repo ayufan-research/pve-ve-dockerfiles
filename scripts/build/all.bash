@@ -12,6 +12,8 @@ set -xeo pipefail
 mkdir -p "/src/tmp/$VERSION"
 mkdir -p "/src/deb/$VERSION"
 cd "/src/tmp/$VERSION"
+
+[[ -x /src/scripts/run/install.bash ]] && /src/scripts/run/install.bash "/src/tmp/$VERSION"
 /src/scripts/build/clone.bash "/src/versions/$VERSION/versions"
 /src/scripts/build/strip-cargo.bash
 /src/scripts/build/apply-patches.bash "/src/versions/$VERSION/pbs"
