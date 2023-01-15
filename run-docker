@@ -16,6 +16,7 @@ case "$arg" in
       -e ROOT_PASSWORD=root1 \
       --volume "$PWD/tmp/proxmox/etc:/var/lib/proxmox-etc" \
       --volume "$PWD/tmp/proxmox/vz:/var/lib/vz" \
+      --volume "$PWD:/src" \
       --rm \
       -t pve-ve-release
     ;;

@@ -1,11 +1,13 @@
-commit 8051d3c60ef2082dce186aba135556868584b497
-Author: Kamil Trzciński <ayufan@ayufan.eu>
-Date:   Sun Jan 15 13:54:24 2023 +0000
+commit 284dbb45409d927f3b27b94219453f4c39e1178f
+Author: Docker Compile <docker@compile.dev>
+Date:   Sun Jan 15 17:26:16 2023 +0000
 
-    Support for arm64
+    0001-Support-for-arm64
 
 diff --git a/debian/pve-qemu-kvm.links b/debian/pve-qemu-kvm.links
-index 7d9c8b1..7661fe0 100644
+old mode 100644
+new mode 100755
+index 7d9c8b1..7661fe0
 --- a/debian/pve-qemu-kvm.links
 +++ b/debian/pve-qemu-kvm.links
 @@ -1,4 +1,5 @@
