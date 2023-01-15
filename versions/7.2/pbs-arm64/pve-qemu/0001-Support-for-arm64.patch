@@ -1,0 +1,36 @@
+From f72edb78a2bbee965a53bfff93f3394b0587cc04 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sun, 15 Jan 2023 13:54:24 +0000
+Subject: [PATCH] Support for arm64
+
+---
+ debian/pve-qemu-kvm.links | 2 +-
+ debian/rules              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/debian/pve-qemu-kvm.links b/debian/pve-qemu-kvm.links
+index 7d9c8b1..6696867 100644
+--- a/debian/pve-qemu-kvm.links
++++ b/debian/pve-qemu-kvm.links
+@@ -1,4 +1,4 @@
+-usr/bin/qemu-system-x86_64 usr/bin/kvm
++usr/bin/qemu-system-aarch64 usr/bin/kvm
+ 
+ # qemu-system-i386 and qemu-system-x86_64 provides the same hardware emulation
+ usr/bin/qemu-system-x86_64 usr/bin/qemu-system-i386
+diff --git a/debian/rules b/debian/rules
+index 6d5f882..1fd25bf 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -46,7 +46,7 @@ ${BUILDDIR}/config.status: configure
+ 	--localstatedir=/var \
+ 	--prefix=/usr \
+ 	--sysconfdir=/etc \
+-	--target-list=$(ARCH)-softmmu,aarch64-softmmu \
++	--target-list=x86_64-softmmu,aarch64-softmmu \
+ 	--with-suffix="kvm" \
+ 	--with-pkgversion="${DEB_SOURCE}_${DEB_VERSION_UPSTREAM_REVISION}" \
+ 	--audio-drv-list="alsa" \
+-- 
+2.25.1
+

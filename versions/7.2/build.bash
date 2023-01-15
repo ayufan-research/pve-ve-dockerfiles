@@ -67,7 +67,7 @@ if_installed lxcfs || dinstall lxcfs
 if_installed lxc-pve || dinstall lxc
 if_installed libpve-apiclient-perl || dinstall pve-apiclient
 if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
-[[ $(dpkg --print-architecture) != "amd64" ]] || if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
+if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
 
@@ -78,7 +78,7 @@ if_installed proxmox-backup-client || dinstall proxmox-backup . deb-all
 if_installed libproxmox-backup-qemu0-dev || dinstall proxmox-backup-qemu
 if_installed pve-qemu-kvm || dinstall pve-qemu || if_installed pve-qemu-kvm
 if_installed spiceterm || dinstall spiceterm
-if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
+[[ $(dpkg --print-architecture) != "amd64" ]] || if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
 # broken: if_installed criu || dinstall criu criu dinstall
 
 # Fix circular dependencies between pve-access-control and pve-cluster
@@ -105,7 +105,7 @@ if_installed libpve-http-server-perl || dinstall pve-http-server
 if_installed pve-firewall || dinstall pve-firewall
 if_installed pve-ha-manager || dinstall pve-ha-manager
 if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
-if_installed qemu-server || dinstall qemu-server
+if_installed qemu-server || dinstall qemu-server . dinstall DEB_BUILD_OPTIONS=nocheck
 # if_installed ifupdown || dinstall ifupdown-pve
 if_installed pve-manager || dinstall pve-manager . install # required by `pve-docs`
 if_installed pve-docs || dinstall pve-docs
