@@ -67,7 +67,7 @@ if_installed lxcfs || dinstall lxcfs
 if_installed lxc-pve || dinstall lxc
 if_installed libpve-apiclient-perl || dinstall pve-apiclient
 if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
-if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
+[[ $(dpkg --print-architecture) != "amd64" ]] || if_installed pve-lxc-syscalld || dinstall pve-lxc-syscalld
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
 
