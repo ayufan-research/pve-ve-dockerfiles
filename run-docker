@@ -11,7 +11,7 @@ case "$arg" in
     docker run --name=pve-ve-release --cgroupns=host \
       --privileged \
       --shm-size=256m \
-      --hostname pve-ve-release \
+      --hostname pve-ve \
       --publish 8006:8006 \
       -e ROOT_PASSWORD=root1 \
       --volume "$PWD/tmp/proxmox/etc:/var/lib/proxmox-etc" \

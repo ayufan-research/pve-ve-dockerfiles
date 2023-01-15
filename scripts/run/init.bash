@@ -21,7 +21,12 @@ persist() {
   local p="${2:-$(basename "$1")}"
 
   [[ -d "$d" ]] || return
-  mv -v "$d" "/var/lib/proxmox-etc/$p"
+
+  if [[ -d "/var/lib/proxmox-etc/$p" ]]; then
+    rm -r "$d"
+  else
+    mv -v "$d" "/var/lib/proxmox-etc/$p"
+  fi
   ln -sf "/var/lib/proxmox-etc/$p" "$d"
 }
 

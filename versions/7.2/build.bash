@@ -48,6 +48,8 @@ dpkg_buildpackage() {
   )
 }
 
+mkdir -p /run/network
+
 if_installed dh-cargo || dpkg_buildpackage dh-cargo
 if_installed ifupdown2 || dinstall ifupdown2
 if_installed pve-eslint || dinstall pve-eslint
