@@ -27,25 +27,38 @@ RUN /usr/bin/rustc --version
 RUN git config --global user.email "docker@compile.dev" && \
   git config --global user.name "Docker Compile"
 
-# Prepare scripts
+# Build ALL
 FROM build_env as pbs_env
-ARG VERSION=master
-ADD /versions/${VERSION}/ /patches/
-ADD /scripts/ /scripts/
 
-# Build all
+ADD /scripts/clone.bash /scripts/
 RUN /scripts/clone.bash /patches/versions
+
+ADD /scripts/strip-cargo.bash /scripts/
 RUN /scripts/strip-cargo.bash
+
+ADD /scripts/apply-patches.bash /scripts/
 RUN /scripts/apply-patches.bash /patches/pbs/
 RUN /scripts/apply-patches.bash /patches/pbs-$(dpkg --print-architecture)/
+
+ADD /scripts/resolve-dependencies.bash /scripts/
 RUN /scripts/resolve-dependencies.bash
+
+ARG VERSION=master
+ADD /versions/${VERSION}/ /patches/
 RUN /patches/build.bash
+
+ADD /scripts/export-deb.bash /scripts/
 RUN /scripts/export-deb.bash /deb
 
+# Install ALL
 FROM ${ARCH}debian:bullseye AS deb_env
 COPY --from=pbs_env /deb /deb
 
 ADD /scripts/install.bash /deb/
 RUN /scripts/install.bash /deb
 
-CMD ["/sbin/init"]
+VOLUME /var/lib/proxmox-etc
+VOLUME /var/lib/vz
+
+ADD /scripts/init.bash /init
+CMD ["/init"]
