@@ -1,13 +1,25 @@
-FROM ${ARCH}debian:bullseye AS deb_env
+ARG IMAGE=
 
+# Compile everything
+FROM ${IMAGE} AS deb_env
+
+VOLUME /src/tmp
+ADD scripts/build /src/scripts/build
 ARG VERSION=master
-ADD /deb/${VERSION}/ /deb
+ADD versions/$VERSION /src/versions/$VERSION
+RUN /src/scripts/build/all.bash "$VERSION"
+
+# Install debian packages
+FROM ${ARCH}debian:bullseye AS release_env
+
+COPY --from=deb_env /deb/${VERSION}/*.deb /deb
+ADD /scripts/run/ /
 ADD /scripts/install.bash /deb
 RUN mkdir -p /run/network && \
-  /deb/install.bash /deb
+  /install.bash /deb
 
 VOLUME /var/lib/proxmox-etc
 VOLUME /var/lib/vz
 
-ADD /scripts/init.bash /init
+ADD /init.bash /init
 CMD ["/init"]

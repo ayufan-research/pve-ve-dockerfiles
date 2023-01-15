@@ -10,5 +10,5 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd "$SCRIPT_DIR/"
 
 set -xeo pipefail
-docker build -t pve-ve-build-env --target=build_env "."
-docker run -it -v "$PWD:/src" -w "$PWD/src" -e BUILD=1 pve-ve-build-env /bin/bash
+docker build -f Dockerfile.env -t pve-ve-build-env "."
+docker run -it -v "$PWD:/src" -w "/src" pve-ve-build-env /bin/bash

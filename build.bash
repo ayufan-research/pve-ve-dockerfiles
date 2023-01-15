@@ -14,5 +14,5 @@ ls "versions/$VERSION"
 mkdir -p "tmp/$VERSION"
 mkdir -p "deb/$VERSION"
 
-docker build -t pve-ve-build-env --target=build_env "."
-docker run -it -v "$PWD:/src" -e BUILD=1 pve-ve-build-env /src/scripts/build.bash "$VERSION"
+docker build -f Dockerfile.env -t pve-ve-build-env "."
+docker run -it -v "$PWD:/src" -w "/src" pve-ve-build-env /src/scripts/build/all.bash "$VERSION"
