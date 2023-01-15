@@ -51,3 +51,4 @@ lxcfs master
 swtpm proxmox/stable-0.8
 proxmox-fuse master
 ifupdown-pve master
+libqb master

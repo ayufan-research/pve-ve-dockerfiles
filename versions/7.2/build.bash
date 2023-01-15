@@ -51,6 +51,7 @@ dpkg_buildpackage() {
 if_installed dh-cargo || dpkg_buildpackage dh-cargo
 if_installed pve-eslint || dinstall pve-eslint
 if_installed proxmox-widget-toolkit || dinstall proxmox-widget-toolkit
+if_installed libqb0 || dinstall libqb
 if_installed corosync || dinstall corosync-pve
 if_installed libpve-common-perl || dinstall pve-common
 if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
@@ -106,16 +107,13 @@ if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTION
 if_installed qemu-server || dinstall qemu-server
 if_installed ifupdown || dinstall ifupdown-pve
 if_installed pve-manager || dinstall pve-manager . install # required by `pve-docs`
-if_installed pve-docs || dinstall pve-docs dinstall
+if_installed pve-docs || dinstall pve-docs
 if_installed pve-manager || dinstall pve-manager
 if_installed proxmox-ve || dinstall proxmox-ve . deb
 
-# libqb0
 # pve-zsync
 # zfsutils-linux
 # ceph-fuse
-# criu
 # glusterfs-client
-# ifupdown
 
 exit
