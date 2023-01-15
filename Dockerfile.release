@@ -13,13 +13,12 @@ RUN /src/scripts/build/all.bash "$VERSION"
 FROM ${ARCH}debian:bullseye AS release_env
 
 COPY --from=deb_env /deb/${VERSION}/*.deb /deb
-ADD /scripts/run/ /
-ADD /scripts/install.bash /deb
+ADD /scripts/run/init.bash /
+ADD /scripts/run/install.bash /deb
 RUN mkdir -p /run/network && \
-  /install.bash /deb
+  /deb/install.bash /deb
 
 VOLUME /var/lib/proxmox-etc
 VOLUME /var/lib/vz
 
-ADD /init.bash /init
-CMD ["/init"]
+CMD ["/init.bash"]
