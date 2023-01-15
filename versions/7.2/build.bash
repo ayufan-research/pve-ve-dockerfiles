@@ -82,7 +82,7 @@ if_installed spiceterm || dinstall spiceterm
 # broken: if_installed criu || dinstall criu criu dinstall
 
 # Fix circular dependencies between pve-access-control and pve-cluster
-if [[ ! -e pve-perl5.done ]]; then
+if [[ ! -e /pve-perl5.done ]]; then
   apt-get build-dep -y "$PWD/pve-docs"
   apt-get build-dep -y "$PWD/pve-access-control"
   apt-get build-dep -y "$PWD/pve-cluster"
@@ -93,7 +93,7 @@ if [[ ! -e pve-perl5.done ]]; then
   make -C pve-cluster/data all check install
   rm /etc/perl/PVE
 
-  touch pve-perl5.done
+  touch /pve-perl5.done
 fi
 
 if_installed libpve-access-control || dinstall pve-access-control
