@@ -50,5 +50,5 @@ ksm-control-daemon master
 lxcfs master
 swtpm proxmox/stable-0.8
 proxmox-fuse master
-ifupdown-pve master
+ifupdown2 master
 libqb master

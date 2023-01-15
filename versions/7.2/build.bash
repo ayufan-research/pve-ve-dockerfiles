@@ -106,7 +106,7 @@ if_installed pve-firewall || dinstall pve-firewall
 if_installed pve-ha-manager || dinstall pve-ha-manager
 if_installed pve-container || dinstall pve-container . dinstall DEB_BUILD_OPTIONS=nocheck
 if_installed qemu-server || dinstall qemu-server . dinstall DEB_BUILD_OPTIONS=nocheck
-# if_installed ifupdown || dinstall ifupdown-pve
+if_installed ifupdown2 || dinstall ifupdown2
 if_installed pve-manager || dinstall pve-manager . install # required by `pve-docs`
 if_installed pve-docs || dinstall pve-docs
 if_installed pve-manager || dinstall pve-manager
