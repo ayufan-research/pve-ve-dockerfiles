@@ -10,4 +10,4 @@ while read p; do
   git -C "$d" status &>/dev/null
   git -C "$d" apply --index "$(realpath "$p")"
   git -C "$d" commit -m "$(basename "$p" .patch)"
-done < <(find "$1" -name '*.patch')
+done < <(find "$1" -name '*.patch' | sort -n)

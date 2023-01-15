@@ -67,7 +67,6 @@ search_dir="$1"
 
 while read CARGO_TOML; do
   update_deps "$CARGO_TOML"
-  exit
 
   git_repo=$(git -C "$(dirname "$CARGO_TOML")" rev-parse --show-toplevel)
   git -C "$git_repo" add "$(realpath "$CARGO_TOML")"
