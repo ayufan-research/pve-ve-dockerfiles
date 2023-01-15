@@ -1,0 +1,46 @@
+From 9315734ff255f63b0824be4cbb68bdd87b7df636 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
+Date: Sun, 15 Jan 2023 15:50:49 +0000
+Subject: [PATCH] cross-compile
+
+---
+ debian/control | 1 +
+ debian/rules   | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/debian/control b/debian/control
+index 8d642cd..08321fb 100644
+--- a/debian/control
++++ b/debian/control
+@@ -7,6 +7,7 @@ Build-Depends: bc,
+  dosfstools,
+  dpkg (>= 1.19.3),
+  gcc-aarch64-linux-gnu,
++ gcc-x86-64-linux-gnu,
+  gcc-multilib [i386],
+  iasl,
+  mtools,
+diff --git a/debian/rules b/debian/rules
+index b9b800a..6d64c08 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -6,6 +6,7 @@ include /usr/share/dpkg/default.mk
+ 
+ EDK2_TOOLCHAIN = GCC5
+ export $(EDK2_TOOLCHAIN)_AARCH64_PREFIX=aarch64-linux-gnu-
++export $(EDK2_TOOLCHAIN)_BIN=x86_64-linux-gnu-
+ 
+ export PYTHON3_ENABLE=TRUE
+ 
+@@ -45,7 +46,7 @@ undefine CONF_PATH
+ %:
+ 	dh $@
+ 
+-override_dh_auto_build: build-qemu-efi-aarch64 build-ovmf build-ovmf32
++override_dh_auto_build: build-ovmf build-ovmf32 build-qemu-efi-aarch64
+ 
+ debian/setup-build-stamp:
+ 	cp -a debian/Logo.bmp MdeModulePkg/Logo/Logo.bmp
+-- 
+2.25.1
+
