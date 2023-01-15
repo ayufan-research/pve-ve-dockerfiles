@@ -1,4 +1,4 @@
-commit 284dbb45409d927f3b27b94219453f4c39e1178f
+commit e45d837b1663b327650c123288fda87068362f52
 Author: Docker Compile <docker@compile.dev>
 Date:   Sun Jan 15 17:26:16 2023 +0000
 
@@ -18,9 +18,18 @@ index 7d9c8b1..7661fe0
  # qemu-system-i386 and qemu-system-x86_64 provides the same hardware emulation
  usr/bin/qemu-system-x86_64 usr/bin/qemu-system-i386
 diff --git a/debian/rules b/debian/rules
-index 6d5f882..7d98086 100755
+index 6d5f882..b8f0046 100755
 --- a/debian/rules
 +++ b/debian/rules
+@@ -16,7 +16,7 @@ include /usr/share/dpkg/pkg-info.mk
+ DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+ DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+ 
+-ARCH ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
++export ARCH ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+ 
+ PACKAGE=pve-qemu-kvm
+ destdir := $(CURDIR)/debian/$(PACKAGE)
 @@ -46,7 +46,7 @@ ${BUILDDIR}/config.status: configure
  	--localstatedir=/var \
  	--prefix=/usr \
