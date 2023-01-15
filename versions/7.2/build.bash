@@ -52,6 +52,8 @@ if_installed dh-cargo || dpkg_buildpackage dh-cargo
 if_installed pve-eslint || dinstall pve-eslint
 if_installed proxmox-widget-toolkit || dinstall proxmox-widget-toolkit
 if_installed corosync || dinstall corosync-pve
+if_installed libpve-common-perl || dinstall pve-common
+if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 # broken: if_installed corosync-qdevice || dinstall corosync-qdevice
 if_installed ksm-control-daemon || dinstall ksm-control-daemon . all
 if_installed libproxmox-rs-perl || dinstall proxmox-perl-rs pve-rs pve-deb common-deb
@@ -76,9 +78,6 @@ if_installed libpve-apiclient-perl || dinstall pve-apiclient
 if_installed libpve-u2f-server-perl || dinstall libpve-u2f-server-perl
 if_installed proxmox-mail-forward || dinstall proxmox-mail-forward
 if_installed proxmox-websocket-tunnel || dpkg_buildpackage proxmox-websocket-tunnel
-
-if_installed libpve-common-perl || dinstall pve-common
-if_installed libproxmox-acme-perl libproxmox-acme-plugins || dinstall proxmox-acme
 
 # Fix circular dependencies between pve-access-control and pve-cluster
 if [[ ! -e pve-perl5.done ]]; then

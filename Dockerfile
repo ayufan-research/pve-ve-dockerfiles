@@ -12,7 +12,7 @@ RUN apt-get -y update && \
     libacl1-dev libpam0g-dev libfuse3-dev \
     libsystemd-dev uuid-dev libssl-dev \
     libclang-dev libjson-perl libcurl4-openssl-dev \
-    dh-exec wget devscripts rsync patchelf xmlto jq && \
+    dh-exec wget devscripts rsync patchelf xmlto jq sudo && \
   apt-get install -t bullseye-backports -y meson
 
 RUN wget https://static.rust-lang.org/rustup/rustup-init.sh && \

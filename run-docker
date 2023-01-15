@@ -2,7 +2,10 @@
 
 set -xeo pipefail
 
-case "$1" in
+arg="$1"
+shift
+
+case "$arg" in
   "")
     docker rm -f pve-debs
     docker run --name=pve-debs --cgroupns=host \
@@ -20,16 +23,25 @@ case "$1" in
 
   enter-builder)
     $0 builder
-    docker run --rm -it -v "$PWD:$PWD" -w "$PWD" builder
+    docker run --name=pbs_build_env --rm -it -v "$PWD:$PWD" -w "$PWD" builder "$@"
+    ;;
+
+  snapshot)
+    docker commit pbs_build_env pbs_build_env
+    docker tag pbs_build_env builder
+    ;;
+
+  enter-pbs-build-env)
+    docker run --name=pbs_build_env --rm -it -v "$PWD:$PWD" -w "$PWD" pbs_build_env "$@"
     ;;
 
   enter-pbs-env)
     docker build --build-arg VERSION=7.2 -t pbs_env --target pbs_env .
-    docker run --rm -it -v "$PWD:$PWD" -w "$PWD" pbs_env
+    docker run --rm -it -v "$PWD:$PWD" -w "$PWD" pbs_env "$@"
     ;;
 
   save)
-    docker commit hardcore_archimedes pve-debs
+    docker commit pbs_build_env pve-debs
     ;;
 
   kill)
