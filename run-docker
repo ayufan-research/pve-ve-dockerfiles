@@ -3,7 +3,7 @@
 set -xeo pipefail
 
 arg="$1"
-shift
+[[ -n "$arg" ]] && shift
 
 case "$arg" in
   "")
