@@ -6,6 +6,10 @@ if [[ -n "$ADDITIONAL_DEPS" ]]; then
   apt-get -y $ADDITIONAL_DEPS || apt-get -y update || apt-get -y install $ADDITIONAL_DEPS
 fi
 
+if [[ -n "$ADDITIONAL_CMDS" ]]; then
+  eval "$ADDITIONAL_CMDS"
+fi
+
 if [[ -n "$ROOT_PASSWORD" ]]; then
   echo "root:$ROOT_PASSWORD" | chpasswd
   unset ROOT_PASSWORD
@@ -36,5 +40,8 @@ persist /var/lib/pve-cluster
 persist /var/lib/pve-firewall
 persist /var/lib/pve-manager
 persist /var/lib/qemu-server
+
+systemctl mask getty.target
+systemctl mask serial-getty@.service
 
 exec /sbin/init

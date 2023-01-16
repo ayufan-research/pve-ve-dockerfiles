@@ -81,7 +81,7 @@ if_installed proxmox-backup-client || dinstall proxmox-backup . deb-all
 if_installed libproxmox-backup-qemu0-dev || dinstall proxmox-backup-qemu
 if_installed pve-qemu-kvm || dinstall pve-qemu || if_installed pve-qemu-kvm
 if_installed spiceterm || dinstall spiceterm
-[[ $(dpkg --print-architecture) != "amd64" ]] || if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
+if_installed pve-edk2-firmware || dinstall pve-edk2-firmware
 # broken: if_installed criu || dinstall criu criu dinstall
 
 # Fix circular dependencies between pve-access-control and pve-cluster
