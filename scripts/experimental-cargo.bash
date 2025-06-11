@@ -1,19 +1,22 @@
 #!/bin/bash
 
-set -eo pipefail
+set -xeo pipefail
 
-for package in *; do
+for package; do
   [[ ! -d "$package" ]] && continue
 
-  # enable experimental features
-  for cargo in $(find "$package/" -name Cargo.toml); do
-    echo "Changing $cargo..."
-    sed -i '1s/^/cargo-features = ["workspace-inheritance"]\n\n/' "$cargo"
-    git -C "$package" add "$cargo"
-  done
+  (
+    cd "$package/"
+    # enable experimental features
+    for cargo in $(find . -name Cargo.toml); do
+      echo "Changing $cargo..."
+      sed -i '1s/^/cargo-features = ["workspace-inheritance"]\n\n/' "$cargo"
+      git add "$cargo"
+    done
 
-  if ! git -C "$package" diff --cached --exit-code --quiet; then
-    git -C "$package" diff --cached | cat
-    git -C "$package" commit -m "experimental-cargo.bash"
-  fi
+    if ! git diff --cached --exit-code --quiet; then
+      git diff --cached | cat
+      git commit -m "experimental-cargo.bash"
+    fi
+  )
 done

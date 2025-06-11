@@ -4,7 +4,7 @@ set -eo pipefail
 
 for dir; do
   for patch in $dir/*.patch; do
-    [[ ! -e $dir ]] && continue
+    [[ ! -e $patch ]] && continue
 
     repo_name=$(basename $(dirname "$patch"))
     echo "$patch => $repo_name..."

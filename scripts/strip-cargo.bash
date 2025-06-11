@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-for package in *; do
+for package; do
   [[ ! -d "$package" ]] && continue
 
   if [[ -f "$package/.cargo/config" ]]; then

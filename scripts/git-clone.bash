@@ -3,7 +3,7 @@
 set -eo pipefail
 
 if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
-  echo "usage: $0 <repos-file> [path]"
+  echo "usage: $0 <repos-file> [repo_name]"
   exit 1
 fi
 
@@ -18,9 +18,7 @@ perform() {
 }
 
 while read REPO COMMIT_SHA REST; do
+  [[ -n "$2" ]] && [[ "$REPO" != "$2" ]] && continue
   echo "$REPO $COMMIT_SHA..." 1>&2
-  (
-    [[ -n "$2" ]] && cd "$2"
-    perform "$REPO" "$COMMIT_SHA"
-  )
+  ( perform "$REPO" "$COMMIT_SHA" )
 done < "$1"

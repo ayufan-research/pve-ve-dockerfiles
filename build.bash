@@ -10,5 +10,5 @@ cd "$SCRIPT_DIR/"
 
 set -xeo pipefail
 
-docker build -f dockerfiles/Dockerfile.env -t pve-ve-build-env --target toolchain "."
+docker build -f dockerfiles/Dockerfile.env -t pve-ve-build-env --target build_env "."
 docker run -it -v "$PWD:/src" -w "/src" pve-ve-build-env
