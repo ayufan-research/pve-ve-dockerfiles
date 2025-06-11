@@ -3,7 +3,7 @@
 set -xeo pipefail
 
 package="$1"
-out="$PWD/../versions/7.2/pbs/$package/"
+out="$PWD/../repos/patches/$package/"
 shift
 
 MSG="$@"

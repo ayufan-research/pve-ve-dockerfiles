@@ -1,4 +1,5 @@
 tmp/
-tmp2/
-deb/
+build/
 release/
+dockerfiles/Dockerfile*
+.env.mk
