@@ -7,6 +7,7 @@ fi
 
 set -xeo pipefail
 export DEBIAN_FRONTEND=noninteractive
+export DEB_BUILD_OPTIONS=nocheck
 
 REPO="$1"
 shift
@@ -24,13 +25,14 @@ fi
 
 do_dpkg_build() {
   local d="${1:-.}"
+  shift || true
+
   pushd "$d/"
-  git clean -ffdx
   [[ -e "debian/control" ]] && apt-get -y build-dep "$PWD"
   mkdir -p .build
   cp -av * .build/
   pushd .build/
-  DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -uc -us -b
+  dpkg-buildpackage -uc -us -b
   popd
   popd
   do_archive
@@ -64,23 +66,37 @@ do_make_dinstall() {
   shift || true
   shift || true
 
-  cd "$d/"
+  pushd "$d/"
   git clean -ffdx -e '*.deb'
   [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
   run_until_broken make dinstall "$@"
+  popd
   do_archive
 }
 
 do_make_deb() {
   local d="${1:-.}"
   local p="${2:-.}"
-  shift 2 || true
+  shift || true
+  shift || true
 
-  cd "$d/"
+  pushd "$d/"
   git clean -ffdx -e '*.deb'
   [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
   run_until_broken make deb "$@"
+  popd
   do_archive
+}
+
+do_make_build() {
+  local d="${1:-.}"
+  local p="${2:-.}"
+  shift || true
+  shift || true
+
+  pushd "$d/"
+  run_until_broken make build "$@"
+  popd
 }
 
 do_rm() {
@@ -91,6 +107,10 @@ do_rm() {
 do_archive() {
   mkdir -p "../../release/$REPO"
   find "." -name "*.deb" | xargs -r -I{} cp -v "{}" "../../release/$REPO"
+}
+
+do_strip_cargo() {
+  ../../scripts/strip-cargo.bash .
 }
 
 cd "$REPO"

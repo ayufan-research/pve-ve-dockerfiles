@@ -11,7 +11,7 @@ for package; do
     for cargo in $(find . -path './.build' -prune -o -name Cargo.toml); do
       echo "Changing $cargo..."
       sed -i '1s/^/cargo-features = ["workspace-inheritance"]\n\n/' "$cargo"
-      git add "$cargo"
+      git add "$cargo" || true
     done
 
     if ! git diff --cached --exit-code --quiet; then

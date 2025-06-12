@@ -1,51 +1,46 @@
-commit 1b425b8fd31147524f81c549ccbf0318a75f1c9e
-Author: Kamil Trzciński <ayufan@ayufan.eu>
-Date:   Sat May 1 14:40:06 2021 +0200
-
-    Support local compile
-
 diff --git a/debian/proxmox-backup-file-restore.install b/debian/proxmox-backup-file-restore.install
 old mode 100644
 new mode 100755
-index d952836e..e6888c5f
+index 409988a3..8b4034bd
 --- a/debian/proxmox-backup-file-restore.install
 +++ b/debian/proxmox-backup-file-restore.install
 @@ -1,4 +1,5 @@
 +#! /usr/bin/dh-exec
  usr/bin/proxmox-file-restore
- usr/share/man/man1/proxmox-file-restore.1
- usr/share/zsh/vendor-completions/_proxmox-file-restore
 -usr/lib/x86_64-linux-gnu/proxmox-backup/file-restore/proxmox-restore-daemon
 +usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/file-restore/proxmox-restore-daemon
+ usr/share/man/man1/proxmox-file-restore.1
+ usr/share/zsh/vendor-completions/_proxmox-file-restore
 diff --git a/debian/proxmox-backup-server.install b/debian/proxmox-backup-server.install
 old mode 100644
 new mode 100755
-index cebf84a3..fa96f93e
+index 45f8d903..a0526fc1
 --- a/debian/proxmox-backup-server.install
 +++ b/debian/proxmox-backup-server.install
-@@ -1,14 +1,15 @@
+@@ -1,3 +1,4 @@
 +#! /usr/bin/dh-exec
- etc/proxmox-backup-proxy.service /lib/systemd/system/
- etc/proxmox-backup.service /lib/systemd/system/
+ etc/pbs-enterprise.list /etc/apt/sources.list.d/
  etc/proxmox-backup-banner.service /lib/systemd/system/
  etc/proxmox-backup-daily-update.service /lib/systemd/system/
- etc/proxmox-backup-daily-update.timer /lib/systemd/system/
- etc/pbs-enterprise.list /etc/apt/sources.list.d/
+@@ -8,11 +9,11 @@ etc/removable-device-attach@.service /lib/systemd/system/
+ usr/bin/pmt
+ usr/bin/pmtx
+ usr/bin/proxmox-tape
 -usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-backup-api
--usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-backup-proxy
 -usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-backup-banner
+-usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-backup-proxy
 -usr/lib/x86_64-linux-gnu/proxmox-backup/proxmox-daily-update
 -usr/lib/x86_64-linux-gnu/proxmox-backup/sg-tape-cmd
 +usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/proxmox-backup-api
-+usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/proxmox-backup-proxy
 +usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/proxmox-backup-banner
++usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/proxmox-backup-proxy
 +usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/proxmox-daily-update
 +usr/lib/${DEB_HOST_MULTIARCH}/proxmox-backup/sg-tape-cmd
+ usr/sbin/pbs2to3
  usr/sbin/proxmox-backup-debug
  usr/sbin/proxmox-backup-manager
- usr/bin/pmtx
 diff --git a/debian/rules b/debian/rules
-index 4fc6de8f..fcbf7e93 100755
+index f3f6c1b4..93e98206 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -2,6 +2,7 @@
