@@ -1,0 +1,8 @@
+diff --git a/debian/cargo_home/config b/debian/cargo_home/config
+new file mode 100644
+index 0000000..38bd089
+--- /dev/null
++++ b/debian/cargo_home/config
+@@ -0,0 +1,2 @@
++[build]
++rustflags = []

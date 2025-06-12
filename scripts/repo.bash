@@ -14,21 +14,25 @@ shift
 mkdir -p build
 cd build
 
-../scripts/git-clone.bash ../repos/versions "$REPO"
-../scripts/strip-cargo.bash "$REPO"
-../scripts/apply-patches.bash "../repos/patches/$REPO"
-../scripts/resolve-dependencies.bash "$REPO"
-../scripts/experimental-cargo.bash "$REPO"
+if [[ -z "$DEBUG" ]]; then
+  ../scripts/git-clone.bash ../repos/versions "$REPO"
+  ../scripts/strip-cargo.bash "$REPO"
+  ../scripts/apply-patches.bash "../repos/patches/$REPO"
+  ../scripts/resolve-dependencies.bash "$REPO"
+  ../scripts/experimental-cargo.bash "$REPO"
+fi
 
 do_dpkg_build() {
   local d="${1:-.}"
-  cd "$d/"
+  pushd "$d/"
   git clean -ffdx
   [[ -e "debian/control" ]] && apt-get -y build-dep "$PWD"
   mkdir -p .build
   cp -av * .build/
-  cd .build/
+  pushd .build/
   DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -uc -us -b
+  popd
+  popd
   do_archive
 }
 

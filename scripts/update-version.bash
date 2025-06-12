@@ -38,13 +38,13 @@ if [[ ! -e "repos/versions" ]]; then
   exit 1
 fi
 
+REPOS=$(realpath "repos")
+cd "$tmp_dir/"
+
 while read REPO COMMIT_SHA REST; do
   echo "$REPO $COMMIT_SHA..." 1>&2
-  (
-    cd "$tmp_dir/"
-    perform "$REPO" "$COMMIT_SHA"
-  )
-done < "repos/versions" > "repos/versions.tmp"
+  perform "$REPO" "$COMMIT_SHA"
+done < "$REPOS/versions" > "$REPOS/versions.tmp"
 
-mv "repos/versions.tmp" "repos/versions"
-echo "VERSION := ${VERSION}" > "repos/version.mk"
+mv "$REPOS/versions.tmp" "$REPOS/versions"
+echo "VERSION := ${VERSION}" > "$REPOS/version.mk"
