@@ -6,7 +6,7 @@ proxmox-apt origin/master
 proxmox-acme-rs origin/master
 proxmox-openid-rs origin/master
 proxmox-resource-scheduling origin/master
-proxmox-perl-rs origin/master
+proxmox-perl-rs 8bda9f2b4e1495de91de47ad7b803fabb553eb62
 proxmox-acme origin/master
 pve-common origin/master
 pve-eslint bc248701f19280d5a5d39131687dd357da057d8b # Wed Aug 30 11:42:24 2023 +0200
@@ -52,4 +52,4 @@ swtpm origin/proxmox/stable-0.8
 proxmox-fuse origin/master
 ifupdown2 origin/master
 libqb origin/master
-perlmod origin/master
+perlmod 1f3eddd340ac13121737d9652e70548ba17f3a94
