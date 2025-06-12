@@ -12,7 +12,7 @@ while read cargo_path; do
   git_repo=$(git -C "$cargo_path" rev-parse --show-toplevel)
   found_deps[$cargo_dep]="$cargo_path"
   git_deps[$cargo_dep]="$git_repo"
-done < <(find "$PWD" -wholename "*/Cargo.toml" | sort)
+done < <(find "$PWD" -wholename "*/Cargo.toml" | sort | grep -v "/.build/")
 
 get_deps() {
   local all=$(sed -n -e '/^\[dependencies\]/,/^\[/{//!p}' "$1")

@@ -8,7 +8,7 @@ for package; do
   (
     cd "$package/"
     # enable experimental features
-    for cargo in $(find . -name Cargo.toml); do
+    for cargo in $(find . -path './.build' -prune -o -name Cargo.toml); do
       echo "Changing $cargo..."
       sed -i '1s/^/cargo-features = ["workspace-inheritance"]\n\n/' "$cargo"
       git add "$cargo"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $# -lt 2 ]]; then
+if [[ $# -lt 1 ]]; then
   echo "usage: $0 <name> [operations...]"
   exit 1
 fi
@@ -15,8 +15,8 @@ mkdir -p build
 cd build
 
 ../scripts/git-clone.bash ../repos/versions "$REPO"
-../scripts/apply-patches.bash "../repos/patches/$REPO"
 ../scripts/strip-cargo.bash "$REPO"
+../scripts/apply-patches.bash "../repos/patches/$REPO"
 ../scripts/resolve-dependencies.bash "$REPO"
 ../scripts/experimental-cargo.bash "$REPO"
 
@@ -28,7 +28,8 @@ do_dpkg_build() {
   mkdir -p .build
   cp -av * .build/
   cd .build/
-  dpkg-buildpackage -uc -us -b
+  DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -uc -us -b
+  do_archive
 }
 
 do_dpkg_install() {
@@ -56,12 +57,14 @@ run_until_broken() {
 do_make_dinstall() {
   local d="${1:-.}"
   local p="${2:-.}"
-  shift 2 || true
+  shift || true
+  shift || true
 
   cd "$d/"
   git clean -ffdx -e '*.deb'
   [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
   run_until_broken make dinstall "$@"
+  do_archive
 }
 
 do_make_deb() {
@@ -73,6 +76,17 @@ do_make_deb() {
   git clean -ffdx -e '*.deb'
   [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
   run_until_broken make deb "$@"
+  do_archive
+}
+
+do_rm() {
+  cd ..
+  rm -rf "$REPO"
+}
+
+do_archive() {
+  mkdir -p "../../release/$REPO"
+  find "." -name "*.deb" | xargs -r -I{} cp -v "{}" "../../release/$REPO"
 }
 
 cd "$REPO"

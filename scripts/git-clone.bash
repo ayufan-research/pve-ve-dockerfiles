@@ -14,7 +14,7 @@ perform() {
     git -C "$1" fetch
   fi
   git -C "$1" checkout "$2" -f
-  git -C "$1" clean -fdx
+  git -C "$1" clean -ffdx
 }
 
 while read REPO COMMIT_SHA REST; do

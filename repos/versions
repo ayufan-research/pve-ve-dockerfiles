@@ -1,7 +1,7 @@
 dh-cargo proxmox/bullseye
 debcargo-conf proxmox/bullseye
 perlmod origin/master
-proxmox origin/master
+proxmox 179a413fe87a4e84eb500b75f474f8e4e85eb27b
 proxmox-apt origin/master
 proxmox-acme-rs origin/master
 proxmox-openid-rs origin/master
@@ -48,7 +48,8 @@ corosync-pve origin/master
 corosync-qdevice origin/master
 ksm-control-daemon origin/master
 lxcfs origin/master
-swtpm proxmox/stable-0.8
+swtpm origin/proxmox/stable-0.8
 proxmox-fuse origin/master
 ifupdown2 origin/master
 libqb origin/master
+perlmod origin/master

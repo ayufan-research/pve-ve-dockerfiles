@@ -1,24 +1,12 @@
-From e182cf32be328c835453fb251f773f9088fce3e4 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
-Date: Sat, 14 Jan 2023 19:05:31 +0100
-Subject: [PATCH] Remove criu
-
----
- debian/control | 1 -
- 1 file changed, 1 deletion(-)
-
 diff --git a/debian/control b/debian/control
-index 067ff97..b508542 100644
+index a91a2f4..e19da61 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -24,7 +24,6 @@ Package: lxc-pve
+@@ -25,7 +25,6 @@ Package: lxc-pve
  Architecture: any
  Depends: apparmor,
           bridge-utils,
 -         criu (>= 1.5.2-1),
           libcap2,
-          libgnutlsxx28,
           lxcfs,
--- 
-2.34.1
-
+          python3,

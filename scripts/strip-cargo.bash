@@ -5,9 +5,13 @@ set -eo pipefail
 for package; do
   [[ ! -d "$package" ]] && continue
 
-  if [[ -f "$package/.cargo/config" ]]; then
-    git -C "$package" rm "$(realpath "$package/.cargo/config")" || rm -f ""$package/.cargo/config""
-  fi
+  while read cargo_config; do
+    echo -n "" > "$cargo_config"
+  done < <(find "$package" -wholename '*/.cargo/config')
+
+  while read cargo_config; do
+    echo -n "" > "$cargo_config"
+  done < <(find "$package" -wholename '*/.cargo/config.toml')
 
   while read debian_control; do
     echo "Stripping '$debian_control'..."

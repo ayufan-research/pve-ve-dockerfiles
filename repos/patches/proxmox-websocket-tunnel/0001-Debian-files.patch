@@ -1,24 +1,3 @@
-From 525d7f51eaca70dafc67a01849f29b342f640cf9 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Kamil=20Trzci=C5=84ski?= <ayufan@ayufan.eu>
-Date: Sat, 14 Jan 2023 20:32:48 +0100
-Subject: [PATCH] Debian files
-
----
- debian/cargo-checksum.json |  1 +
- debian/cargo_config        |  2 ++
- debian/compat              |  1 +
- debian/control             |  6 +++---
- debian/rules               | 10 ++++++++++
- debian/source/format       |  1 +
- debian/watch               |  1 +
- 7 files changed, 19 insertions(+), 3 deletions(-)
- create mode 100644 debian/cargo-checksum.json
- create mode 100644 debian/cargo_config
- create mode 100644 debian/compat
- create mode 100755 debian/rules
- create mode 100644 debian/source/format
- create mode 100644 debian/watch
-
 diff --git a/debian/cargo-checksum.json b/debian/cargo-checksum.json
 new file mode 100644
 index 0000000..b5623be
@@ -41,29 +20,6 @@ index 0000000..48082f7
 +++ b/debian/compat
 @@ -0,0 +1 @@
 +12
-diff --git a/debian/control b/debian/control
-index 51879f3..5fa3d9a 100644
---- a/debian/control
-+++ b/debian/control
-@@ -2,15 +2,15 @@ Source: rust-proxmox-websocket-tunnel
- Section: admin
- Priority: optional
- Build-Depends: debhelper (>= 12),
-- dh-cargo,
-+ dh-cargo (>= 25),
-  cargo:native,
-  rustc:native,
-  libstd-rust-dev,
-- libstd-rust-dev
- Maintainer: Proxmox Support Team <support@proxmox.com>
--Standards-Version: 4.5.1
-+Standards-Version: 4.6.1
- Vcs-Git: git://git.proxmox.com/git/proxmox-websocket-tunnel.git
- Vcs-Browser: https://git.proxmox.com/?p=proxmox-websocket-tunnel.git
-+X-Cargo-Crate: proxmox-websocket-tunnel
- Rules-Requires-Root: no
- 
- Package: proxmox-websocket-tunnel
 diff --git a/debian/rules b/debian/rules
 new file mode 100755
 index 0000000..f04a897
@@ -95,6 +51,3 @@ index 0000000..b8caa23
 @@ -0,0 +1 @@
 +FIXME add uscan directive for local crate
 \ No newline at end of file
--- 
-2.34.1
-
