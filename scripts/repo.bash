@@ -9,6 +9,11 @@ set -xeo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export DEB_BUILD_OPTIONS=nocheck
 
+if [[ "$1" == "--nightly" ]]; then
+  export RUSTUP_TOOLCHAIN=nightly
+  shift
+fi
+
 REPO="$1"
 shift
 
