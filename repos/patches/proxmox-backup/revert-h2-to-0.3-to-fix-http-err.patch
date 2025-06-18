@@ -1,5 +1,5 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index 85c04d86..16e40862 100644
+index 69de3454..6be609db 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -124,7 +124,7 @@ env_logger = "0.11"
@@ -10,4 +10,4 @@ index 85c04d86..16e40862 100644
 +h2 = { version = "0.3", features = [ "stream" ] }
  handlebars = "3.0"
  hex = "0.4.3"
- hickory-resolver = { version = "0.24.1", default-features = false, features = [ "system-config", "tokio-runtime" ] }
+ hyper = { version = "0.14", features = [ "backports", "deprecated", "full" ] }

@@ -1,5 +1,5 @@
 diff --git a/debian/rules b/debian/rules
-index 70cec475..2fead34f 100755
+index a03fe11b..f3f6c1b4 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -8,7 +8,7 @@ include /usr/share/rustc/architecture.mk

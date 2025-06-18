@@ -1,5 +1,5 @@
 diff --git a/debian/rules b/debian/rules
-index c8d814af..51bc30cc 100755
+index 93e98206..f438901e 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -28,7 +28,7 @@ endif

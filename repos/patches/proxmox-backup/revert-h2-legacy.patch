@@ -1,5 +1,5 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index 6de6a652..85c04d86 100644
+index 2b9fef9e..69de3454 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -124,7 +124,7 @@ env_logger = "0.11"
@@ -10,7 +10,7 @@ index 6de6a652..85c04d86 100644
 +h2 = { version = "0.4", features = [ "stream" ] }
  handlebars = "3.0"
  hex = "0.4.3"
- hickory-resolver = { version = "0.24.1", default-features = false, features = [ "system-config", "tokio-runtime" ] }
+ hyper = { version = "0.14", features = [ "backports", "deprecated", "full" ] }
 diff --git a/examples/h2client.rs b/examples/h2client.rs
 index e44c43fa..1dcb4498 100644
 --- a/examples/h2client.rs
@@ -114,10 +114,10 @@ index 32542506..1253ef56 100644
                          .map_err(Error::from)
                          .and_then(H2Client::h2api_response)
 diff --git a/pbs-client/src/http_client.rs b/pbs-client/src/http_client.rs
-index c95def07..8f6f8b41 100644
+index 8a89031c..612e3b30 100644
 --- a/pbs-client/src/http_client.rs
 +++ b/pbs-client/src/http_client.rs
-@@ -863,7 +863,7 @@ impl HttpClient {
+@@ -790,7 +790,7 @@ impl HttpClient {
  
          let max_window_size = (1 << 31) - 2;
  
@@ -126,7 +126,7 @@ index c95def07..8f6f8b41 100644
              .initial_connection_window_size(max_window_size)
              .initial_window_size(max_window_size)
              .max_frame_size(4 * 1024 * 1024)
-@@ -1008,11 +1008,11 @@ impl Drop for HttpClient {
+@@ -935,11 +935,11 @@ impl Drop for HttpClient {
  
  #[derive(Clone)]
  pub struct H2Client {
@@ -140,7 +140,7 @@ index c95def07..8f6f8b41 100644
          Self { h2 }
      }
  
-@@ -1092,7 +1092,7 @@ impl H2Client {
+@@ -1019,7 +1019,7 @@ impl H2Client {
          &self,
          request: Request<()>,
          data: Option<bytes::Bytes>,
@@ -149,7 +149,7 @@ index c95def07..8f6f8b41 100644
          self.h2
              .clone()
              .ready()
-@@ -1109,9 +1109,7 @@ impl H2Client {
+@@ -1036,9 +1036,7 @@ impl H2Client {
              })
      }
  
