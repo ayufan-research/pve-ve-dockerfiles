@@ -13,6 +13,7 @@ while read RUN CMD; do
   TOUCH_FILE="${TOUCH_FILE//\'/_}"
   TOUCH_FILE="${TOUCH_FILE//./_}"
   TOUCH_FILE="${TOUCH_FILE//,/_}"
+  TOUCH_FILE="${TOUCH_FILE//\&/_}"
   TOUCH_FILE="${TOUCH_FILE// /_}"
   TOUCH_FILE="${TOUCH_FILE//____/_}"
   TOUCH_FILE="${TOUCH_FILE//__/_}"

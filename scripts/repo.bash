@@ -8,11 +8,25 @@ fi
 set -xeo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export DEB_BUILD_OPTIONS=nocheck
+KEEP=
 
-if [[ "$1" == "--nightly" ]]; then
-  export RUSTUP_TOOLCHAIN=nightly
+while [[ -n "$1" ]]; do
+  case "$1" in
+    --nightly)
+      export RUSTUP_TOOLCHAIN=nightly
+      ;;
+
+    --keep)
+      KEEP=1
+      ;;
+
+    *)
+      break
+      ;;
+  esac
+
   shift
-fi
+done
 
 REPO="$1"
 shift
@@ -79,6 +93,20 @@ do_make_dinstall() {
   do_archive
 }
 
+do_make() {
+  local d="${1:-.}"
+  local p="${2:-.}"
+  shift || true
+  shift || true
+
+  pushd "$d/"
+  git clean -ffdx -e '*.deb'
+  [[ -e "$p/debian/control" ]] && apt-get -y build-dep "$PWD/$p"
+  run_until_broken make "$@"
+  popd
+  do_archive
+}
+
 do_make_deb() {
   local d="${1:-.}"
   local p="${2:-.}"
@@ -118,7 +146,23 @@ do_strip_cargo() {
   ../../scripts/strip-cargo.bash .
 }
 
+do_rust_pkg() {
+  while read pkg_toml; do
+    pkg_dir=$(dirname "$pkg_toml")
+    (
+      cd "$pkg_dir"
+      cargo package --target-dir=/cargo/registry/src/index.crates.io-*
+    )
+  done < <(find . -path './.build' -prune -o -name Cargo.toml)
+}
+
 cd "$REPO"
 for arg; do
   ( eval "do_$arg" )
 done
+
+cd ..
+
+if [[ -z "$KEEP" ]]; then
+  rm -rf "$REPO"
+fi
