@@ -28,7 +28,6 @@ libpve-u2f-server-perl 6567779c7cb2f2216f3037d77f238fed4138e258 # Tue May 23 16:
 proxmox-websocket-tunnel f09ec1da40853ea3034d68c9a1ab2715488ea729 # Thu Jul 25 13:06:12 2024 +0200
 pve-http-server 2650923a42c9ea357dc0e663a69294410190cc7c # Thu Apr 3 18:04:45 2025 +0200
 pve-edk2-firmware d6146dd6dfc084215dfaa59b95bcf6177e988cb5 # Thu Apr 3 18:17:22 2025 +0200
-pve-firewall acf164bbedea0b12e7ca96ace196d682fa6cb079 # Mon Apr 7 21:32:30 2025 +0200
 pve-container a0a7cec91c6f57c4ca3b6317ff12a15d2c528177 # Mon Apr 7 23:27:34 2025 +0200
 pve-ha-manager 53d8e4892147a063c215bdd9b0c1224d14dad898 # Mon Apr 7 23:24:23 2025 +0200
 lxc 12c47dd66cd23c96259e8c38eb009cfb2098be2e # Fri Apr 5 14:47:52 2024 +0200
@@ -50,3 +49,4 @@ ifupdown2 59e69799e13b0449a8f788779f09786102aa1060 # Fri Nov 15 16:21:43 2024 +0
 libqb 286949ef205879f55fae86b07fe23edb47573ef7 # Fri Nov 9 15:51:01 2018 +0100
 proxmox-kernel-helper ee3237c657be04c5a9dc99d959b279fd308c6c1b
 proxmox-archive-keyring origin/master
+pve-network 8f4f5d2074989cf814d2f2312360239377c495f5
