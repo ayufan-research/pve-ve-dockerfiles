@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo 'Received SIGINT...'
+kill 1
+sleep 10
+/bin/fusermount -u /var/lib/lxcfs

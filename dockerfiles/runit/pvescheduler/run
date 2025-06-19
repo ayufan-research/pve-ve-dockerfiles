@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ ! -e /run/pvedaemon.pid ]]; then
+  echo "SCHEDULER: The pvedaemon is not yet started!"
+  exit 1
+fi
+
+exec /usr/bin/pvescheduler start --debug

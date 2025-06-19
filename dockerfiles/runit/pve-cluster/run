@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -n "$TZ" ]]; then
+  echo "$TZ" > /etc/timezone
+fi
+
+# /run/pve-cluster.pid
+exec /usr/bin/pmxcfs -f

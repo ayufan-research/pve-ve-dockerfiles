@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ ! -e /run/pve-cluster.pid ]]; then
+  echo "LXCSYSD: The pve-cluster is not yet configured!"
+  exit 1
+fi
+
+/bin/mkdir -p /run/pve
+
+# /run/lxcfs.pid
+exec /usr/lib/*/pve-lxc-syscalld/pve-lxc-syscalld /run/pve/lxc-syscalld.sock

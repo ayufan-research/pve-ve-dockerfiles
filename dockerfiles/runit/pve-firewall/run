@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ ! -e /run/pve-cluster.pid ]]; then
+  echo "FIREWALL: The pve-cluster is not yet started!"
+  exit 1
+fi
+
+exec /usr/sbin/pve-firewall start -f

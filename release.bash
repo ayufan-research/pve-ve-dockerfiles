@@ -29,7 +29,17 @@ else
   docker rm -f "$TAG-run" &>/dev/null || true
 
   echo ">> Starting..."
-  docker run -it -v "$PWD:/src" -w "/src" -v "$PWD/tmp/root:/root" --name="$TAG-run" "$TAG" "$@" || true
+  docker run -it \
+    --cgroupns=host \
+    --privileged \
+    --shm-size=256m \
+    --hostname pve-ve \
+    --publish 8006:8006 \
+    -v "$PWD:/src" \
+    -w "/src" \
+    -v "$PWD/tmp/root:/root" \
+    --name="$TAG-run" \
+    "$TAG" "$@" || true
 
   echo ">> Committing..."
   docker commit "$TAG-run" "$TAG"

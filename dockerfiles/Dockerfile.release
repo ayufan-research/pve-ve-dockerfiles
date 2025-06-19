@@ -3,5 +3,12 @@ FROM ${ARCH}debian:bookworm AS toolchain
 
 FROM toolchain as run_env
 RUN apt-get -y update
-ADD /dockerfiles/run /scripts/
-RUN /scripts/install.bash /release proxmox-ve proxmox-backup-restore-image proxmox-firewall
+ADD /dockerfiles/run /dockerfiles/run
+RUN dockerfiles/run/install.bash release \
+  proxmox-ve \
+  proxmox-backup-restore-image \
+  proxmox-firewal \
+  pve-edk2-firmware \
+  pve-edk2-firmware-legacy \
+  pve-edk2-firmware-aarch64 \
+  pve-edk2-firmware-riscv

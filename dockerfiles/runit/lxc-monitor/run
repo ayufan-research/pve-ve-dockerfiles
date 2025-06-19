@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ ! -e /run/pve-cluster.pid ]]; then
+  echo "LXCMON: The pve-cluster is not yet configured!"
+  exit 1
+fi
+
+exec /usr/libexec/lxc/lxc-monitord --daemon

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ ! -e /run/pve-cluster.pid ]]; then
+  echo "LXCFS: The pve-cluster is not yet configured!"
+  exit 1
+fi
+
+/bin/mkdir -p /var/lib/lxcfs
+
+# /run/lxcfs.pid
+exec /usr/bin/lxcfs -f /var/lib/lxcfs

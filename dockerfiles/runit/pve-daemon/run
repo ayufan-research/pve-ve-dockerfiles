@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ ! -e /run/pve-cluster.pid ]]; then
+  echo "DAEMON: The pve-cluster is not yet configured!"
+  exit 1
+fi
+
+# /run/pvedaemon.pid
+exec /usr/bin/pvedaemon start --debug

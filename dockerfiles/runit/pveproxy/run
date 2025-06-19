@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ ! -e /run/pve-cluster.pid ]]; then
+  echo "PROXY: The pve-cluster is not yet configured!"
+  exit 1
+fi
+
+if [[ ! -e /run/pvedaemon.pid ]]; then
+  echo "PROXY: The pvedaemon is not yet started!"
+  exit 1
+fi
+
+/usr/bin/pvecm updatecerts --silent
+
+echo "PROXY: Starting..."
+# /run/pveproxy/pveproxy.pid
+exec /usr/bin/pveproxy start --debug
