@@ -2,10 +2,20 @@ ARG ARCH=
 FROM ${ARCH}debian:bookworm AS toolchain
 
 FROM toolchain as run_env
-RUN apt-get -y update && apt-get -y install runit
+RUN apt-get -y update && apt-get -y install runit systemd
 
-ADD /dockerfiles/run /scripts
-RUN scripts/install.bash release \
+# Remove unnecessary systemd services
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == syste>
+    rm -f /lib/systemd/system/multi-user.target.wants/*; \
+    rm -f /etc/systemd/system/*.wants/*; \
+    rm -f /lib/systemd/system/local-fs.target.wants/*; \
+    rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+    rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+    rm -f /lib/systemd/system/basic.target.wants/*; \
+    rm -f /lib/systemd/system/anaconda.target.wants/*;
+
+ADD /dockerfiles /dockerfiles
+RUN dockerfiles/scripts/install.bash release \
   proxmox-ve \
   proxmox-backup-restore-image \
   proxmox-firewall \
@@ -19,3 +29,5 @@ VOLUME /var/log \
   /var/lib/pve-cluster \
   /var/lib/pve-manager \
   /var/lib/vz
+
+ENTRYPOINT ["runsvdir", "/dockerfiles/runit"]

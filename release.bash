@@ -14,6 +14,12 @@ if [[ "$1" == "new" ]]; then
   shift
 fi
 
+if [[ "$1" == "kill" ]]; then
+  echo ">> Recycling old"
+  docker rm -f "$TAG-run" &>/dev/null || true
+  shift
+fi
+
 if ! docker inspect "$TAG" &>/dev/null; then
   echo ">> Building..."
   docker build -f dockerfiles/Dockerfile.release -t "$TAG" --target toolchain "."
@@ -38,6 +44,8 @@ else
     -v "$PWD:/src" \
     -w "/src" \
     -v "$PWD/tmp/root:/root" \
+    --tmpfs /run \
+    -v /var/lib/vz \
     --name="$TAG-run" \
     "$TAG" "$@" || true
 
