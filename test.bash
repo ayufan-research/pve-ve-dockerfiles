@@ -16,10 +16,9 @@ case "$arg" in
       --shm-size=256m \
       --hostname pve-ve \
       --publish 8006:8006 \
-      -e ROOT_PASSWORD=root1 \
-      --volume "$PWD/tmp/proxmox/etc:/var/lib/proxmox-etc" \
-      --volume "$PWD/tmp/proxmox/vz:/var/lib/vz" \
-      --volume "$PWD:/src" \
+      -v "$PWD/tmp/pve-cluster:/var/lib/pve-cluster" \
+      -v "$PWD/tmp/pve-manager:/var/lib/pve-manager" \
+      -v "$PWD/tmp/vz:/var/lib/vz" \
       --rm \
       -t "$IMAGE"
     ;;
