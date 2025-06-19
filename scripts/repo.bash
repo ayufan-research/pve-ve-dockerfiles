@@ -29,13 +29,19 @@ while [[ -n "$1" ]]; do
 done
 
 REPO="$1"
+DEPS=
 shift
 
 mkdir -p build
 cd build
 
 if [[ -z "$DEBUG" ]]; then
-  ../scripts/git-clone.bash ../repos/versions "$REPO"
+  if [[ -f "../repos/$REPO.deps" ]]; then
+    ../scripts/git-clone.bash "../repos/$REPO.deps"
+    DEPS=1
+  else
+    ../scripts/git-clone.bash ../repos/versions "$REPO"
+  fi
   ../scripts/strip-cargo.bash "$REPO"
   ../scripts/apply-patches.bash "../repos/patches/$REPO"
   ../scripts/resolve-dependencies.bash "$REPO"
@@ -161,8 +167,12 @@ for arg; do
   ( eval "do_$arg" )
 done
 
-cd ..
-
 if [[ -z "$KEEP" ]]; then
-  rm -rf "$REPO"
+  if [[ -n "$DEPS" ]]; then
+    cd ../..
+    rm -r build
+  else
+    cd ..
+    rm -r "$REPO"
+  fi
 fi

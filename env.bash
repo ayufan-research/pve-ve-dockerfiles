@@ -9,7 +9,8 @@ TAG=pve-ve-build-env
 
 if [[ "$1" == "new" ]]; then
   echo ">> Removing old"
-  docker rmi "$TAG" &> /dev/null || true
+  docker rm -f pve-ve-build-env-run &>/dev/null || true
+  docker rmi -f "$TAG" &> /dev/null || true
   shift
 fi
 
