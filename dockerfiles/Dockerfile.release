@@ -2,7 +2,8 @@ ARG ARCH=
 FROM ${ARCH}debian:bookworm AS toolchain
 
 FROM toolchain as run_env
-RUN apt-get -y update
+RUN apt-get -y update && apt-get -y install runit
+
 ADD /dockerfiles/run /dockerfiles/run
 RUN dockerfiles/run/install.bash release \
   proxmox-ve \
