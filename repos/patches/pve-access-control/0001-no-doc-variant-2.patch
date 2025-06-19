@@ -1,0 +1,17 @@
+diff --git a/src/Makefile b/src/Makefile
+index f2de69f..5a02c71 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -13,10 +13,10 @@ ZSHCOMPLDIR=$(PREFIX)/share/zsh/vendor-completions/
+ export PERLDIR=$(PREFIX)/share/perl5
+ 
+ ifeq (,$(NODOC))
++-include /usr/share/pve-doc-generator/pve-doc-generator.mk
++else
+ pveum.1:
+ 	touch $@
+-else
+--include /usr/share/pve-doc-generator/pve-doc-generator.mk
+ endif
+ 
+ all:

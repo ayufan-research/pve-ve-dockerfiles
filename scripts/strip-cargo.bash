@@ -27,6 +27,9 @@ for package; do
     # change `cargo:native (>= 0.65.0-1),` to `cargo:native <!nocheck>`
     sed -i 's/cargo:native\s*(>=.*)/cargo:native <!nocheck>/g' "$debian_control"
 
+    # change `rustc:native (>= 1.80),` to `rustc:native <!nocheck>`
+    sed -i 's/rustc:native\s*(>=.*)/rustc:native <!nocheck>/g' "$debian_control"
+
     # change `dh-cargo (>= 25),` to `dh-cargo`
     sed -i 's/dh-cargo\s*(>=.*)/dh-cargo/g' "$debian_control"
     git -C "$package" add "$(realpath "$debian_control")" || true
