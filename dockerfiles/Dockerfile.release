@@ -1,25 +1,7 @@
-ARG IMAGE=
+ARG ARCH=
+FROM ${ARCH}debian:bookworm AS toolchain
 
-# Compile everything
-FROM ${IMAGE} AS deb_env
-
-VOLUME /src/tmp
-ADD scripts/build /src/scripts/build
-ARG VERSION=master
-ADD versions/$VERSION /src/versions/$VERSION
-RUN /src/scripts/build/all.bash "$VERSION"
-
-# Install debian packages
-FROM ${ARCH}debian:bullseye AS release_env
-
-ARG VERSION=master
-COPY --from=deb_env /src/deb/${VERSION}/*.deb /deb/
-ADD /scripts/run/install.bash /deb
-RUN mkdir -p /run/network && \
-  /deb/install.bash /deb
-
-VOLUME /var/lib/proxmox-etc
-VOLUME /var/lib/vz
-
-ADD /scripts/run/init.bash /
-CMD ["/init.bash"]
+FROM toolchain as run_env
+RUN apt-get -y update
+ADD /dockerfiles/run /scripts/
+RUN /scripts/install.bash /release proxmox-ve proxmox-backup-restore-image proxmox-firewall
