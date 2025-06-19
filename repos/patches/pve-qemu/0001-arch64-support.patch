@@ -1,0 +1,37 @@
+diff --git a/debian/pve-qemu-kvm.links b/debian/pve-qemu-kvm.links
+old mode 100644
+new mode 100755
+index 7314aa4..2955077
+--- a/debian/pve-qemu-kvm.links
++++ b/debian/pve-qemu-kvm.links
+@@ -1,6 +1,8 @@
++#! /usr/bin/dh-exec
+ # also use aarch64 for 32 bit arm
+ usr/bin/qemu-system-aarch64 usr/bin/qemu-system-arm
+-usr/bin/qemu-system-x86_64 usr/bin/kvm
++usr/bin/qemu-system-x86_64 usr/bin/qemu-system-x86_64
++usr/bin/qemu-system-${ARCH} usr/bin/kvm
+ # qemu-system-i386 and qemu-system-x86_64 provides the same hardware emulation
+ usr/bin/qemu-system-x86_64 usr/bin/qemu-system-i386
+ # upstream provides a qemu man page,
+diff --git a/debian/rules b/debian/rules
+index 539ad63..9137a96 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -6,6 +6,7 @@
+ 
+ include /usr/share/dpkg/default.mk
+ 
++export ARCH ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+ HOST_CPU ?= $(DEB_HOST_GNU_CPU)
+ 
+ PACKAGE=pve-qemu-kvm
+@@ -42,7 +43,7 @@ endif
+ 	    --localstatedir=/var \
+ 	    --prefix=/usr \
+ 	    --sysconfdir=/etc \
+-	    --target-list=$(HOST_CPU)-softmmu,aarch64-softmmu \
++	    --target-list=x86_64-softmmu,aarch64-softmmu \
+ 	    --with-suffix="kvm" \
+ 	    --with-pkgversion="${DEB_SOURCE}_${DEB_VERSION_UPSTREAM_REVISION}" \
+ 	    --audio-drv-list="alsa" \
