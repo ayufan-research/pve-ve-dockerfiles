@@ -1,0 +1,22 @@
+diff --git a/query-machine-capabilities/query-machine-capabilities.c b/query-machine-capabilities/query-machine-capabilities.c
+index 0c522afc..bb929729 100644
+--- a/query-machine-capabilities/query-machine-capabilities.c
++++ b/query-machine-capabilities/query-machine-capabilities.c
+@@ -23,6 +23,7 @@ typedef struct {
+ void query_cpu_capabilities(cpu_caps_t *res) {
+     uint32_t eax, ebx, ecx, edx;
+ 
++#ifdef __x86_64__
+     // query Encrypted Memory Capabilities, see:
+     // https://en.wikipedia.org/wiki/CPUID#EAX=8000001Fh:_Encrypted_Memory_Capabilities
+     uint32_t query_function = 0x8000001F;
+@@ -30,6 +31,9 @@ void query_cpu_capabilities(cpu_caps_t *res) {
+          : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
+          : "0"(query_function)
+     );
++#else // __x86_64__
++    eax = ebx = ecx = edx = 0;
++#endif // __x86_64__
+ 
+     res->sev_support = (eax & (1<<1)) != 0;
+     res->sev_es_support = (eax & (1<<3)) != 0;

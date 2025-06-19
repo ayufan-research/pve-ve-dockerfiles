@@ -1,5 +1,5 @@
 diff --git a/debian/rules b/debian/rules
-index c9fa5cd..a741a25 100755
+index a7ba2f8..6f8296f 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -22,7 +22,7 @@ export DEB_CARGO_PACKAGE=proxmox-mail-forward

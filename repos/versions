@@ -50,3 +50,5 @@ libqb 286949ef205879f55fae86b07fe23edb47573ef7 # Fri Nov 9 15:51:01 2018 +0100
 proxmox-kernel-helper ee3237c657be04c5a9dc99d959b279fd308c6c1b
 proxmox-archive-keyring origin/master
 pve-network 8f4f5d2074989cf814d2f2312360239377c495f5
+fonts-font-logos origin/master
+sencha-touch origin/master
