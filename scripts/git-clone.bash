@@ -15,6 +15,7 @@ perform() {
   fi
   git -C "$1" checkout "$2" -f
   git -C "$1" clean -ffdx
+  git -C "$1" submodule update --init --recursive
 }
 
 while read REPO COMMIT_SHA REST; do

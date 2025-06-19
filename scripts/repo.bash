@@ -138,11 +138,6 @@ do_make_build() {
   popd
 }
 
-do_rm() {
-  cd ..
-  rm -rf "$REPO"
-}
-
 do_archive() {
   mkdir -p "../../release/$REPO"
   find "." -name "*.deb" | xargs -r -I{} cp -v "{}" "../../release/$REPO"

@@ -30,6 +30,9 @@ trap 'cd ; rm -rf $tmp_dir' EXIT
 perform() {
   git clone "git://git.proxmox.com/git/$1.git" 2>/dev/null
   if [[ -z "$ROOT_TS" ]]; then
+    if [[ "$ROOT_SHA" == "last" ]]; then
+      ROOT_SHA="$2"
+    fi
     REPO_REV=$(git -C "$1" rev-parse "$ROOT_SHA")
     ROOT_TS=$(git -C "$1" log -1 --format=%ct "$ROOT_SHA")
   else

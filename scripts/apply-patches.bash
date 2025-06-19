@@ -7,6 +7,8 @@ for dir; do
     [[ ! -e $patch ]] && continue
 
     repo_name=$(basename $(dirname "$patch"))
+    [[ ! -d "$repo_name" ]] && continue
+    
     echo "$patch => $repo_name..."
     if ! git -C "$repo_name" apply --index "$(realpath "$patch")"; then
       patch -p1 -d "$repo_name" < "$patch"
