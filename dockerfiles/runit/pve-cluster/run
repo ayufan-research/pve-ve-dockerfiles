@@ -4,5 +4,7 @@ if [[ -n "$TZ" ]]; then
   echo "$TZ" > /etc/timezone
 fi
 
+mkdir -p /var/lib/rrdcached/db/
+
 # /run/pve-cluster.pid
-exec /usr/bin/pmxcfs -f
+exec /usr/bin/pmxcfs -f -l

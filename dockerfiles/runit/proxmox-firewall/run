@@ -5,4 +5,7 @@ if [[ ! -e /run/pve-cluster.pid ]]; then
   exit 1
 fi
 
-exec /usr/sbin/pve-firewall start -f
+export RUST_LOG_STYLE=SYSTEMD
+export RUST_LOG=warn
+
+exec /usr/libexec/proxmox/proxmox-firewall

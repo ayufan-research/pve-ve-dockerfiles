@@ -1,0 +1,4 @@
+#!/bin/sh
+
+SERVICE=$(basename "$(dirname "$PWD")")
+exec awk -v svc="$SERVICE" '{ print "[" svc "] " $0; fflush(); }'
