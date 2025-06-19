@@ -1,56 +1,14 @@
 #!/bin/bash
 
+if [[ $# -ne 0 ]]; then
+  echo "$0: usage"
+  exit 1
+fi
+
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 cd "$SCRIPT_DIR/"
 
-set -eo pipefail
+set -xeo pipefail
 
-TAG=pve-ve-release-env
+docker build -f dockerfiles/Dockerfile.release -t pve-ve-release --target release_env "."
 
-if [[ "$1" == "new" ]]; then
-  echo ">> Removing old"
-  docker rm -f "$TAG-run" &>/dev/null || true
-  docker rmi -f "$TAG" &> /dev/null || true
-  shift
-fi
-
-if [[ "$1" == "kill" ]]; then
-  echo ">> Recycling old"
-  docker rm -f "$TAG-run" &>/dev/null || true
-  shift
-fi
-
-if ! docker inspect "$TAG" &>/dev/null; then
-  echo ">> Building..."
-  docker build -f dockerfiles/Dockerfile.release -t "$TAG" --target toolchain "."
-fi
-
-if [[ $(docker inspect -f '{{.State.Status}}' "$TAG-run" 2>/dev/null) == "running" ]]; then
-  echo ">> Re-using..."
-  if [[ $# -eq 0 ]]; then
-    set -- "bash"
-  fi
-  docker exec -it "$TAG-run" "$@" || true
-else
-  docker rm -f "$TAG-run" &>/dev/null || true
-
-  echo ">> Starting..."
-  docker run -it \
-    --cgroupns=host \
-    --privileged \
-    --shm-size=256m \
-    --hostname pve-ve \
-    --publish 8006:8006 \
-    -v "$PWD:/src" \
-    -w "/src" \
-    -v "$PWD/tmp/root:/root" \
-    --tmpfs /run \
-    -v /var/lib/vz \
-    --name="$TAG-run" \
-    "$TAG" "$@" || true
-
-  echo ">> Committing..."
-  docker commit "$TAG-run" "$TAG"
-fi
-
-echo ">> Done."

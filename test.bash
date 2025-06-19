@@ -2,7 +2,7 @@
 
 set -xeo pipefail
 
-NAME="pve-ve-release"
+NAME="pve-ve-release-run"
 IMAGE="pve-ve-release"
 
 arg="$1"

@@ -1,5 +1,4 @@
 tmp/
 build/
-release/
 dockerfiles/Dockerfile*
 .env.mk
