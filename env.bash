@@ -9,7 +9,7 @@ TAG=pve-ve-build-env
 
 if [[ "$1" == "new" ]]; then
   echo ">> Removing old"
-  docker rm -f pve-ve-build-env-run &>/dev/null || true
+  docker rm -f "$TAG-run" &>/dev/null || true
   docker rmi -f "$TAG" &> /dev/null || true
   shift
 fi
@@ -19,7 +19,7 @@ if ! docker inspect "$TAG" &>/dev/null; then
   docker build -f dockerfiles/Dockerfile.env -t "$TAG" --target toolchain "."
 fi
 
-if [[ $(docker inspect -f '{{.State.Status}}' pve-ve-build-env-run 2>/dev/null) == "running" ]]; then
+if [[ $(docker inspect -f '{{.State.Status}}' "$TAG-run" 2>/dev/null) == "running" ]]; then
   echo ">> Re-using..."
   if [[ $# -eq 0 ]]; then
     set -- "bash"

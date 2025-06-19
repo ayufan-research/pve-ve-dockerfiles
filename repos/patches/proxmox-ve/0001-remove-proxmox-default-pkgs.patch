@@ -1,5 +1,5 @@
 diff --git a/debian/control b/debian/control
-index 365933e..12e0166 100644
+index 9d83f8d..84633ae 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -12,9 +12,6 @@ Provides: proxmox-virtual-environment,
