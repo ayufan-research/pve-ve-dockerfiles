@@ -1,0 +1,45 @@
+version: '2.3'
+
+services:
+  pve:
+    image: ayufan/proxmox-ve-tests:test
+    hostname: pve-rocknas
+    environment:
+      TZ: Europe/Warsaw
+    restart: unless-stopped
+    mem_limit: 2048M
+    network_mode: bridge
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - MKNOD
+    devices:
+      - /dev/fuse
+      - /dev/kvm
+      - /dev/loop-control
+      # required by LXC
+      # - /dev/loop0
+      # - /dev/loop1
+      # - /dev/loop2
+      # - /dev/loop3
+      # - /dev/loop4
+      # - /dev/loop5
+      # - /dev/loop6
+    ports:
+      - 8006:8006/tcp # pveproxy
+      - 3128:3128/tcp # spiceterm
+    volumes:
+      - cfg_cluster:/var/lib/pve-cluster
+      - data_vz:/var/lib/vz
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    tmpfs:
+      - /run
+      - /run/lock
+    tty: true
+
+volumes:
+  cfg_pve:
+  cfg_cluster:
+  data_vz:
