@@ -40,8 +40,8 @@ RUN git config --system user.email "docker@compile.dev" && \
 
 FROM toolchain as build_env
 
-ADD /scripts .
-ADD /repos .
+ADD /scripts /src/scripts
+ADD /repos /src/repos
 SHELL ["/bin/bash", "-c"]
 RUN ./scripts/repo.bash dh-cargo dpkg_{build,install} && ln -sf /bin/true /usr/share/cargo/bin/dh-cargo-built-using
 RUN ./scripts/repo.bash ifupdown2 make_dinstall
