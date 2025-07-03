@@ -2,7 +2,7 @@ ARG ARCH=
 FROM ${ARCH}debian:bookworm AS toolchain
 
 FROM toolchain as release_env
-RUN apt-get -y update && apt-get -y install runit systemd
+RUN apt-get -y update && apt-get -y install systemd
 
 ADD /release /release
 ADD /dockerfiles /dockerfiles
@@ -15,10 +15,7 @@ RUN dockerfiles/scripts/install.bash release \
   pve-edk2-firmware-aarch64 \
   pve-edk2-firmware-riscv
 
-VOLUME /var/log \
-  /var/lib/rrdcached/db \
-  /var/lib/pve-cluster \
-  /var/lib/pve-manager \
+VOLUME /persist \
   /var/lib/vz
 
 ENTRYPOINT ["/dockerfiles/scripts/start.bash"]

@@ -3,7 +3,7 @@ version: '2.3'
 services:
   pve:
     image: ayufan/proxmox-ve-tests:test
-    hostname: pve-rocknas
+    hostname: pve
     environment:
       TZ: Europe/Warsaw
     restart: unless-stopped
@@ -29,17 +29,25 @@ services:
       - 8006:8006/tcp # pveproxy
       - 3128:3128/tcp # spiceterm
     volumes:
-      - cfg_cluster:/var/lib/pve-cluster
+      - cfg_persist:/persist
       - data_vz:/var/lib/vz
     security_opt:
       - apparmor=unconfined
       - seccomp=unconfined
     tmpfs:
+      - /tmp
       - /run
       - /run/lock
     tty: true
+#     networks:
+#       lan_network:
+
+# networks:
+#   lan_network:
+#     driver: macvlan
+#     driver_opts:
+#       parent: br0
 
 volumes:
-  cfg_pve:
-  cfg_cluster:
+  cfg_persist:
   data_vz:
