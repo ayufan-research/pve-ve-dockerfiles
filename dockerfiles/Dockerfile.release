@@ -1,7 +1,7 @@
 ARG ARCH=
 FROM ${ARCH}debian:bookworm AS toolchain
 
-FROM toolchain as release_env
+FROM toolchain AS release_env
 RUN apt-get -y update && apt-get -y install systemd
 
 ADD /release /release
