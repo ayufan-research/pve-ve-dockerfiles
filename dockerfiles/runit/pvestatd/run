@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ ! -e /run/pvedaemon.pid ]]; then
-  echo "STATD: The pvedaemon is not yet started!"
-  exit 1
-fi
-
-# /run/pvestatd.pid
-exec /usr/bin/pvestatd start --debug

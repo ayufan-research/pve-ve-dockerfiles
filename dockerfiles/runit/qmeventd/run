@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ ! -e /run/pveproxy/pveproxy.pid ]]; then
-  echo "SPICEPROXY: The pveproxy is not yet started!"
-  exit 1
-fi
-
-# /var/run/pveproxy/spiceproxy.pid
-exec /usr/sbin/qmeventd -f /var/run/qmeventd.sock
