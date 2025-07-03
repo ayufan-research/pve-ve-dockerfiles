@@ -57,3 +57,4 @@ proxmox-firewall 0a60fbd309bc43c72687ea75a631c96862c632d2
 proxmox-backup-restore-image baeebaa05826ebe9980009c8d09a8415976092a0
 pve-esxi-import-tools 44485fee5d9be8a2d914dc54d02aa5f30ab259aa
 ceph 65fd29981863f6f5b695ad7e1749e6a43cd79957
+perlmod d34865bc554e62716f3f2e88f1bb7e90b9d391ca # Thu Apr 3 15:16:54 2025 +0200
