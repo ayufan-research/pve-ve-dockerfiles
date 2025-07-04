@@ -31,6 +31,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Increase swapfile
+      run: |
+        sudo swapoff -a
+        sudo fallocate -l 15G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        sudo swapon --show
     - name: Set repository name
       if: vars.DOCKERHUB_TEST_REGISTRY
       run:
@@ -79,5 +87,5 @@ jobs:
     - name: Create manifest
       run:
         docker manifest create "${{ env.REGISTRY }}:${{ env.TAG }}" \
-          "${{ env.REGISTRY }}:${{ env.TAG }}-"{amd64,arm64v8} \
+          "${{ env.REGISTRY }}:${{ env.TAG }}-"{amd64,arm64v8}
         docker manifest push "${{ env.REGISTRY }}:${{ env.TAG }}"

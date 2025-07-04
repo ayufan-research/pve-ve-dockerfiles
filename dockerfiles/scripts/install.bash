@@ -1,12 +1,20 @@
 #!/bin/bash
 
+if [[ "$1" == "--gen" ]]; then
+  GEN=1
+  shift
+fi
+
 if [[ $# -lt 2 ]]; then
-  echo "usage: $0 <folder> [package names...]"
+  echo "usage: $0 [--gen] <folder> [package names...]"
   exit 1
 fi
 
 DIR=$(realpath "$1")
 shift
+
+cd "$DIR"
+DIR=.
 
 declare -A PKG_PATHS
 declare -A PKG_DEPS
@@ -46,5 +54,9 @@ resolve_all_pkgs() {
   done
 }
 
-set +x
-apt install -y $(resolve_all_pkgs "$@")
+if [[ -n "$GEN" ]]; then
+  echo apt install -y $(resolve_all_pkgs "$@")
+else
+  set +x
+  apt install -y $(resolve_all_pkgs "$@")
+fi

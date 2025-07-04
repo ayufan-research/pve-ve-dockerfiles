@@ -16,9 +16,12 @@ set -xeo pipefail
 BUILD_TAG="$TAG-build"
 
 for i; do
-  case "$1" in
+  case "$i" in
     build)
       docker build --file=dockerfiles/Dockerfile.build --tag="$BUILD_TAG" "."
+      ;;
+
+    archive)
       docker run --rm -v "$PWD":/dest "$BUILD_TAG" cp -rv /src/release /dest
       ;;
 
@@ -28,6 +31,15 @@ for i; do
         RELEASE_OPTS="--build-arg=DEB_ENV=$BUILD_TAG"
       fi
       docker build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --tag="$TAG" "."
+      ;;
+
+    push)
+      docker push "$TAG"
+      ;;
+
+    manifest)
+      docker manifest create "$TAG" "$TAG-"{amd64,arm64v8}
+      docker manifest push "$TAG"
       ;;
 
     *)
