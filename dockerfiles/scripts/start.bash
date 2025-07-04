@@ -27,22 +27,8 @@ for rebind in /etc/{resolv.conf,hosts,hostname}; do
   mount --rbind "/base/$rebind" "$rebind"
 done
 
-# Copy initial configs
-if [[ ! -e /persist/init ]]; then
-  pmxcfs
-
-  while ! mountpoint -q /etc/pve; do
-    sleep 1s
-  done
-
-  if [[ ! -e /etc/pve/priv/shadow.cfg ]]; then
-    echo "DAEMON: Initial copy!"
-    cp -av ../pve/. /etc/pve
-    touch /persist/init
-  fi
-
-  kill $(cat /run/pve-cluster.pid)
-fi
+# Allow to configure tun devices (disable_ipv6?)
+mount -o remount,rw /proc/sys
 
 # systemd breaks otherwise
 umount /sys/fs/cgroup

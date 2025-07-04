@@ -27,19 +27,23 @@ while read deb; do
   PKG_DEPS["$pkg"]="$deps"
 done < <(find "$DIR" -name "*.deb")
 
+debug() {
+  [[ -z "$DEBUG" ]] || echo "$@" 1>&2
+}
+
 declare -A VISITED
 resolve_deps() {
   local pkg="$1"
 
   # Process once
-  [[ -n "${VISITED[$pkg]}" ]] && return
+  [[ -n "${VISITED[$pkg]}" ]] && debug "already visited $pkg" && return
   VISITED["$pkg"]=1
 
   # Skip missing
-  [[ -z "${PKG_PATHS[$pkg]}" ]] && return
+  [[ -z "${PKG_PATHS[$pkg]}" ]] && debug "missing $pkg" && return
 
   # Skip installed
-  dpkg -s "$pkg" &>/dev/null && return
+  # dpkg -s "$pkg" &>/dev/null && debug "already installed $pkg" && return
 
   # Resolve recursively
   echo "${PKG_PATHS[$pkg]}"

@@ -3,13 +3,13 @@ ARG DEB_ENV=${ARCH}debian:bookworm
 FROM ${DEB_ENV} AS deb_env
 RUN [ ! -e /src/release ] || mv /src/release /release
 ADD /release* /release/
+ADD /dockerfiles/scripts/install.bash /release/
 
 FROM ${ARCH}debian:bookworm AS release_env
-RUN apt-get -y update && apt-get -y install systemd
+RUN apt-get -y update
 
 COPY --from=deb_env /release /release
-ADD /dockerfiles /dockerfiles
-RUN /dockerfiles/scripts/install.bash /release \
+RUN /release/install.bash /release \
   proxmox-ve \
   proxmox-backup-restore-image \
   proxmox-firewall \
@@ -18,7 +18,12 @@ RUN /dockerfiles/scripts/install.bash /release \
   pve-edk2-firmware-aarch64 \
   pve-edk2-firmware-riscv
 
+RUN systemctl mask console-getty.service \
+                   ssh.service \
+                   postfix.service
+
 VOLUME /persist \
   /var/lib/vz
 
-ENTRYPOINT ["/dockerfiles/scripts/start.bash"]
+ADD /dockerfiles/scripts/start.bash /start
+ENTRYPOINT ["/start"]
