@@ -40,14 +40,6 @@ services:
       - /run
       - /run/lock
     tty: true
-#     networks:
-#       lan_network:
-
-# networks:
-#   lan_network:
-#     driver: macvlan
-#     driver_opts:
-#       parent: br0
 
 volumes:
   cfg_persist:

@@ -1,12 +1,9 @@
 ARG ARCH=
-FROM ${ARCH}debian:bookworm AS toolchain
-
-FROM toolchain AS release_env
+FROM ${ARCH}debian:bookworm AS release_env
 RUN apt-get -y update && apt-get -y install systemd
 
-ADD /release /release
 ADD /dockerfiles /dockerfiles
-RUN dockerfiles/scripts/install.bash release \
+RUN --mount=type=bind,source=release,target=release dockerfiles/scripts/install.bash release \
   proxmox-ve \
   proxmox-backup-restore-image \
   proxmox-firewall \
