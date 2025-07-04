@@ -43,7 +43,7 @@ if [[ -z "$DEBUG" ]]; then
     ../scripts/git-clone.bash ../repos/versions "$REPO"
   fi
   ../scripts/strip-cargo.bash "$REPO"
-  ../scripts/apply-patches.bash "../repos/patches/$REPO" "../repos/patches/$REPO-$(dpkg --print-architecture)"
+  ../scripts/apply-patches.bash "../repos/patches/$REPO"
   ../scripts/resolve-dependencies.bash "$REPO"
   ../scripts/experimental-cargo.bash "$REPO"
 fi
