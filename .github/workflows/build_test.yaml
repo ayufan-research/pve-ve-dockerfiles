@@ -39,15 +39,9 @@ jobs:
         else
           echo "TAG=ref-${{ github.ref_name }}" >> $GITHUB_ENV;
         fi
-    - name: Compile for ${{matrix.docker_arch}}
+    - name: Compile and release for ${{matrix.docker_arch}}
       run:
-        docker build -f dockerfiles/Dockerfile.build -t build_env --target build_env .
-    - name: Copy debs
-      run:
-        docker run --rm -v "$PWD":/dest build_env cp -rv /src/release /dest
-    - name: Create release image for ${{matrix.docker_arch}}
-      run:
-        docker build -f dockerfiles/Dockerfile.release -t "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" --target build_env .
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" build release
 
     # Push to DockerHub
     - name: Login to Docker Hub
