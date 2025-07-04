@@ -1,0 +1,14 @@
+version: '2.3'
+include:
+  - docker-compose.yml
+
+services:
+  pve:
+    networks:
+      lan_network:
+
+networks:
+  lan_network:
+    driver: macvlan
+    driver_opts:
+      parent: br0

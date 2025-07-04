@@ -1,0 +1,9 @@
+version: '2.3'
+include:
+  - docker-compose.yml
+
+services:
+  pve:
+    volumes:
+      - ./tmp/persist:/persist
+      - ./tmp/vz:/var/lib/vz
