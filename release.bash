@@ -13,18 +13,21 @@ shift
 
 set -xeo pipefail
 
-export DOCKER_BUILDKIT=1
-BUILD_TAG="pve-ve-build-env"
+BUILD_TAG="$TAG-build"
 
 for i; do
   case "$1" in
     build)
-      docker build -f dockerfiles/Dockerfile.build --tag="$BUILD_TAG" "."
+      docker build --file=dockerfiles/Dockerfile.build --tag="$BUILD_TAG" "."
       docker run --rm -v "$PWD":/dest "$BUILD_TAG" cp -rv /src/release /dest
       ;;
 
     release)
-      docker build -f dockerfiles/Dockerfile.release --tag="$TAG" "."
+      RELEASE_OPTS=
+      if docker inspect "$BUILD_TAG" &>/dev/null; then
+        RELEASE_OPTS="--build-arg=DEB_ENV=$BUILD_TAG"
+      fi
+      docker build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --tag="$TAG" "."
       ;;
 
     *)
