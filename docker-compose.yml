@@ -17,6 +17,7 @@ services:
       - /dev/fuse
       - /dev/kvm
       - /dev/loop-control
+      - /dev/net/tun
       # required by LXC
       # - /dev/loop0
       # - /dev/loop1

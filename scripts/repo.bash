@@ -48,6 +48,16 @@ if [[ -z "$DEBUG" ]]; then
   ../scripts/experimental-cargo.bash "$REPO"
 fi
 
+do_dpkg_build_dep() {
+  local d="${1:-.}"
+  shift || true
+
+  pushd "$d/"
+  [[ -e "debian/control" ]] && apt-get -y build-dep "$PWD"
+  popd
+  do_archive
+}
+
 do_dpkg_build() {
   local d="${1:-.}"
   shift || true

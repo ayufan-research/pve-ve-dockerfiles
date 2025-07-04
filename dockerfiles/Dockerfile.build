@@ -79,9 +79,8 @@ RUN ./scripts/repo.bash pve-edk2-firmware make_dinstall
 RUN ./scripts/repo.bash spiceterm make_dinstall
 # Not needed: RUN ./scripts/repo.bash proxmox-kernel-helper make_deb
 # Not needed: RUN ./scripts/repo.bash proxmox-archive-keyring make_deb
-RUN ./scripts/repo.bash pve-docs "make . . gen-install"
-RUN ./scripts/repo.bash pve-docs make_dinstall
-RUN ./scripts/repo.bash pve-access-control "make src . install NODOC=1"
+RUN ./scripts/repo.bash pve-docs "make_dinstall . . GEN_INSTALL=1"
+RUN ./scripts/repo.bash pve-access-control dpkg_build_dep "make src . install NODOC=1"
 RUN ./scripts/repo.bash pve-cluster "make_dinstall . . DEB_BUILD_OPTIONS=noparallel"
 RUN ./scripts/repo.bash pve-access-control make_dinstall
 RUN ./scripts/repo.bash librados2-perl make_dinstall
@@ -98,6 +97,7 @@ RUN ./scripts/repo.bash sencha-touch make_dinstall
 RUN ./scripts/repo.bash pve-manager make_dinstall
 # Not needed: RUN ./scripts/repo.bash proxmox-offline-mirror make_dinstall
 RUN ./scripts/repo.bash proxmox-firewall make_dinstall
+RUN ./scripts/repo.bash pve-docs make_dinstall
 RUN ./scripts/repo.bash proxmox-ve make_deb dpkg_install
 # Broken: RUN ./scripts/repo.bash ceph "make_deb . ceph"
 RUN ./scripts/repo.bash pve-esxi-import-tools make_deb

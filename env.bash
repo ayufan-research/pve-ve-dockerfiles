@@ -14,32 +14,41 @@ if [[ "$1" == "release" ]]; then
   shift
 fi
 
+IMAGE="$TAG"
+NAME="$IMAGE-run"
+
+if [[ "$1" =~ ^[a-fA-F0-9]{6,}$ ]]; then
+  IMAGE="$1"
+  shift
+fi
+
 if [[ "$1" == "new" ]]; then
   echo ">> Removing old"
-  docker rm -f "$TAG-run" &>/dev/null || true
+  docker rm -f "$NAME" &>/dev/null || true
   docker rmi -f "$TAG" &> /dev/null || true
   shift
 fi
 
 if [[ "$1" == "kill" ]]; then
   echo ">> Recycling old"
-  docker rm -f "$TAG-run" &>/dev/null || true
+  docker rm -f "$NAME" &>/dev/null || true
   shift
 fi
 
-if ! docker inspect "$TAG" &>/dev/null; then
+if ! docker inspect "$IMAGE" &>/dev/null; then
   echo ">> Building..."
   docker build -f "dockerfiles/Dockerfile.$TARGET" -t "$TAG" --target toolchain "."
+  IMAGE="$TAG"
 fi
 
-if [[ $(docker inspect -f '{{.State.Status}}' "$TAG-run" 2>/dev/null) == "running" ]]; then
+if [[ $(docker inspect -f '{{.State.Status}}' "$NAME" 2>/dev/null) == "running" ]]; then
   echo ">> Re-using..."
   if [[ $# -eq 0 ]]; then
     set -- "bash"
   fi
-  docker exec -it "$TAG-run" "$@" || true
+  docker exec -it "$NAME" "$@" || true
 else
-  docker rm -f "$TAG-run" &>/dev/null || true
+  docker rm -f "$NAME" &>/dev/null || true
 
   echo ">> Starting..."
   if [[ "$TARGET" == "release" ]]; then
@@ -56,18 +65,18 @@ else
       -v "$PWD/tmp/pve-cluster:/var/lib/pve-cluster" \
       -v "$PWD/tmp/pve-manager:/var/lib/pve-manager" \
       -v "$PWD/tmp/vz:/var/lib/vz" \
-      --name="$TAG-run" \
-      "$TAG" "$@" || true
+      --name="$NAME" \
+      "$IMAGE" "$@" || true
   else
     docker run -it \
       -w "/src" \
       -v "$PWD:/src" \
       -v "$PWD/tmp/root:/root" \
-      --name="$TAG-run" "$TAG" "$@" || true
+      --name="$NAME" "$IMAGE" "$@" || true
   fi
 
   echo ">> Committing..."
-  docker commit "$TAG-run" "$TAG"
+  docker commit "$NAME" "$TAG"
 fi
 
 echo ">> Done."

@@ -1,5 +1,5 @@
 diff --git a/debian/control b/debian/control
-index c2be0d0..2393823 100644
+index 06a4a59..f0e3561 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -6,7 +6,6 @@ Build-Depends: debhelper-compat (= 13),
@@ -15,6 +15,6 @@ index c2be0d0..2393823 100644
                 lintian,
                 perl,
 -               pve-cluster (>= 6.1-4),
+                pve-doc-generator (>= 5.3-3)
  Standards-Version: 4.6.2
  Homepage: https://www.proxmox.com
- 

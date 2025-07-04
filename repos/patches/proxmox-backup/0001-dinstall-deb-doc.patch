@@ -1,14 +1,5 @@
-From 2f19709d7d5cd240a550595ac7189bba6f770c51 Mon Sep 17 00:00:00 2001
-From: Kamil Trzcinski <ayufan@ayufan.eu>
-Date: Fri, 4 Jul 2025 09:06:39 +0200
-Subject: [PATCH] dinstall deb doc
-
----
- Makefile | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
 diff --git a/Makefile b/Makefile
-index 6435262f..6818ac43 100644
+index 6435262f..75c696cc 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -149,7 +149,7 @@ clean-deb:
@@ -20,6 +11,3 @@ index 6435262f..6818ac43 100644
  	dpkg -i $^
  
  # make sure we build binaries before docs
--- 
-2.39.2
-
