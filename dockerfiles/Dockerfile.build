@@ -73,7 +73,6 @@ RUN ./scripts/repo.bash pve-common make_dinstall
 RUN ./scripts/repo.bash proxmox-acme make_dinstall
 # Not needed? RUN ./scripts/repo.bash pxar make_build strip_cargo "dpkg_build build/pxar"
 RUN ./scripts/repo.bash proxmox-backup make_dinstall
-RUN dpkg -i release/proxmox-backup/proxmox-backup-file-restore_*.deb
 RUN ./scripts/repo.bash proxmox-backup-qemu make_dinstall
 RUN ./scripts/repo.bash pve-qemu make_dinstall
 RUN ./scripts/repo.bash pve-edk2-firmware make_dinstall
