@@ -1,0 +1,14 @@
+version: '2.3'
+
+services:
+  pve:
+    extends:
+      file: docker-compose.yml
+      service: pve
+    network_mode: host
+    # extra_hosts:
+    #   - pve:192.168.64.2
+
+volumes:
+  cfg_persist:
+  data_vz:

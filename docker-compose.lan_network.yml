@@ -1,9 +1,11 @@
 version: '2.3'
-include:
-  - docker-compose.yml
 
 services:
   pve:
+    extends:
+      file: docker-compose.yml
+      service: pve
+    network_mode: ""
     networks:
       lan_network:
 
@@ -11,4 +13,8 @@ networks:
   lan_network:
     driver: macvlan
     driver_opts:
-      parent: br0
+      parent: enp0s1
+
+volumes:
+  cfg_persist:
+  data_vz:

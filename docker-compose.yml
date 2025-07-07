@@ -2,7 +2,7 @@ version: '2.3'
 
 services:
   pve:
-    image: ayufan/proxmox-ve-tests:test
+    image: ${IMAGE:-ayufan/proxmox-ve-tests:test2}
     hostname: pve
     environment:
       TZ: Europe/Warsaw
