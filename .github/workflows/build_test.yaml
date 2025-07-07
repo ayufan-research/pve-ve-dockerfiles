@@ -26,8 +26,8 @@ jobs:
         include:
           - runs_on: ubuntu-24.04-arm
             docker_arch: arm64v8
-          - runs_on: ubuntu-24.04
-            docker_arch: amd64
+          # - runs_on: ubuntu-24.04
+          #   docker_arch: amd64
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -50,7 +50,7 @@ jobs:
         fi
     - name: Compile and release for ${{matrix.docker_arch}}
       run:
-        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" build release
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" builddeb release
 
     # Push to DockerHub
     - name: Login to Docker Hub

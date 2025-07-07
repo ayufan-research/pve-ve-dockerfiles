@@ -14,23 +14,28 @@ shift
 set -xeo pipefail
 
 BUILD_TAG="$TAG-build"
+DEB_TAG="$TAG-deb"
 
 for i; do
   case "$i" in
     build)
-      docker build --file=dockerfiles/Dockerfile.build --tag="$BUILD_TAG" "."
+      docker build --file=dockerfiles/Dockerfile.build --target="build_env" --tag="$BUILD_TAG" "."
       ;;
 
-    archive)
-      docker run --rm -v "$PWD":/dest "$BUILD_TAG" cp -rv /src/release /dest
+    builddeb)
+      docker build --file=dockerfiles/Dockerfile.build --target="deb_env" --tag="$DEB_TAG" "."
+      ;;
+
+    archivedeb)
+      docker run --rm -v "$PWD":/dest "$DEB_TAG" cp -rv /release /dest
       ;;
 
     release)
       RELEASE_OPTS=
-      if docker inspect "$BUILD_TAG" &>/dev/null; then
-        RELEASE_OPTS="--build-arg=DEB_ENV=$BUILD_TAG"
+      if docker inspect "$DEB_TAG" &>/dev/null; then
+        RELEASE_OPTS="--build-arg=IMAGE=$DEB_TAG"
       fi
-      docker build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --tag="$TAG" "."
+      docker build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --target="release_env" --tag="$TAG" "."
       ;;
 
     push)
@@ -38,7 +43,7 @@ for i; do
       ;;
 
     manifest)
-      docker manifest create "$TAG" "$TAG-"{amd64,arm64v8}
+      docker manifest create "$TAG" "$TAG-"{arm64v8}
       docker manifest push "$TAG"
       ;;
 

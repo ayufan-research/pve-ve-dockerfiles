@@ -59,6 +59,8 @@ resolve_all_pkgs() {
 }
 
 if [[ -n "$GEN" ]]; then
+  echo "#!/bin/sh"
+  echo "cd \$(dirname \"\$0\")"
   echo apt install -y $(resolve_all_pkgs "$@")
 else
   set +x

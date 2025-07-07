@@ -1,22 +1,10 @@
 ARG ARCH=
-ARG DEB_ENV=${ARCH}debian:bookworm
-FROM ${DEB_ENV} AS deb_env
-RUN [ ! -e /src/release ] || mv /src/release /release
-ADD /release* /release/
-ADD /dockerfiles/scripts/install.bash /release/
-
-FROM ${ARCH}debian:bookworm AS release_env
+ARG IMAGE=${ARCH}debian:bookworm
+FROM ${IMAGE} AS release_env
 RUN apt-get -y update
 
-COPY --from=deb_env /release /release
-RUN /release/install.bash /release \
-  proxmox-ve \
-  proxmox-backup-restore-image \
-  proxmox-firewall \
-  pve-edk2-firmware \
-  pve-edk2-firmware-legacy \
-  pve-edk2-firmware-aarch64 \
-  pve-edk2-firmware-riscv
+ADD /release* /release/
+RUN /release/install
 
 RUN systemctl mask console-getty.service \
                    ssh.service \
