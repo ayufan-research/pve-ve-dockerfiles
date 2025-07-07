@@ -4,11 +4,6 @@ include:
 
 services:
   pve:
-    networks:
-      lan_network:
-
-networks:
-  lan_network:
-    driver: macvlan
-    driver_opts:
-      parent: br0
+    volumes:
+      - ./tmp/persist:/persist
+      - ./tmp/vz:/var/lib/vz
