@@ -8,16 +8,18 @@ if [[ $# -ne 2 ]]; then
 fi
 
 if [[ -f "$1" ]]; then
-  REPOS=$(realpath "$1")
+  DEPS_FILE=$(realpath "$1")
+  VERSION_FILE=""
   VERSION=""
 elif [[ -f "repos/versions" ]]; then
-  REPOS=$(realpath "repos/versions")
+  DEPS_FILE=$(realpath "repos/versions")
+  VERSION_FILE=$(realpath "repos/version.mk")
   VERSION="${1}"
 else 
-  echo "Missing 'versions' file."
+  echo "Missing 'versions' file." 1>&2
+  echo "$@" 1>&2
   exit 1
 fi
-
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 SCRIPT_ROOT=$(realpath "$0")
@@ -56,13 +58,15 @@ while read REPO COMMIT_SHA REST; do
   REPO_REV=
   perform "$REPO" "$COMMIT_SHA"
 
-  if [[ -n "$VERSION" ]] && [[ -n "$REPO_REV" ]]; then
-    $SCRIPT_ROOT "$(dirname "$REPOS")/$REPO.deps" "$REPO_REV"
+  REPO_DEPS_FILE="$(dirname "$DEPS_FILE")/$REPO.deps"
+
+  if [[ -e "$REPO_DEPS_FILE" ]] && [[ -n "$VERSION" ]] && [[ -n "$REPO_REV" ]]; then
+    $SCRIPT_ROOT "$REPO_DEPS_FILE" "$REPO_REV"
   fi
-done < "$REPOS" > "$REPOS.tmp"
+done < "$DEPS_FILE" > "$DEPS_FILE.tmp"
 
-mv "$REPOS.tmp" "$REPOS"
+mv "$DEPS_FILE.tmp" "$DEPS_FILE"
 
-if [[ -n "$VERSION" ]]; then
-  echo "VERSION := ${VERSION}" > "$REPOS/version.mk"
+if [[ -n "$VERSION_FILE" ]]; then
+  echo "VERSION := ${VERSION}" > "$VERSION_FILE"
 fi
