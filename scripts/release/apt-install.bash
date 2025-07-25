@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [[ "$1" == "--gen" ]]; then
-  GEN=1
-  shift
+  GEN="$2"
+  shift 2
 fi
 
 if [[ $# -lt 2 ]]; then
-  echo "usage: $0 [--gen] <folder> [package names...]"
+  echo "usage: $0 [--gen file] <folder> [package names...]"
   exit 1
 fi
 
@@ -59,10 +59,12 @@ resolve_all_pkgs() {
 }
 
 if [[ -n "$GEN" ]]; then
-  echo "#!/bin/sh"
-  echo "cd \$(dirname \"\$0\")"
-  echo apt install -y $(resolve_all_pkgs "$@")
-else
-  set +x
-  apt install -y $(resolve_all_pkgs "$@")
+  echo "#!/bin/sh" > "$GEN"
+  echo "cd \$(dirname \"\$0\")" >> "$GEN"
+  echo apt install -y $(resolve_all_pkgs "$@") >> "$GEN"
+  chmod +x "$GEN"
+  exit 0
 fi
+
+set +x
+apt install -y $(resolve_all_pkgs "$@")

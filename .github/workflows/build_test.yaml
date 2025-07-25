@@ -50,7 +50,13 @@ jobs:
         fi
     - name: Compile and release for ${{matrix.docker_arch}}
       run:
-        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" builddeb release
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" builddeb archivedeb release
+
+    # Push Artifacts to GitHub
+    - uses: actions/upload-artifact@v4
+      with:
+        name: proxmox-ve-${{ matrix.docker_arch }}
+        path: release/*.tgz
 
     # Push to DockerHub
     - name: Login to Docker Hub
@@ -62,7 +68,7 @@ jobs:
     - name: Run dockerhub for ${{matrix.docker_arch}}
       if: vars.DOCKERHUB_TEST_REGISTRY
       run:
-        docker push "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}"
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}-${{ matrix.docker_arch }}" push
 
   manifest:
     runs-on: ubuntu-latest
@@ -87,6 +93,4 @@ jobs:
     - name: Create manifest
       if: vars.DOCKERHUB_TEST_REGISTRY
       run:
-        docker manifest create "${{ env.REGISTRY }}:${{ env.TAG }}" \
-          "${{ env.REGISTRY }}:${{ env.TAG }}-"{amd64,arm64v8}
-        docker manifest push "${{ env.REGISTRY }}:${{ env.TAG }}"
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" manifest

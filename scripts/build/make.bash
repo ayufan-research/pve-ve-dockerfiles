@@ -37,15 +37,15 @@ cd build
 
 if [[ -z "$DEBUG" ]]; then
   if [[ -f "../repos/$REPO.deps" ]]; then
-    ../scripts/git-clone.bash "../repos/$REPO.deps"
+    ../scripts/build/git-clone.bash "../repos/$REPO.deps"
     DEPS=1
   else
-    ../scripts/git-clone.bash ../repos/versions "$REPO"
+    ../scripts/build/git-clone.bash ../repos/versions "$REPO"
   fi
-  ../scripts/strip-cargo.bash "$REPO"
-  ../scripts/apply-patches.bash "../repos/patches/$REPO"
-  ../scripts/resolve-dependencies.bash "$REPO"
-  ../scripts/experimental-cargo.bash "$REPO"
+  ../scripts/build/strip-cargo.bash "$REPO"
+  ../scripts/build/apply-patches.bash "../repos/patches/$REPO"
+  ../scripts/build/resolve-dependencies.bash "$REPO"
+  ../scripts/build/experimental-cargo.bash "$REPO"
 fi
 
 do_dpkg_build_dep() {

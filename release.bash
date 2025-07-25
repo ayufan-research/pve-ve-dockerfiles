@@ -27,7 +27,8 @@ for i; do
       ;;
 
     archivedeb)
-      docker run --rm -v "$PWD":/dest "$DEB_TAG" cp -rv /release /dest
+      docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /release /dest'
+      docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /proxmox-ve-server*.tgz /dest'
       ;;
 
     release)

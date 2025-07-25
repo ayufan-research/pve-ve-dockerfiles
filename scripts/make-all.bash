@@ -23,4 +23,4 @@ while read RUN CMD; do
   echo ">> Executing $CMD..."
   ( eval "$CMD" )
   touch "$TRACK_FILE"
-done < <(grep "^RUN ./scripts/repo.bash" dockerfiles/Dockerfile.build)
+done < <(grep "^RUN ./scripts/build/make.bash" dockerfiles/Dockerfile.build)
