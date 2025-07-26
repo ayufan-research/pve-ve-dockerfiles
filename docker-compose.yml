@@ -13,19 +13,12 @@ services:
       - NET_ADMIN
       - SYS_ADMIN
       - MKNOD
-    devices:
-      - /dev/fuse
-      - /dev/kvm
-      - /dev/loop-control
-      - /dev/net/tun
-      # required by LXC
-      # - /dev/loop0
-      # - /dev/loop1
-      # - /dev/loop2
-      # - /dev/loop3
-      # - /dev/loop4
-      # - /dev/loop5
-      # - /dev/loop6
+    device_cgroup_rules:
+      - 'c 10:238 rwm' # /dev/kvm
+      - 'c 10:200 rwm' # /dev/net/tun
+      - 'c 10:237 rwm' # /dev/loop-control
+      - 'c 10:229 rwm' # /dev/fuse
+      - 'b 7:* rwm' # /dev/loop*
     ports:
       - 8006:8006/tcp # pveproxy
       - 3128:3128/tcp # spiceterm

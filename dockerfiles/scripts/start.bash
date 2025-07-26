@@ -35,9 +35,30 @@ mount -o remount,rw /proc/sys
 # systemd breaks otherwise
 umount /sys/fs/cgroup
 
-# Create loop devices
+# Create necessary device nodes
+create_mknod() {
+  local dev="$1"
+  local type="$2"
+  local major="$3"
+  local minor="$4"
+  local group="${5:-root}"
+  local mod="${6:-0660}"
+
+  if [[ ! -e "$dev" ]]; then
+    mkdir -p "$(dirname "$dev")"
+    mknod "$dev" "$type" "$major" "$minor"
+    chmod "$mod" "$dev"
+    chown "root:$group" "$dev"
+  fi
+}
+
+create_mknod /dev/kvm c 10 238 kvm
+create_mknod /dev/net/tun c 10 200 root 0666
+create_mknod /dev/loop-control c 10 237 disk
+create_mknod /dev/fuse c 10 229 root 0666
+
 for i in $(seq 0 29); do
-  [[ ! -e /dev/loop$i ]] && mknod /dev/loop$i b 7 $i
+  create_mknod "/dev/loop$i" b 7 $i disk
 done
 
 # Run systemd init
