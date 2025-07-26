@@ -5,10 +5,7 @@ services:
     extends:
       file: docker-compose.yml
       service: pve
-    network_mode: host
     privileged: true
-    #extra_hosts:
-    #  - pve:192.168.64.2
 
 volumes:
   cfg_persist:

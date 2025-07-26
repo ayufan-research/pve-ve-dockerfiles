@@ -2,13 +2,13 @@ version: '2.3'
 
 services:
   pve:
-    image: ${IMAGE:-ayufan/proxmox-ve-tests:test2}
+    image: ${IMAGE:-ayufan/proxmox-ve:latest}
     hostname: pve
     environment:
       TZ: Europe/Warsaw
     restart: unless-stopped
     mem_limit: 2048M
-    network_mode: bridge
+    network_mode: host
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
@@ -20,9 +20,6 @@ services:
       - 'c 10:237 rwm' # /dev/loop-control
       - 'c 10:229 rwm' # /dev/fuse
       - 'b 7:* rwm' # /dev/loop*
-    ports:
-      - 8006:8006/tcp # pveproxy
-      - 3128:3128/tcp # spiceterm
     volumes:
       - cfg_persist:/persist
       - data_vz:/var/lib/vz
