@@ -1,5 +1,5 @@
-ARG ARCH=
-FROM ${ARCH}debian:bookworm AS toolchain
+ARG IMAGE_PREFIX=
+FROM ${IMAGE_PREFIX}debian:bookworm AS toolchain
 
 RUN apt-get -y update && \
   apt-get -y install \
@@ -108,7 +108,7 @@ RUN ./scripts/build/make.bash pve-esxi-import-tools make_deb
 
 #=================================
 
-FROM ${ARCH}debian:bookworm AS deb_env
+FROM ${IMAGE_PREFIX}debian:bookworm AS deb_env
 COPY --from=build_env /src/release /release
 
 ADD /scripts/release /src/scripts/release

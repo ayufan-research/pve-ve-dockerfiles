@@ -13,21 +13,60 @@ shift
 
 set -xeo pipefail
 
-BUILD_TAG="$TAG-build"
-DEB_TAG="$TAG-deb"
+if [[ -z "$VERSION" ]]; then
+  source repos/version.mk
+fi
+
+ARCH=""
+ARCHS="arm64 amd64"
+DPKG_ARCH="${DPKG_ARCH:-$(dpkg --print-architecture)}"
+
+case "$DPKG_ARCH" in
+  arm64)
+    ARCH="arm64"
+    IMAGE_PREFIX="arm64v8/"
+    TARGET_PLATFORM="linux/arm64/v8"
+    ;;
+  amd64)
+    ARCH="amd64"
+    IMAGE_PREFIX="amd64/"
+    TARGET_PLATFORM="linux/amd64"
+    ;;
+  *)
+    echo "Unsupported architecture: $DPKG_ARCH"
+    exit 1
+    ;;
+esac
+
+RELEASE_TAG="$TAG-$ARCH"
+BUILD_TAG="$TAG-build-$ARCH"
+DEB_TAG="$TAG-deb-$ARCH"
+
+docker_build() {
+  docker build \
+    --build-arg=ARCH="$ARCH" \
+    --build-arg=DPKG_ARCH="$DPKG_ARCH" \
+    --build-arg=VERSION="$VERSION" \
+    --build-arg=IMAGE_PREFIX="$IMAGE_PREFIX" \
+    --platform="$TARGET_PLATFORM" \
+    "$@"
+}
 
 for i; do
   case "$i" in
     build)
-      docker build --file=dockerfiles/Dockerfile.build --target="build_env" --tag="$BUILD_TAG" "."
+      docker_build --file=dockerfiles/Dockerfile.build --target="build_env" --tag="$BUILD_TAG" "."
       ;;
 
     builddeb)
-      docker build --file=dockerfiles/Dockerfile.build --target="deb_env" --tag="$DEB_TAG" "."
+      docker_build --file=dockerfiles/Dockerfile.build --target="deb_env" --tag="$DEB_TAG" "."
       ;;
 
     archivedeb)
       docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /release /dest'
+      ;;
+
+    archivetgz)
       docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /proxmox-ve-server*.tgz /dest'
       ;;
 
@@ -36,15 +75,23 @@ for i; do
       if docker inspect "$DEB_TAG" &>/dev/null; then
         RELEASE_OPTS="--build-arg=IMAGE=$DEB_TAG"
       fi
-      docker build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --target="release_env" --tag="$TAG" "."
+      docker_build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --target="release_env" --tag="$RELEASE_TAG" "."
       ;;
 
     push)
-      docker push "$TAG"
+      docker push "$RELEASE_TAG"
       ;;
 
     manifest)
-      docker manifest create "$TAG" "$TAG-"{arm64v8}
+      MANIFEST_ARCHS=""
+      for i in $ARCHS; do
+        if docker manifest inspect "$TAG-$i" &>/dev/null; then
+          MANIFEST_ARCHS="$MANIFEST_ARCHS $TAG-$i"
+        else
+          echo "Manifest for $TAG-$i does not exist, skipping."
+        fi
+      done
+      docker manifest create "$TAG" $MANIFEST_ARCHS
       docker manifest push "$TAG"
       ;;
 

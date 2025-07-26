@@ -1,5 +1,5 @@
-ARG ARCH=
-ARG IMAGE=${ARCH}debian:bookworm
+ARG IMAGE_PREFIX=
+ARG IMAGE=${IMAGE_PREFIX}debian:bookworm
 FROM ${IMAGE} AS release_env
 RUN apt-get -y update
 
