@@ -53,6 +53,7 @@ create_mknod() {
 }
 
 create_mknod /dev/kvm c 10 232 kvm
+create_mknod /dev/vhost-net c 10 282 kvm
 create_mknod /dev/net/tun c 10 200 root 0666
 create_mknod /dev/loop-control c 10 237 disk
 create_mknod /dev/fuse c 10 229 root 0666
