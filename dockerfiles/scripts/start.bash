@@ -11,7 +11,9 @@ if ! mountpoint -q /persist; then
 fi
 
 # Persist directories
-for dir in /etc /var/lib/pve-cluster /var/lib/pve-manager /var/lib/rrdcached/db /var/log $PERSIST_DIRS; do
+for dir in /etc /root /var/lib/pve-cluster /var/lib/pve-manager /var/lib/rrdcached/db /var/log $PERSIST_DIRS; do
+  mountpoint -q "$dir" && continue
+
   mkdir -p "$dir"
   upperdir="/persist/$dir"
   workdir="/persist/.work/$dir"
