@@ -14,7 +14,7 @@ services:
       - SYS_ADMIN
       - MKNOD
     device_cgroup_rules:
-      - 'c 10:238 rwm' # /dev/kvm
+      - 'c 10:232 rwm' # /dev/kvm
       - 'c 10:200 rwm' # /dev/net/tun
       - 'c 10:237 rwm' # /dev/loop-control
       - 'c 10:229 rwm' # /dev/fuse
