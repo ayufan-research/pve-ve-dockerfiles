@@ -1,0 +1,12 @@
+diff --git a/debian/control b/debian/control
+index 9ddbb13..798d41f 100644
+--- a/debian/control
++++ b/debian/control
+@@ -8,7 +8,6 @@ Build-Depends: debhelper-compat (= 13),
+                libnet-subnet-perl <!nocheck>,
+                libtest-mockmodule-perl <!nocheck>,
+                pve-cluster (>= 8.0.10) <!nocheck>,
+-               pve-firewall (>= 5.1.0~) <!nocheck>,
+                pve-doc-generator (>= 5.3-3) <!nocheck>,
+                libpve-access-control <!nocheck>,
+ Standards-Version: 4.6.1

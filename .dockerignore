@@ -1,0 +1,6 @@
+tmp/
+build/
+dockerfiles/Dockerfile*
+.env.mk
+.gitignore
+.git/

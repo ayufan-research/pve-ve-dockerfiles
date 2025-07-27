@@ -1,0 +1,13 @@
+diff --git a/debian/rules b/debian/rules
+index f438901e..4d782b4c 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -33,7 +33,7 @@ override_dh_auto_configure:
+ 	# the wrapper config into a place where `build` picks it up as well..
+ 	# https://doc.rust-lang.org/cargo/commands/cargo-install.html#configuration-discovery
+ 	mkdir -p .cargo
+-	ln -s $(CARGO_HOME)/config.toml $(CURDIR)/.cargo/config.toml
++	#ln -s $(CARGO_HOME)/config.toml $(CURDIR)/.cargo/config.toml
+ 	dh_auto_configure
+ 
+ override_dh_auto_build:

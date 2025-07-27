@@ -1,0 +1,125 @@
+ARG IMAGE_PREFIX=
+FROM ${IMAGE_PREFIX}debian:bookworm AS toolchain
+
+RUN apt-get -y update && \
+  apt-get -y install \
+    build-essential git-core \
+    lintian pkg-config quilt patch cargo \
+    nodejs node-colors node-commander \
+    libudev-dev libapt-pkg-dev \
+    libacl1-dev libpam0g-dev libfuse3-dev \
+    libsystemd-dev uuid-dev libssl-dev \
+    libclang-dev libjson-perl libcurl4-openssl-dev \
+    dh-exec wget devscripts rsync patchelf xmlto jq sudo meson \
+    libglib2.0-dev graphviz
+
+ENV RUSTUP_TOOLCHAIN=stable \
+  CARGO_HOME=/cargo \
+  RUSTUP_HOME=/rustup \
+  PATH="/cargo/bin:$PATH"
+RUN wget https://static.rust-lang.org/rustup/rustup-init.sh && \
+  chmod +x rustup-init.sh && \
+  ./rustup-init.sh -y --default-toolchain "stable" && \
+  rustup toolchain install "nightly" && \
+  cargo install debcargo && \
+  rustc --version
+
+# Not required in trixie
+RUN cd /tmp && \
+  wget http://ftp.us.debian.org/debian/pool/main/a/asciidoc/asciidoc-common_10.2.1-1_all.deb && \
+  wget http://ftp.us.debian.org/debian/pool/main/a/asciidoc/asciidoc-base_10.2.1-1_all.deb && \
+  apt install -y $PWD/asciidoc-*.deb
+
+# Link /cargo/bin to /usr/local/bin
+RUN ln -s /cargo/bin/* /usr/local/bin/
+ADD /scripts/toolchain/ /usr/local/bin/
+
+WORKDIR /src
+RUN git config --system user.email "docker@compile.dev" && \
+  git config --system user.name "Docker Compile"
+
+FROM toolchain AS build_env
+
+ADD /scripts/build /src/scripts/build
+ADD /repos /src/repos
+SHELL ["/bin/bash", "-c"]
+RUN ./scripts/build/make.bash dh-cargo dpkg_{build,install} && ln -sf /bin/true /usr/share/cargo/bin/dh-cargo-built-using
+RUN ./scripts/build/make.bash ifupdown2 make_dinstall
+RUN ./scripts/build/make.bash pve-eslint make_dinstall
+RUN ./scripts/build/make.bash proxmox-widget-toolkit make_dinstall
+# Not needed? RUN ./scripts/build/make.bash libqb make_dinstall
+RUN ./scripts/build/make.bash corosync-pve make_dinstall
+# Broken: RUN ./scripts/build/make.bash corosync-qdevice make_dinstall
+# Not needed? RUN ./scripts/build/make.bash criu "make_dinstall . criu"
+RUN ./scripts/build/make.bash ksm-control-daemon make_dinstall
+RUN ./scripts/build/make.bash vncterm make_dinstall
+RUN ./scripts/build/make.bash extjs make_dinstall
+RUN ./scripts/build/make.bash libjs-qrcodejs make_dinstall
+RUN ./scripts/build/make.bash proxmox-mini-journalreader make_dinstall
+RUN ./scripts/build/make.bash pve-xtermjs "make_dinstall termproxy" "make_dinstall xterm.js"
+RUN ./scripts/build/make.bash proxmox-i18n make_deb dpkg_install
+RUN ./scripts/build/make.bash novnc-pve make_dinstall
+RUN ./scripts/build/make.bash lxcfs make_dinstall
+RUN ./scripts/build/make.bash lxc make_dinstall
+RUN ./scripts/build/make.bash pve-apiclient make_dinstall
+RUN ./scripts/build/make.bash libpve-u2f-server-perl make_dinstall
+RUN ./scripts/build/make.bash pve-lxc-syscalld make_dinstall
+RUN ./scripts/build/make.bash proxmox-mail-forward make_dinstall
+RUN ./scripts/build/make.bash --nightly proxmox-websocket-tunnel dpkg_{build,install}
+
+RUN ./scripts/build/make.bash perlmod "dpkg_build perlmod-bin" "dpkg_install"
+RUN ./scripts/build/make.bash proxmox-perl-rs "make_deb common/pkg" "make_deb pve-rs" dpkg_install
+RUN ./scripts/build/make.bash pve-common make_dinstall
+RUN ./scripts/build/make.bash proxmox-acme make_dinstall
+# Not needed? RUN ./scripts/build/make.bash pxar make_build strip_cargo "dpkg_build build/pxar"
+RUN ./scripts/build/make.bash proxmox-backup make_dinstall
+RUN ./scripts/build/make.bash proxmox-backup-qemu make_dinstall
+RUN ./scripts/build/make.bash pve-qemu make_dinstall
+RUN ./scripts/build/make.bash pve-edk2-firmware make_dinstall
+RUN ./scripts/build/make.bash spiceterm make_dinstall
+# Not needed: RUN ./scripts/build/make.bash proxmox-kernel-helper make_deb
+# Not needed: RUN ./scripts/build/make.bash proxmox-archive-keyring make_deb
+RUN ./scripts/build/make.bash pve-docs "make_dinstall . . GEN_INSTALL=1"
+RUN ./scripts/build/make.bash pve-access-control dpkg_build_dep "make src . install NODOC=1"
+RUN ./scripts/build/make.bash pve-cluster "make_dinstall . . DEB_BUILD_OPTIONS=noparallel"
+RUN ./scripts/build/make.bash pve-access-control make_dinstall
+RUN ./scripts/build/make.bash librados2-perl make_dinstall
+RUN ./scripts/build/make.bash pve-storage make_dinstall
+RUN ./scripts/build/make.bash pve-guest-common make_dinstall
+RUN ./scripts/build/make.bash pve-http-server make_dinstall
+RUN ./scripts/build/make.bash pve-network make_dinstall
+RUN ./scripts/build/make.bash pve-firewall make_dinstall
+RUN ./scripts/build/make.bash pve-container make_dinstall
+RUN ./scripts/build/make.bash pve-ha-manager make_dinstall
+RUN ./scripts/build/make.bash qemu-server make_dinstall
+RUN ./scripts/build/make.bash fonts-font-logos make_dinstall
+RUN ./scripts/build/make.bash sencha-touch make_dinstall
+RUN ./scripts/build/make.bash pve-manager make_dinstall
+# Not needed: RUN ./scripts/build/make.bash proxmox-offline-mirror make_dinstall
+RUN ./scripts/build/make.bash proxmox-firewall make_dinstall
+RUN ./scripts/build/make.bash pve-docs make_dinstall
+RUN ./scripts/build/make.bash proxmox-ve make_deb dpkg_install
+# Broken: RUN ./scripts/build/make.bash ceph "make_deb . ceph"
+RUN ./scripts/build/make.bash pve-esxi-import-tools make_deb
+# Broken: RUN ./scripts/build/make.bash proxmox-backup-restore-image make_dinstall
+# Missing: pve-nvidia-vgpu-helper
+# Missing: zfs-zed
+# Missing: virtiofsd
+
+#=================================
+
+FROM ${IMAGE_PREFIX}debian:bookworm AS deb_env
+COPY --from=build_env /src/release /release
+
+ADD /scripts/release /src/scripts/release
+RUN /src/scripts/release/apt-install.bash --gen /release/install /release \
+      proxmox-ve \
+      proxmox-backup-restore-image \
+      proxmox-firewall \
+      pve-edk2-firmware \
+      pve-edk2-firmware-legacy \
+      pve-edk2-firmware-aarch64 \
+      pve-edk2-firmware-riscv
+
+ARG VERSION
+RUN /src/scripts/release/bundle-tgz.bash /proxmox-ve-server-${VERSION}-${DOCKER_ARCH:-dev}.tgz /release/.

@@ -1,0 +1,90 @@
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+      - .github/workflows/*.yaml
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    timeout-minutes: 360
+    runs-on: ${{ matrix.runs_on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runs_on: ubuntu-24.04-arm
+            dpkg_arch: arm64
+          # - runs_on: ubuntu-24.04
+          #   dpkg_arch: amd64
+    env:
+      DPKG_ARCH: ${{ matrix.dpkg_arch }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Increase swapfile
+      run: |
+        sudo swapoff -a
+        sudo fallocate -l 15G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        sudo swapon --show
+    - name: Set repository name
+      if: vars.DOCKERHUB_TEST_REGISTRY
+      run:
+        echo "REGISTRY=${{ vars.DOCKERHUB_TEST_REGISTRY }}" >> $GITHUB_ENV;
+        if [[ -n "${{ github.event.pull_request.number }}" ]]; then
+          echo "TAG=github-pr-${{ github.event.pull_request.number }}" >> $GITHUB_ENV;
+        else
+          echo "TAG=ref-${{ github.ref_name }}" >> $GITHUB_ENV;
+        fi
+    - name: Compile and release for ${{matrix.dpkg_arch}}
+      run:
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" builddeb releasedeb archivetgz
+
+    # Push Artifacts to GitHub
+    - uses: actions/upload-artifact@v4
+      with:
+        name: proxmox-ve-${{ matrix.dpkg_arch }}
+        path: release/*.tgz
+
+    # Push to DockerHub
+    - name: Login to Docker Hub
+      if: vars.DOCKERHUB_TEST_REGISTRY
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_TEST_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TEST_TOKEN }}
+    - name: Run docker push for ${{matrix.dpkg_arch}}
+      if: vars.DOCKERHUB_TEST_REGISTRY
+      run:
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" push
+
+  manifest:
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set repository name
+      if: vars.DOCKERHUB_TEST_REGISTRY
+      run:
+        echo "REGISTRY=${{ vars.DOCKERHUB_TEST_REGISTRY }}" >> $GITHUB_ENV;
+        if [[ -n "${{ github.event.pull_request.number }}" ]]; then
+          echo "TAG=github-pr-${{ github.event.pull_request.number }}" >> $GITHUB_ENV;
+        else
+          echo "TAG=ref-${{ github.ref_name }}" >> $GITHUB_ENV;
+        fi
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_TEST_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TEST_TOKEN }}
+    - name: Create manifest
+      if: vars.DOCKERHUB_TEST_REGISTRY
+      run:
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" manifest

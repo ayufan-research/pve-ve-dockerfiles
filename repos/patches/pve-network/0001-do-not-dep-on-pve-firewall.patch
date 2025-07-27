@@ -1,0 +1,12 @@
+diff --git a/debian/control b/debian/control
+index 798d41f..aa5cb33 100644
+--- a/debian/control
++++ b/debian/control
+@@ -32,7 +32,6 @@ Description: Proxmox VE's SDN (Software Defined Network) stack
+ Package: libpve-network-api-perl
+ Architecture: all
+ Depends: libpve-common-perl (>= 5.0-45),
+-         pve-firewall (>= 5.1.0~),
+          pve-cluster (>= 8.0.9),
+          libpve-network-perl (= ${binary:Version}),
+          ${misc:Depends},

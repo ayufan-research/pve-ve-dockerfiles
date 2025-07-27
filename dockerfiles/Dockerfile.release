@@ -1,0 +1,23 @@
+ARG IMAGE_PREFIX=
+ARG IMAGE=${IMAGE_PREFIX}debian:bookworm
+
+# Import previous deb_env to ensure that /release directory is available
+FROM ${IMAGE} AS deb_env
+ADD /release* /release/
+
+# Copy just the /release directory from the deb env
+FROM ${IMAGE_PREFIX}debian:bookworm AS release_env
+COPY --from=deb_env /release /release
+
+RUN apt-get -y update
+RUN /release/install
+
+RUN systemctl mask console-getty.service \
+                   ssh.service \
+                   postfix.service
+
+VOLUME /persist \
+  /var/lib/vz
+
+ADD /dockerfiles/scripts/start.bash /start
+ENTRYPOINT ["/start"]

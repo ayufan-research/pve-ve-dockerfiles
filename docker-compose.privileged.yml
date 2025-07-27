@@ -1,0 +1,12 @@
+version: '2.3'
+
+services:
+  pve:
+    extends:
+      file: docker-compose.yml
+      service: pve
+    privileged: true
+
+volumes:
+  cfg_persist:
+  data_vz:

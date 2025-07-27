@@ -1,0 +1,12 @@
+diff --git a/debian/rules b/debian/rules
+index c52d4fb..76f00a7 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -8,6 +8,7 @@ BUILD_TYPE ?= RELEASE
+ EDK2_TOOLCHAIN = GCC5
+ export $(EDK2_TOOLCHAIN)_AARCH64_PREFIX=aarch64-linux-gnu-
+ export $(EDK2_TOOLCHAIN)_RISCV64_PREFIX=riscv64-linux-gnu-
++export $(EDK2_TOOLCHAIN)_BIN=x86_64-linux-gnu-
+ 
+ export PYTHON3_ENABLE=TRUE
+ 

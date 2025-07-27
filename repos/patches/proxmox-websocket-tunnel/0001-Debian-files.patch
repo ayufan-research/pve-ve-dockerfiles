@@ -1,0 +1,53 @@
+diff --git a/debian/cargo-checksum.json b/debian/cargo-checksum.json
+new file mode 100644
+index 0000000..b5623be
+--- /dev/null
++++ b/debian/cargo-checksum.json
+@@ -0,0 +1 @@
++{"package":"Could not get crate checksum","files":{}}
+diff --git a/debian/cargo_config b/debian/cargo_config
+new file mode 100644
+index 0000000..38bd089
+--- /dev/null
++++ b/debian/cargo_config
+@@ -0,0 +1,2 @@
++[build]
++rustflags = []
+diff --git a/debian/compat b/debian/compat
+new file mode 100644
+index 0000000..48082f7
+--- /dev/null
++++ b/debian/compat
+@@ -0,0 +1 @@
++12
+diff --git a/debian/rules b/debian/rules
+new file mode 100755
+index 0000000..f04a897
+--- /dev/null
++++ b/debian/rules
+@@ -0,0 +1,10 @@
++#!/usr/bin/make -f
++%:
++	dh $@ --buildsystem cargo
++
++override_dh_auto_configure:
++	mkdir -p debian/cargo_home/
++	cp -av debian/cargo_config debian/cargo_home/config
++
++override_dh_auto_test:
++	dh_auto_test -- test --all
+diff --git a/debian/source/format b/debian/source/format
+new file mode 100644
+index 0000000..163aaf8
+--- /dev/null
++++ b/debian/source/format
+@@ -0,0 +1 @@
++3.0 (quilt)
+diff --git a/debian/watch b/debian/watch
+new file mode 100644
+index 0000000..b8caa23
+--- /dev/null
++++ b/debian/watch
+@@ -0,0 +1 @@
++FIXME add uscan directive for local crate
+\ No newline at end of file

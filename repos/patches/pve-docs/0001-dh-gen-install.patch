@@ -1,0 +1,16 @@
+diff --git a/debian/rules b/debian/rules
+index abe10ff..6f4fd01 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -8,3 +8,11 @@
+ 
+ .PHONY: override_dh_auto_build
+ override_dh_auto_build:
++
++ifeq (1,$(GEN_INSTALL))
++.PHONY: override_dh_auto_install
++override_dh_auto_install:
++	make gen-install DESTDIR=$(CURDIR)/debian/tmp
++	mkdir -p $(CURDIR)/debian/tmp/usr/share/pve-docs
++	ln -s /bin/true $(CURDIR)/debian/tmp/usr/bin/pve-docs-mediawiki-import
++endif

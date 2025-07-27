@@ -1,0 +1,12 @@
+diff --git a/debian/control b/debian/control
+index 3912698..e85b8e0 100644
+--- a/debian/control
++++ b/debian/control
+@@ -29,7 +29,6 @@ Depends: binutils,
+          libpve-storage-perl (>= 8.3.5),
+          lxc-pve,
+          pve-cluster (>= 4.0-8),
+-         pve-ha-manager (>= 3.0-9),
+          pve-lxc-syscalld,
+          proxmox-backup-client (>= 3.2.3-1),
+          xz-utils,

@@ -1,0 +1,20 @@
+diff --git a/debian/control b/debian/control
+index 06a4a59..f0e3561 100644
+--- a/debian/control
++++ b/debian/control
+@@ -6,7 +6,6 @@ Build-Depends: debhelper-compat (= 13),
+                libanyevent-perl,
+                libauthen-pam-perl,
+                libnet-ldap-perl,
+-               libpve-cluster-perl,
+                libpve-common-perl (>= 8.0.8),
+                libpve-rs-perl,
+                libtest-mockmodule-perl,
+@@ -14,7 +13,6 @@ Build-Depends: debhelper-compat (= 13),
+                libuuid-perl,
+                lintian,
+                perl,
+-               pve-cluster (>= 6.1-4),
+                pve-doc-generator (>= 5.3-3)
+ Standards-Version: 4.6.2
+ Homepage: https://www.proxmox.com

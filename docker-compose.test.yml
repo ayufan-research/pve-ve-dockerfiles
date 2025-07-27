@@ -1,0 +1,14 @@
+version: '2.3'
+
+services:
+  pve:
+    extends:
+      file: docker-compose.yml
+      service: pve
+    network_mode: bridge
+    ports:
+      - 8006:8006/tcp # pveproxy
+      - 3128:3128/tcp # spiceterm
+    volumes:
+      - ./tmp/persist:/persist
+      - ./tmp/vz:/var/lib/vz

@@ -1,0 +1,14 @@
+diff --git a/qm.adoc b/qm.adoc
+index 539912a..5de5141 100644
+--- a/qm.adoc
++++ b/qm.adoc
+@@ -204,8 +204,7 @@ major {pve} releases.
+ Before upgrading to a new major {pve} release, you should update VM
+ configurations to avoid all machine versions that will be dropped during the
+ next major {pve} release. This ensures that the guests can still be used
+-throughout that release. See the section
+-xref:qm_machine_update[Update to a Newer Machine Version].
++throughout that release.
+ 
+ The removal policy is not yet in effect for {pve} 8, so the baseline for
+ supported machine versions is 2.4. The last QEMU binary version released for

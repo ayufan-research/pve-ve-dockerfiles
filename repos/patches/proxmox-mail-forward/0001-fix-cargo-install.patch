@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index e6a7553..46d5edb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -54,7 +54,7 @@ cargo-build:
+ 
+ install: cargo-build
+ 	install -dm755 $(DESTDIR)/usr/bin
+-	$(CARGO) install
++	install -m755 $(COMPILEDIR)/proxmox-mail-forward $(DESTDIR)/usr/bin
+ 	chmod u+s $(DESTDIR)/usr/bin/$(PACKAGE)
+ 
+ .PHONY: upload

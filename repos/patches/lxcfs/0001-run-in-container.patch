@@ -1,0 +1,12 @@
+diff --git a/lxcfs/config/init/systemd/lxcfs.service.in b/lxcfs/config/init/systemd/lxcfs.service.in
+index 65c0a0e..19a0d77 100644
+--- a/lxcfs/config/init/systemd/lxcfs.service.in
++++ b/lxcfs/config/init/systemd/lxcfs.service.in
+@@ -1,6 +1,6 @@
+ [Unit]
+ Description=FUSE filesystem for LXC
+-ConditionVirtualization=!container
++#ConditionVirtualization=!container
+ Before=lxc.service
+ Documentation=man:lxcfs(1)
+ 

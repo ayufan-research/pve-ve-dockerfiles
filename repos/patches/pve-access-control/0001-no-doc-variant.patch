@@ -1,0 +1,35 @@
+diff --git a/src/Makefile b/src/Makefile
+index 5e1ffd7..36da15b 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -11,10 +11,13 @@ BASHCOMPLDIR=$(PREFIX)/share/bash-completion/completions/
+ ZSHCOMPLDIR=$(PREFIX)/share/zsh/vendor-completions/
+ 
+ export PERLDIR=$(PREFIX)/share/perl5
++ifeq (,$(NODOC))
+ -include /usr/share/pve-doc-generator/pve-doc-generator.mk
++endif
+ 
+ all:
+ 
++ifeq (,$(NODOC))
+ pveum.bash-completion: PVE/CLI/pveum.pm
+ 	perl -I. -T -e "use PVE::CLI::pveum; PVE::CLI::pveum->generate_bash_completions();" >$@.tmp
+ 	mv $@.tmp $@
+@@ -22,6 +25,16 @@ pveum.bash-completion: PVE/CLI/pveum.pm
+ pveum.zsh-completion: PVE/CLI/pveum.pm
+ 	perl -I. -T -e "use PVE::CLI::pveum; PVE::CLI::pveum->generate_zsh_completions();" >$@.tmp
+ 	mv $@.tmp $@
++else
++pveum.bash-completion:
++	touch $@
++
++pveum.zsh-completion:
++	touch $@
++
++pveum.1:
++	touch $@
++endif
+ 
+ .PHONY: install
+ install: pveum.1 oathkeygen pveum.bash-completion pveum.zsh-completion

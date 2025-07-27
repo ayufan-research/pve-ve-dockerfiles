@@ -1,0 +1,21 @@
+diff --git a/debian/lxcfs.links b/debian/lxcfs.links
+index 36e0af9..61f44cb 100644
+--- a/debian/lxcfs.links
++++ b/debian/lxcfs.links
+@@ -1 +1,2 @@
+-usr/lib/x86_64-linux-gnu/lxcfs/liblxcfs.so usr/lib/x86_64-linux-gnu/liblxcfs.so
++#! /usr/bin/dh-exec
++usr/lib/${DEB_HOST_MULTIARCH}/lxcfs/liblxcfs.so usr/lib/${DEB_HOST_MULTIARCH}/liblxcfs.so
+diff --git a/debian/rules b/debian/rules
+index c2e6dbb..20ca490 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -3,6 +3,8 @@
+ # Uncomment this to turn on verbose mode.
+ #export DH_VERBOSE=1
+ 
++DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH) 
++
+ %:
+ 	dh $@
+ 

@@ -1,0 +1,37 @@
+version: '2.3'
+
+services:
+  pve:
+    image: ${IMAGE:-ayufan/proxmox-ve:latest}
+    hostname: pve
+    environment:
+      TZ: Europe/Warsaw
+    restart: unless-stopped
+    mem_limit: 2048M
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - MKNOD
+    device_cgroup_rules:
+      - 'c 10:232 rwm' # /dev/kvm
+      - 'c 10:238 rwm' # /dev/vhost-net
+      - 'c 10:200 rwm' # /dev/net/tun
+      - 'c 10:237 rwm' # /dev/loop-control
+      - 'c 10:229 rwm' # /dev/fuse
+      - 'b 7:* rwm' # /dev/loop*
+    volumes:
+      - cfg_persist:/persist
+      - data_vz:/var/lib/vz
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    tmpfs:
+      - /tmp
+      - /run
+      - /run/lock
+    tty: true
+
+volumes:
+  cfg_persist:
+  data_vz:
