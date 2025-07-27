@@ -55,7 +55,7 @@ jobs:
     # Compile and release
     - name: Compile and release for ${{matrix.arch}}
       run:
-        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" builddeb releasedeb archivetgz
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" build-tgz build-image
 
     # Push to DockerHub
     - name: Login to Docker Hub
@@ -65,7 +65,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Run docker push for ${{matrix.arch}}
       run:
-        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" push
+        ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" push-image
 
     # Upload files to draft release
     - name: Upload files to draft release

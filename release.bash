@@ -62,32 +62,23 @@ docker_build() {
 
 for i; do
   case "$i" in
-    build)
-      docker_build --file=dockerfiles/Dockerfile.build --target="build_env" --tag="$BUILD_TAG" "."
-      ;;
-
-    builddeb)
+    build-deb)
       docker_build --file=dockerfiles/Dockerfile.build --target="deb_env" --tag="$DEB_TAG" "."
-      ;;
-
-    archivedeb)
       docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /release /dest'
       ;;
 
-    archivetgz)
+    build-tgz)
+      docker_build --file=dockerfiles/Dockerfile.build --target="deb_env" --tag="$DEB_TAG" "."
       mkdir -p release/
       docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /*.tgz /dest/release/'
       ;;
 
-    releasedeb)
-      RELEASE_OPTS=
-      if docker inspect "$DEB_TAG" &>/dev/null; then
-        RELEASE_OPTS="--build-arg=IMAGE=$DEB_TAG"
-      fi
-      docker_build --file=dockerfiles/Dockerfile.release $RELEASE_OPTS --target="release_env" --tag="$RELEASE_TAG" "."
+    build-image)
+      docker_build --file=dockerfiles/Dockerfile.build --target="deb_env" --tag="$DEB_TAG" "."
+      docker_build --file=dockerfiles/Dockerfile.release --build-arg=IMAGE="$DEB_TAG" --target="release_env" --tag="$RELEASE_TAG" "."
       ;;
 
-    push)
+    push-image)
       docker push "$RELEASE_TAG"
       ;;
 
