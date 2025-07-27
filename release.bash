@@ -13,36 +13,47 @@ shift
 
 set -xeo pipefail
 
-ARCH=""
 ARCHS="arm64 amd64"
-DPKG_ARCH="${DPKG_ARCH:-$(dpkg --print-architecture)}"
 VERSION="${VERSION:-$(cat VERSION)}"
 
-case "$DPKG_ARCH" in
+if [[ -z "$ARCH" ]]; then
+  case "$(dpkg --print-architecture)" in
+    arm64) ARCH="arm64" ;;
+    amd64) ARCH="amd64" ;;
+    *) echo "Unsupported architecture: $(dpkg --print-architecture)"; exit 1 ;;
+  esac
+fi
+
+case "$ARCH" in
   arm64)
-    ARCH="arm64"
     IMAGE_PREFIX="arm64v8/"
     TARGET_PLATFORM="linux/arm64/v8"
+    CROSS_ARCH=""
     ;;
   amd64)
-    ARCH="amd64"
     IMAGE_PREFIX="amd64/"
     TARGET_PLATFORM="linux/amd64"
+    CROSS_ARCH=""
+    ;;
+  arm32)
+    IMAGE_PREFIX="arm64v8/"
+    TARGET_PLATFORM="linux/arm64/v8"
+    CROSS_ARCH="arm32"
     ;;
   *)
-    echo "Unsupported architecture: $DPKG_ARCH"
+    echo "Unsupported architecture: $ARCH"
     exit 1
     ;;
 esac
 
-RELEASE_TAG="$TAG-$ARCH"
-BUILD_TAG="$TAG-build-$ARCH"
-DEB_TAG="$TAG-deb-$ARCH"
+RELEASE_TAG="$TAG-${CROSS_ARCH:-$ARCH}"
+BUILD_TAG="$TAG-build-${CROSS_ARCH:-$ARCH}"
+DEB_TAG="$TAG-deb-${CROSS_ARCH:-$ARCH}"
 
 docker_build() {
   docker build \
     --build-arg=ARCH="$ARCH" \
-    --build-arg=DPKG_ARCH="$DPKG_ARCH" \
+    --build-arg=CROSS_ARCH="$CROSS_ARCH" \
     --build-arg=VERSION="$VERSION" \
     --build-arg=IMAGE_PREFIX="$IMAGE_PREFIX" \
     --platform="$TARGET_PLATFORM" \
@@ -65,7 +76,7 @@ for i; do
 
     archivetgz)
       mkdir -p release/
-      docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /proxmox-ve-server*.tgz /dest/release/'
+      docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /*.tgz /dest/release/'
       ;;
 
     releasedeb)

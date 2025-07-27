@@ -17,11 +17,11 @@ jobs:
       matrix:
         include:
           - runs_on: ubuntu-24.04-arm
-            dpkg_arch: arm64
+            arch: arm64
           # - runs_on: ubuntu-24.04
-          #   dpkg_arch: amd64
+          #   arch: amd64
     env:
-      DPKG_ARCH: ${{ matrix.dpkg_arch }}
+      ARCH: ${{ matrix.arch }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -42,14 +42,14 @@ jobs:
         else
           echo "TAG=ref-${{ github.ref_name }}" >> $GITHUB_ENV;
         fi
-    - name: Compile and release for ${{matrix.dpkg_arch}}
+    - name: Compile and release for ${{matrix.arch}}
       run:
         ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" builddeb releasedeb archivetgz
 
     # Push Artifacts to GitHub
     - uses: actions/upload-artifact@v4
       with:
-        name: proxmox-ve-${{ matrix.dpkg_arch }}
+        name: proxmox-ve-${{ matrix.arch }}
         path: release/*.tgz
 
     # Push to DockerHub
@@ -59,7 +59,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_TEST_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TEST_TOKEN }}
-    - name: Run docker push for ${{matrix.dpkg_arch}}
+    - name: Run docker push for ${{matrix.arch}}
       if: vars.DOCKERHUB_TEST_REGISTRY
       run:
         ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" push
