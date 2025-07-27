@@ -35,6 +35,28 @@ shift
 mkdir -p build
 cd build
 
+case "$(dpkg --print-architecture)" in
+  amd64) ARCH="amd64" ;;
+  arm64) ARCH="arm64" ;;
+  armhf) ARCH="arm32" ;;
+  *)
+    echo "Unsupported architecture: $(dpkg --print-architecture)"
+    exit 1
+    ;;
+esac
+
+case "$CROSS_ARCH" in
+  arm32)
+    export PKG_CONFIG_ALLOW_CROSS_armv7_unknown_linux_gnueabihf=1
+    export PKG_CONFIG_LIBDIR_armv7_unknown_linux_gnueabihf=/usr/lib/arm-linux-gnueabihf/pkgconfig
+    export DEB_HOST_RUST_TYPE=armv7-unknown-linux-gnueabihf
+    export ARCH=arm32
+    ;;
+
+  *)
+    ;;
+esac
+
 if [[ -z "$DEBUG" ]]; then
   if [[ -f "../repos/$REPO.deps" ]]; then
     ../scripts/build/git-clone.bash "../repos/$REPO.deps"
@@ -43,7 +65,7 @@ if [[ -z "$DEBUG" ]]; then
     ../scripts/build/git-clone.bash ../repos/versions "$REPO"
   fi
   ../scripts/build/strip-cargo.bash "$REPO"
-  ../scripts/build/apply-patches.bash "../repos/patches/$REPO"
+  ../scripts/build/apply-patches.bash "../repos/patches/$REPO" "../repos/patches-$ARCH/$REPO"
   ../scripts/build/resolve-dependencies.bash "$REPO"
   ../scripts/build/experimental-cargo.bash "$REPO"
 fi

@@ -7,10 +7,6 @@ for dir; do
     repo_name=$(basename $(dirname "$patch"))
     [[ ! -d "$repo_name" ]] && continue
 
-    if [[ "$patch" == *.{arm64,amd64}.patch ]] && [[ "$patch" != *.$(dpkg --print-architecture).patch ]]; then
-      continue
-    fi
-    
     echo "$patch => $repo_name..."
     if ! git -C "$repo_name" apply --index "$(realpath "$patch")"; then
       patch -p1 -d "$repo_name" < "$patch"

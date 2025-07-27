@@ -11,7 +11,10 @@ for package; do
   done < <(find "$package" -wholename '*/.cargo/config')
 
   while read cargo_config; do
-    echo -n "" > "$cargo_config"
+    cat <<"EOF" > "$cargo_config"
+[target.armv7-unknown-linux-gnueabihf]
+linker = "/usr/bin/arm-linux-gnueabihf-gcc"
+EOF
     git -C "$package" add "$(realpath "$cargo_config")" || true
   done < <(find "$package" -wholename '*/.cargo/config.toml')
 
