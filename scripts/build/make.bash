@@ -62,7 +62,7 @@ if [[ -z "$DEBUG" ]]; then
     ../scripts/build/git-clone.bash "../repos/$REPO.deps"
     DEPS=1
   else
-    ../scripts/build/git-clone.bash ../repos/versions "$REPO"
+    ../scripts/build/git-clone.bash ../repos/deps "$REPO"
   fi
   ../scripts/build/strip-cargo.bash "$REPO"
   ../scripts/build/apply-patches.bash "../repos/patches/$REPO" "../repos/patches-$ARCH/$REPO"

@@ -11,12 +11,12 @@ if [[ -f "$1" ]]; then
   DEPS_FILE=$(realpath "$1")
   VERSION_FILE=""
   VERSION=""
-elif [[ -f "repos/versions" ]]; then
-  DEPS_FILE=$(realpath "repos/versions")
-  VERSION_FILE=$(realpath "repos/version.mk")
+elif [[ -f "repos/deps" ]]; then
+  DEPS_FILE=$(realpath "repos/deps")
+  VERSION_FILE=$(realpath "VERSION")
   VERSION="${1}"
 else 
-  echo "Missing 'versions' file." 1>&2
+  echo "Missing 'repos/deps' file." 1>&2
   echo "$@" 1>&2
   exit 1
 fi
