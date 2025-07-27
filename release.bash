@@ -13,13 +13,10 @@ shift
 
 set -xeo pipefail
 
-if [[ -z "$VERSION" ]]; then
-  source repos/version.mk
-fi
-
 ARCH=""
 ARCHS="arm64 amd64"
 DPKG_ARCH="${DPKG_ARCH:-$(dpkg --print-architecture)}"
+VERSION="${VERSION:-$(cat VERSION)}"
 
 case "$DPKG_ARCH" in
   arm64)

@@ -68,5 +68,5 @@ done < "$DEPS_FILE" > "$DEPS_FILE.tmp"
 mv "$DEPS_FILE.tmp" "$DEPS_FILE"
 
 if [[ -n "$VERSION_FILE" ]]; then
-  echo "VERSION=${VERSION}" > "$VERSION_FILE"
+  echo "${VERSION}" > "$VERSION_FILE"
 fi

@@ -122,4 +122,5 @@ RUN /src/scripts/release/apt-install.bash --gen /release/install /release \
       pve-edk2-firmware-riscv
 
 ARG VERSION
-RUN /src/scripts/release/bundle-tgz.bash /proxmox-ve-server-${VERSION}-${DOCKER_ARCH:-dev}.tgz /release/.
+ARG ARCH
+RUN /src/scripts/release/bundle-tgz.bash /proxmox-ve-server-${VERSION}-${ARCH}.tgz /release/.
