@@ -27,7 +27,7 @@ jobs:
       run: ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" manifest-latest
 
     # Create release
-    - name: Upload files to draft release
+    - name: Make it latest
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ env.TAG }}
@@ -35,4 +35,3 @@ jobs:
         updateOnlyUnreleased: true
         omitBodyDuringUpdate: true
         omitNameDuringUpdate: true
-        omitDraftDuringUpdate: true

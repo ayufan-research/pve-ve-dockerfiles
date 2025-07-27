@@ -67,7 +67,8 @@ for i; do
       ;;
 
     archivetgz)
-      docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /proxmox-ve-server*.tgz /dest'
+      mkdir -p release/
+      docker run --rm -v "$PWD":/dest "$DEB_TAG" sh -c 'cp -rv /proxmox-ve-server*.tgz /dest/release/'
       ;;
 
     releasedeb)
