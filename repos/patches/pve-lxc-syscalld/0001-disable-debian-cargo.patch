@@ -1,5 +1,4 @@
 diff --git a/debian/rules b/debian/rules
-index d1215aa..1005569 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -23,7 +23,7 @@ export DEB_CARGO_PACKAGE=pve-lxc-syscalld

@@ -1,5 +1,4 @@
 diff --git a/debian/rules b/debian/rules
-index 0dc4e0f..a34b668 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -11,7 +11,7 @@ export BUILD_MODE=release

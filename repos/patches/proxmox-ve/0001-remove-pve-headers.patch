@@ -1,8 +1,7 @@
 diff --git a/debian/control b/debian/control
-index 365933e..9d83f8d 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -28,7 +28,6 @@ Description: Proxmox Virtual Environment
+@@ -25,7 +25,6 @@ Description: Proxmox Virtual Environment
  
  Package: pve-headers
  Architecture: all

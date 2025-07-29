@@ -1,0 +1,12 @@
+diff --git a/debian/control.in b/debian/control.in
+--- a/debian/control.in
++++ b/debian/control.in
+@@ -3,7 +3,7 @@ Section: perl
+ Priority: optional
+ Maintainer: Proxmox Support Team <support@proxmox.com>
+ Build-Depends: debhelper-compat (= 13),
+-               librados-dev (>= 19.2.0~),
++               librados-dev (>= 18.2.7~),
+ Standards-Version: 4.6.2
+ Homepage: https://www.proxmox.com/
+ 

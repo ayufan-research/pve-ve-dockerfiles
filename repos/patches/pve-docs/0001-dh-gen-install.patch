@@ -1,5 +1,4 @@
 diff --git a/debian/rules b/debian/rules
-index abe10ff..6f4fd01 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -8,3 +8,11 @@

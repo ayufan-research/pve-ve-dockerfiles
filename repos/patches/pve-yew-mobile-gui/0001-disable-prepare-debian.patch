@@ -1,0 +1,13 @@
+diff --git a/debian/rules b/debian/rules
+--- a/debian/rules
++++ b/debian/rules
+@@ -22,7 +22,8 @@ export DEB_CARGO_PACKAGE==pve-yew-mobile-gui
+ override_dh_auto_configure:
+ 	@perl -ne 'if (/^version\s*=\s*"(\d+(?:\.\d+)+)"/) { my $$v_cargo = $$1; my $$v_deb = "$(DEB_VERSION_UPSTREAM)"; \
+ 	    die "ERROR: d/changelog <-> Cargo.toml version mismatch: $$v_cargo != $$v_deb\n" if $$v_cargo ne $$v_deb; exit(0); }' Cargo.toml
+-	$(CARGO) prepare-debian $(CURDIR)/debian/cargo_registry --link-from-system
++	#$(CARGO) prepare-debian $(CURDIR)/debian/cargo_registry --link-from-system
++	mkdir -p debian/cargo_home && echo "[profile.release]" > debian/cargo_home/config.toml
+ 	echo "\nlto=\"fat\"" >> debian/cargo_home/config.toml
+ 	echo "\nopt-level=\"s\"" >> debian/cargo_home/config.toml
+ 	echo "\ncodegen-units=1" >> debian/cargo_home/config.toml

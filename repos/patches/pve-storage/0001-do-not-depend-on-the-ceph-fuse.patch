@@ -1,5 +1,4 @@
 diff --git a/debian/control b/debian/control
-index 72100b6..1e9473e 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -27,8 +27,6 @@ Breaks: libpve-guest-common-perl (<< 4.0-3),
@@ -10,4 +9,4 @@ index 72100b6..1e9473e 100644
 -         ceph-fuse,
           cifs-utils,
           cstream,
-          glusterfs-client (>= 3.4.0-2),
+          libfile-chdir-perl,

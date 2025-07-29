@@ -1,0 +1,12 @@
+diff --git a/debian/rules b/debian/rules
+--- a/debian/rules
++++ b/debian/rules
+@@ -29,7 +29,7 @@ override_dh_auto_configure:
+ 	echo "\ncodegen-units=1" >> debian/cargo_home/config.toml
+ 	# patch cargo_home config to use lld with wasm, otherwise the build fails
+ 	echo "\n[target.wasm32-unknown-unknown]" >> debian/cargo_home/config.toml
+-	cat debian/cargo_home/config.toml | sed "s/linker=[^']\+/linker=rust-lld/" | grep "^rustflags = " >> debian/cargo_home/config.toml
++	echo "rustflags = ['-C', 'debuginfo=2', '-C', 'strip=none', '--cap-lints', 'warn', '-C', 'linker=rust-lld']" >> debian/cargo_home/config.toml
+ 	dh_auto_configure
+ 
+ override_dh_strip:

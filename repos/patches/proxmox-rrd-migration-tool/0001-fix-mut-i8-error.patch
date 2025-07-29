@@ -1,0 +1,12 @@
+diff --git a/src/main.rs b/src/main.rs
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -370,7 +370,7 @@ fn do_rrd_migration(
+         bail!("refusing to migrate metrics for {resource:?} - target already exists and 'force' not set!");
+     }
+ 
+-    let mut source: [*const i8; 2] = [std::ptr::null(); 2];
++    let mut source: [*const std::os::raw::c_char; 2] = [std::ptr::null(); 2];
+     source[0] = file.0.as_ptr();
+ 
+     let target_path = CString::new(target_path.to_str().unwrap()).unwrap();

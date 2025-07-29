@@ -1,5 +1,4 @@
 diff --git a/qm.adoc b/qm.adoc
-index 539912a..5de5141 100644
 --- a/qm.adoc
 +++ b/qm.adoc
 @@ -204,8 +204,7 @@ major {pve} releases.

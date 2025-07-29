@@ -1,0 +1,23 @@
+[package]
+name = "grass"
+version = "0.13.4"
+edition = "2021"
+authors = ["Kamil Trzciński <ayufan@ayufan.eu>"]
+description = "deb for grass binary"
+build = "build.rs"
+
+[package.metadata.deb]
+name = "rust-grass"
+maintainer = "Kamil Trzciński <ayufan@ayufan.eu>"
+depends = "$auto"
+section = "utils"
+priority = "optional"
+assets = [
+    ["target/deps/bin/grass", "usr/bin/rust-grass", "755"]
+]
+
+[lib]
+path = "src/lib.rs"  # Can be empty or minimal
+
+[build-dependencies]
+toml = "0.7"

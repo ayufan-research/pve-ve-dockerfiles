@@ -1,0 +1,12 @@
+diff --git a/debian/control b/debian/control
+--- a/debian/control
++++ b/debian/control
+@@ -3,7 +3,7 @@ Section: perl
+ Priority: optional
+ Maintainer: Proxmox Support Team <support@proxmox.com>
+ Build-Depends: asciidoc-dblatex,
+-               asciidoc-base (>= 10.2.1-1+deb13u1),
++               asciidoc-base (>= 10.2.1-1),
+                debhelper-compat (= 13),
+                docbook-xsl,
+                git,

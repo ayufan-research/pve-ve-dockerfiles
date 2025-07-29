@@ -1,0 +1,11 @@
+diff --git a/Cargo.toml b/Cargo.toml
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -20,6 +20,7 @@ url = "2.1"
+ percent-encoding = "2.1"
+ gloo-timers = "0.3"
+ gloo-utils = "0.2"
++wasm-bindgen-cli-support = "=0.2.99"
+ 
+ proxmox-schema = "4"
+ proxmox-time = "2"
