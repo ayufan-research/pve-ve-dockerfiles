@@ -1,7 +1,6 @@
 diff --git a/debian/pve-qemu-kvm.links b/debian/pve-qemu-kvm.links
 old mode 100644
 new mode 100755
-index 7314aa4..2955077
 --- a/debian/pve-qemu-kvm.links
 +++ b/debian/pve-qemu-kvm.links
 @@ -1,6 +1,8 @@
@@ -15,7 +14,6 @@ index 7314aa4..2955077
  usr/bin/qemu-system-x86_64 usr/bin/qemu-system-i386
  # upstream provides a qemu man page,
 diff --git a/debian/rules b/debian/rules
-index 539ad63..9137a96 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -6,6 +6,7 @@
@@ -26,7 +24,7 @@ index 539ad63..9137a96 100755
  HOST_CPU ?= $(DEB_HOST_GNU_CPU)
  
  PACKAGE=pve-qemu-kvm
-@@ -42,7 +43,7 @@ endif
+@@ -43,7 +44,7 @@ endif
  	    --localstatedir=/var \
  	    --prefix=/usr \
  	    --sysconfdir=/etc \

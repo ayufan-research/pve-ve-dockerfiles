@@ -1,5 +1,4 @@
 diff --git a/debian/control b/debian/control
-index a947ed3..6dfd1bf 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -15,6 +15,7 @@ Build-Depends: asciidoc-dblatex,

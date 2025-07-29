@@ -1,0 +1,11 @@
+diff --git a/debian/control b/debian/control
+--- a/debian/control
++++ b/debian/control
+@@ -5,6 +5,7 @@ Build-Depends: cargo:native,
+                debhelper-compat (= 13),
+                dh-cargo,
+                libstd-rust-dev,
++               librrd-dev,
+                rrdtool,
+                rustc:native,
+ Maintainer: Proxmox Support Team <support@proxmox.com>

@@ -1,61 +1,56 @@
-proxmox-ve df1572c0820368e481a1278da493a58c50bc592c # Tue Apr 8 01:51:52 2025 +0200
-dh-cargo 4229f940a6c14fae37c4df71563e02103b9052eb # Mon Nov 29 09:43:00 2021 +0100
-debcargo-conf f1161afa371432376f24ea78e91995b6a43445ea # Thu Mar 13 09:45:15 2025 +0100
-proxmox-apt dc8f120b99b9211769cb8da85c4ecd02b589b998 # Wed May 24 11:27:52 2023 +0200
-proxmox-acme-rs 4441cfca8e4b4dd1561ee3060fa70669eae25f64 # Mon Dec 4 11:48:43 2023 +0100
-proxmox-openid-rs 3c52b76e63be77cbc96c0c2dd6b4005241a895cd # Wed May 24 11:27:07 2023 +0200
-proxmox-perl-rs 02c8ef8e85c59a1132e2e931e5a8b6d1ca05ef9c # Fri Apr 4 19:45:27 2025 +0200
-proxmox-acme dc32375fd7df1b03c2a42e9372de19b6843ef0d0 # Tue Feb 18 18:19:03 2025 +0100
-pve-common 85d46b41030f538e1e42b570187b0aea3f3f6afd # Mon Apr 7 21:29:57 2025 +0200
+pve-manager 39d8a4de7dfb2c403e0c1a7f8e056278f26c1bcc # Fri Aug 8 16:42:30 2025 +0200
+proxmox-ve b9c150c17603f89c268a8b04ce06af6b4c7cb0f2 # Wed Jun 18 11:11:21 2025 +0200
+proxmox-perl-rs f2fbed015ec15d204193bcb751388d8acd3bf6ef # Thu Aug 7 10:21:08 2025 +0200
+proxmox-acme 6dc96d5a468d1553991589f4197f9ec6eab554c1 # Sun Jun 1 16:51:41 2025 +0200
+pve-common 6f7de20bb9eb2485c57a66ef87f65462cb3152be # Fri Aug 8 11:58:26 2025 +0200
 pve-eslint bc248701f19280d5a5d39131687dd357da057d8b # Wed Aug 30 11:42:24 2023 +0200
-pve-manager c349e2ea5a520781189c889d74714ea28a5e87ef # Tue Apr 8 00:46:40 2025 +0200
-pxar 16773abdda5eb260216e3ed021309cfa32416b38 # Tue Nov 26 11:13:08 2024 +0100
-proxmox-backup 5ba351bac7218ed8bb5e8853e33f66e2646b5932 # Thu Jan 30 13:36:03 2025 +0100
-proxmox-backup-qemu c3cbcae289d04b4454a70fc59dc58a19d5edb681 # Thu Jan 30 13:57:06 2025 +0100
-pve-qemu 50717bf6dfbc16a65007ff92d4dfea54dd578f74 # Fri Apr 4 18:46:52 2025 +0200
-qemu-server 01b761e7f0c533e0d277902de3082b8fc4b81d6f # Mon Apr 7 23:35:54 2025 +0200
-spiceterm cb9db49a2e61a0bfc2df35a2f60492fe43deaaa4 # Fri May 26 15:22:40 2023 +0200
-vncterm 8112a4cf9d16ce672edcd8445e3180911ba33f25 # Mon May 29 18:07:16 2023 +0200
-proxmox-widget-toolkit b44cc8ee37a576252967daa95904f602f92fd487 # Mon Apr 7 12:38:36 2025 +0200
-pve-apiclient 94d38f0aba67ad04bf20159f605d5f7380cf7b58 # Tue Mar 26 09:35:58 2024 +0100
-pve-cluster 09dd1c9579f4ba7b07d5f49ac4703d9d6ae2e01d # Fri Apr 4 19:14:31 2025 +0200
-pve-storage 0c6234f0bc9772320786ca7ce5f45018630557de # Mon Apr 7 22:18:17 2025 +0200
-pve-guest-common 424c1d936709fdef5fd066d1d868c87b6c5eafe0 # Mon Apr 7 22:20:02 2025 +0200
-pve-access-control 0727e3f517f9f2f5a45a6ceb5a4c54a2e9071f34 # Fri Apr 4 19:57:20 2025 +0200
-pve-docs 1aaa3ecbb6708948c5d0978181a8c416e827d868 # Mon Apr 7 23:17:11 2025 +0200
-librados2-perl b2017399cac82628e15ec14e95551c14fdfbf14f # Fri Aug 11 09:06:08 2023 +0200
-libpve-u2f-server-perl 6567779c7cb2f2216f3037d77f238fed4138e258 # Tue May 23 16:07:32 2023 +0200
-proxmox-websocket-tunnel f09ec1da40853ea3034d68c9a1ab2715488ea729 # Thu Jul 25 13:06:12 2024 +0200
-pve-http-server 2650923a42c9ea357dc0e663a69294410190cc7c # Thu Apr 3 18:04:45 2025 +0200
-pve-edk2-firmware d6146dd6dfc084215dfaa59b95bcf6177e988cb5 # Thu Apr 3 18:17:22 2025 +0200
-pve-container a0a7cec91c6f57c4ca3b6317ff12a15d2c528177 # Mon Apr 7 23:27:34 2025 +0200
-pve-ha-manager 53d8e4892147a063c215bdd9b0c1224d14dad898 # Mon Apr 7 23:24:23 2025 +0200
-lxc 12c47dd66cd23c96259e8c38eb009cfb2098be2e # Fri Apr 5 14:47:52 2024 +0200
-pve-lxc-syscalld 1a98063bd9a3876cc699bb22fa8c1a1bda02ef3d # Fri Jul 26 13:07:35 2024 +0200
-criu 76ef11e73beb992838f458e0b225aeccbb3d80af # Wed May 22 21:11:51 2019 +0200
-proxmox-mail-forward 40f0d9e0482cd48553d5c42535e1c283eac8999c # Tue Mar 18 11:32:51 2025 +0100
-proxmox-mini-journalreader 3dff2a5a7d696a5a659f2f384236aa6672874f18 # Wed May 17 19:38:21 2023 +0200
-proxmox-i18n 61e873d51d2b005ad4c96815e5b4d6ba74922b35 # Mon Apr 7 18:30:39 2025 +0200
-pve-xtermjs a29b36079fbaf18586615e26bb615992d1007c7e # Mon Apr 7 12:30:06 2025 +0200
-novnc-pve 87b1dc5c373427a03c56109332d5ee7cbd02468e # Tue Mar 25 17:39:00 2025 +0100
+proxmox-backup e17239734487b54111a92c88703727c0ccc98c3b # Thu Aug 7 18:39:03 2025 +0200
+proxmox-backup-qemu 2b8ebba0cffecd479f296aaad82d8bec89355599 # Tue Jul 15 21:05:34 2025 +0200
+pve-qemu 839b53bab89fddb7a7fb3a1d722e05df932cce4e # Thu Jul 17 23:22:41 2025 +0200
+qemu-server 6b2b45fd0db94a49324a0af3ed5b1e550602099a # Thu Aug 7 14:31:55 2025 +0200
+spiceterm 63aaf91bb5a198dc1e56c26f9bea9a2522fe3360 # Tue Jun 17 11:18:25 2025 +0200
+vncterm 8a561e315aa5a684cc5d8451257fda4f12070fe3 # Tue Jun 17 11:24:04 2025 +0200
+proxmox-widget-toolkit 230fb4d0d15b348253aa53cfe169d0066e4f1647 # Wed Aug 6 12:01:37 2025 +0200
+pve-apiclient 6138da4f9d2e96db4a809fd8d4927dec43f8a9f9 # Mon Jun 16 16:24:32 2025 +0200
+pve-cluster 253de0cdfe1cd53ab8940c2e5147d363c82f9e46 # Mon Aug 4 12:38:24 2025 +0200
+pve-storage 02acde02b68a306b64bb7d025d870f5e82222e2d # Thu Aug 7 16:49:04 2025 +0200
+pve-guest-common 4a8f6cbf78e1b6992ef77facb4ff2ab3372999e7 # Wed Jul 30 20:08:06 2025 +0200
+pve-access-control 2c67c26f61138e9a97c5aab450d05a865eea6413 # Wed Jul 30 15:14:35 2025 +0200
+pve-docs b822a160a3ab22b0a2888bdecb2ea9be1eb7a48c # Wed Aug 6 10:42:13 2025 +0200
+librados2-perl 52544bb3b69bad74b4caf29698bb9ceb9a7bb6e0 # Wed Jun 4 18:10:36 2025 +0200
+libpve-u2f-server-perl 6cc08c4147aafb1c7452e1e906b937bef45dc24a # Mon Jun 2 19:36:51 2025 +0200
+proxmox-websocket-tunnel 111d6efc5268100a7c8a2a44871c5158849b6826 # Mon Jun 16 21:39:53 2025 +0200
+pve-http-server 5f15d78a6f1d416a610a6aa9b8269b72bdc7dda3 # Wed Aug 6 11:37:43 2025 +0200
+pve-edk2-firmware 221a2615288791f6673ae4d58d2669230071f4af # Thu Jul 10 17:03:31 2025 +0200
+pve-container 14f5f1e3930687fe23ed7df2c956990340251bea # Fri Aug 8 10:47:13 2025 +0200
+pve-ha-manager 53a51329bed83b44a33e67f60c064ccfb38b24cf # Mon Aug 4 21:32:41 2025 +0200
+lxc 801762fa4a6afe32c55d87c5eec99e14a9eaa48d # Wed Jun 18 11:45:21 2025 +0200
+pve-lxc-syscalld f08ac519ff9a9043bca56969ad24d341ffd94dd0 # Thu Jul 31 09:41:11 2025 +0200
+proxmox-mail-forward bd5e62979b2d33d021e7433de30743fb93159c25 # Mon Aug 4 12:43:20 2025 +0200
+proxmox-mini-journalreader b09ee543344fb7082a27346ecb0008f38af6367d # Tue Jun 3 20:58:30 2025 +0200
+proxmox-i18n 994290b844a31f80ced7e8017c7a86f7eb7a4bed # Fri Aug 8 11:52:14 2025 +0200
+pve-xtermjs c69379f49db91429eb01ea56b47f2a2832fec8e7 # Wed Jun 25 15:29:14 2025 +0200
+novnc-pve 3d6c1bf3ba8bb7bb2aba3a6757b69ff8633f3b5c # Mon Jun 16 22:45:46 2025 +0200
 extjs 18909118c3d316f0bb48846920b8c94a4efc31f5 # Thu Nov 14 17:31:34 2024 +0100
 libjs-qrcodejs a9906bd488b5c2045ea4aa8b014d97fdccad63b9 # Thu May 25 14:25:53 2023 +0200
-corosync-pve 15baf0724ad17b772e8843d9c5707b856bfbfa9e # Thu Apr 3 15:47:27 2025 +0200
-corosync-qdevice b101bf59c3979c076e3406062021aae1fd36ed21 # Thu Jan 28 14:47:02 2021 +0100
+corosync-pve 4e79e790befc6f2c1384016132783eacc376e7ab # Tue Jun 3 11:20:06 2025 +0200
 ksm-control-daemon 23493367096149c17219da76c035c127cd7e19f1 # Mon Apr 8 17:33:08 2024 +0200
-lxcfs 9a51a616a09dd8ffeb0c920128ced3cfe50af66d # Thu Apr 11 11:48:28 2024 +0200
-swtpm 0234d46959f06dfd3e403cb602c750d7f56669a9 # Thu May 25 17:01:34 2023 +0200
-ifupdown2 59e69799e13b0449a8f788779f09786102aa1060 # Fri Nov 15 16:21:43 2024 +0100
-libqb 286949ef205879f55fae86b07fe23edb47573ef7 # Fri Nov 9 15:51:01 2018 +0100
-proxmox-kernel-helper ee3237c657be04c5a9dc99d959b279fd308c6c1b
-proxmox-archive-keyring origin/master
-pve-network 8f4f5d2074989cf814d2f2312360239377c495f5
-fonts-font-logos origin/master
-sencha-touch origin/master
-proxmox-offline-mirror 483acf33768c9a4dafa3b37c52500f369a339e12
-proxmox-firewall 0a60fbd309bc43c72687ea75a631c96862c632d2
-proxmox-backup-restore-image baeebaa05826ebe9980009c8d09a8415976092a0
-pve-esxi-import-tools 44485fee5d9be8a2d914dc54d02aa5f30ab259aa
-ceph 65fd29981863f6f5b695ad7e1749e6a43cd79957
-perlmod d34865bc554e62716f3f2e88f1bb7e90b9d391ca # Thu Apr 3 15:16:54 2025 +0200
-pve-firewall acf164bbedea0b12e7ca96ace196d682fa6cb079 # 	Mon, 7 Apr 2025 21:32:30 +0200
+lxcfs 4eabf1a5d167b4622fe64f798afc590b5d5a130f # Tue Jun 10 10:52:12 2025 +0200
+swtpm b0f7dd3bb806f6d64fb2d5fe4662e65966808f4d # Mon Jun 23 12:58:32 2025 +0200
+ifupdown2 8f19453abc7c110b22235f0fc769ffe2e59a2d82 # Fri Aug 1 09:04:27 2025 +0200
+proxmox-kernel-helper df0a487dc5cc7773bc2d885fdd24ac5b6ee04a05 # Thu Jul 31 14:04:05 2025 +0200
+proxmox-archive-keyring 78d7f854019cd012c708838b2c925a250d2e2a6e # Wed Jul 9 13:07:42 2025 +0200
+pve-network 1e0e33d5993df3211e77c57c678afab3e7217734 # Tue Aug 5 12:12:07 2025 +0200
+fonts-font-logos 063091d1a7ea70eba36c5684d20428ba215cb769 # Mon Oct 23 17:19:56 2023 +0200
+sencha-touch c4685c8425cee430dd9c3b496a14fcc35c550a62 # Sun May 28 17:01:16 2023 +0200
+proxmox-offline-mirror cba30ebd9235627857055e9a80a20c70f50e28b2 # Wed Jun 25 17:26:40 2025 +0200
+proxmox-firewall f9efd56937964a2d519d55f40531c50285e2e74d # Tue Aug 5 12:23:33 2025 +0200
+proxmox-backup-restore-image c0b6cd89dab2cc4e02945b5e211d17fc9897a57a # Wed Jun 25 12:47:54 2025 +0200
+pve-esxi-import-tools daee559d957ebc6a8254c95d7292e362681ccb0d # Tue Jul 22 17:25:50 2025 +0200
+ceph bfe79fc8ee46f629d9ce4db0a202f0f9c0a94ac7 # Fri Aug 1 14:41:16 2025 +0200
+perlmod cd32f4813577ef73c7a5316c15ec96d643250cf8 # Thu Aug 7 16:10:15 2025 +0200
+pve-firewall e88b00cc42c60d373fee4befd5c3649640313a70 # Wed Jul 30 22:52:04 2025 +0200
+proxmox-biome c23fa7b8027b344325a65a0ae9a071180a8e800c # Thu Jul 24 18:44:47 2025 +0200
+proxmox-rrd-migration-tool d9122116767dd7ef12ef511797bae82ff451d384 # Mon Aug 4 15:38:16 2025 +0200
+proxmox-wasm-builder 160f45fec3993f238ff2bc54d5bfef4a8877f34c ui/proxmox-wasm-builder # Fri Jul 4 10:48:32 2025 +0200
+pve-yew-mobile-gui a4c12db50ca6ab2618f9476f511d1c86e00fb89b ui/pve-yew-mobile-gui # Thu Aug 7 13:29:18 2025 +0200

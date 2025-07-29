@@ -1,5 +1,4 @@
 diff --git a/debian/rules b/debian/rules
-index a7ba2f8..6f8296f 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -22,7 +22,7 @@ export DEB_CARGO_PACKAGE=proxmox-mail-forward
@@ -10,4 +9,4 @@ index a7ba2f8..6f8296f 100755
 +	#$(CARGO) prepare-debian $(CURDIR)/debian/cargo_registry --link-from-system
  	dh_auto_configure
  
- override_dh_fixperms:
+ execute_after_dh_auto_install:

@@ -1,5 +1,5 @@
 ARG IMAGE_PREFIX=
-FROM ${IMAGE_PREFIX}debian:bookworm AS toolchain
+FROM ${IMAGE_PREFIX}debian:trixie AS toolchain
 
 RUN apt-get -y update && \
   apt-get -y install \
@@ -10,42 +10,45 @@ RUN apt-get -y update && \
     libacl1-dev libpam0g-dev libfuse3-dev \
     libsystemd-dev uuid-dev libssl-dev \
     libclang-dev libjson-perl libcurl4-openssl-dev \
-    dh-exec wget devscripts rsync patchelf xmlto jq sudo meson \
+    dh-exec dh-cargo wget devscripts rsync patchelf xmlto jq sudo meson \
     libglib2.0-dev graphviz
 
-ENV RUSTUP_TOOLCHAIN=stable \
-  CARGO_HOME=/cargo \
+ENV CARGO_HOME=/cargo \
   RUSTUP_HOME=/rustup \
   PATH="/cargo/bin:$PATH"
 RUN wget https://static.rust-lang.org/rustup/rustup-init.sh && \
   chmod +x rustup-init.sh && \
-  ./rustup-init.sh -y --default-toolchain "stable" && \
-  rustup toolchain install "nightly" && \
-  cargo install debcargo && \
+  ./rustup-init.sh -y && \
+  cargo install debcargo cargo-deb && \
   rustc --version
 
-# Not required in trixie
-RUN cd /tmp && \
-  wget http://ftp.us.debian.org/debian/pool/main/a/asciidoc/asciidoc-common_10.2.1-1_all.deb && \
-  wget http://ftp.us.debian.org/debian/pool/main/a/asciidoc/asciidoc-base_10.2.1-1_all.deb && \
-  apt install -y $PWD/asciidoc-*.deb
+# Install extra packages
+ADD packages/ /src/packages/
+RUN cargo deb --manifest-path /src/packages/xtr/Cargo.toml --install
+RUN cargo deb --manifest-path /src/packages/rust-grass/Cargo.toml --install
+
+# Specify default rust toolchain
+ENV RUSTUP_TOOLCHAIN=1.87
+RUN rustup target add wasm32-unknown-unknown
 
 # Link /cargo/bin to /usr/local/bin
 RUN ln -s /cargo/bin/* /usr/local/bin/
 ADD /scripts/toolchain/ /usr/local/bin/
 
+# Ignore dh-cargo-built-using
+RUN ln -sf /bin/true /usr/share/cargo/bin/dh-cargo-built-using
+
 WORKDIR /src
-RUN git config --system user.email "docker@compile.dev" && \
-  git config --system user.name "Docker Compile"
+ADD dockerfiles/gitconfig /etc/gitconfig
 
 FROM toolchain AS build_env
 
 ADD /scripts/build /src/scripts/build
 ADD /repos /src/repos
 SHELL ["/bin/bash", "-c"]
-RUN ./scripts/build/make.bash dh-cargo dpkg_{build,install} && ln -sf /bin/true /usr/share/cargo/bin/dh-cargo-built-using
 RUN ./scripts/build/make.bash ifupdown2 make_dinstall
 RUN ./scripts/build/make.bash pve-eslint make_dinstall
+RUN ./scripts/build/make.bash proxmox-biome make_dinstall
 RUN ./scripts/build/make.bash proxmox-widget-toolkit make_dinstall
 # Not needed? RUN ./scripts/build/make.bash libqb make_dinstall
 RUN ./scripts/build/make.bash corosync-pve make_dinstall
@@ -65,7 +68,7 @@ RUN ./scripts/build/make.bash pve-apiclient make_dinstall
 RUN ./scripts/build/make.bash libpve-u2f-server-perl make_dinstall
 RUN ./scripts/build/make.bash pve-lxc-syscalld make_dinstall
 RUN ./scripts/build/make.bash proxmox-mail-forward make_dinstall
-RUN ./scripts/build/make.bash --nightly proxmox-websocket-tunnel dpkg_{build,install}
+RUN ./scripts/build/make.bash proxmox-websocket-tunnel dpkg_{build,install}
 
 RUN ./scripts/build/make.bash perlmod "dpkg_build perlmod-bin" "dpkg_install"
 RUN ./scripts/build/make.bash proxmox-perl-rs "make_deb common/pkg" "make_deb pve-rs" dpkg_install
@@ -94,6 +97,9 @@ RUN ./scripts/build/make.bash pve-ha-manager make_dinstall
 RUN ./scripts/build/make.bash qemu-server make_dinstall
 RUN ./scripts/build/make.bash fonts-font-logos make_dinstall
 RUN ./scripts/build/make.bash sencha-touch make_dinstall
+RUN ./scripts/build/make.bash proxmox-rrd-migration-tool make_dinstall
+RUN ./scripts/build/make.bash proxmox-wasm-builder dpkg_build dpkg_install
+RUN ./scripts/build/make.bash pve-yew-mobile-gui make_dinstall
 RUN ./scripts/build/make.bash pve-manager make_dinstall
 # Not needed: RUN ./scripts/build/make.bash proxmox-offline-mirror make_dinstall
 RUN ./scripts/build/make.bash proxmox-firewall make_dinstall
@@ -108,7 +114,7 @@ RUN ./scripts/build/make.bash pve-esxi-import-tools make_deb
 
 #=================================
 
-FROM ${IMAGE_PREFIX}debian:bookworm AS deb_env
+FROM ${IMAGE_PREFIX}debian:trixie AS deb_env
 COPY --from=build_env /src/release /release
 
 ADD /scripts/release /src/scripts/release

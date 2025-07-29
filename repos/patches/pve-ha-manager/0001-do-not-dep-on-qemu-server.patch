@@ -1,5 +1,4 @@
 diff --git a/debian/control b/debian/control
-index 8d04a6c..33ab3ca 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -26,7 +26,6 @@ Depends: libjson-perl,

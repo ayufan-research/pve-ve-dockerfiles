@@ -1,5 +1,4 @@
 diff --git a/src/Makefile b/src/Makefile
-index 5e1ffd7..36da15b 100644
 --- a/src/Makefile
 +++ b/src/Makefile
 @@ -11,10 +11,13 @@ BASHCOMPLDIR=$(PREFIX)/share/bash-completion/completions/

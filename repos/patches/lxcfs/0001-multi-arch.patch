@@ -1,5 +1,4 @@
 diff --git a/debian/lxcfs.links b/debian/lxcfs.links
-index 36e0af9..61f44cb 100644
 --- a/debian/lxcfs.links
 +++ b/debian/lxcfs.links
 @@ -1 +1,2 @@
@@ -7,7 +6,6 @@ index 36e0af9..61f44cb 100644
 +#! /usr/bin/dh-exec
 +usr/lib/${DEB_HOST_MULTIARCH}/lxcfs/liblxcfs.so usr/lib/${DEB_HOST_MULTIARCH}/liblxcfs.so
 diff --git a/debian/rules b/debian/rules
-index c2e6dbb..20ca490 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -3,6 +3,8 @@

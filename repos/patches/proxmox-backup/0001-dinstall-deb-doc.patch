@@ -1,8 +1,7 @@
 diff --git a/Makefile b/Makefile
-index 6435262f..75c696cc 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -149,7 +149,7 @@ clean-deb:
+@@ -166,7 +166,7 @@ clean-deb:
  	rm -f *.deb *.dsc *.tar.* *.buildinfo *.build *.changes
  
  .PHONY: dinstall

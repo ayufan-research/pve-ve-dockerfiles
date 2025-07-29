@@ -1,5 +1,4 @@
 diff --git a/debian/control b/debian/control
-index 9d83f8d..84633ae 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -12,9 +12,6 @@ Provides: proxmox-virtual-environment,
@@ -8,7 +7,7 @@ index 9d83f8d..84633ae 100644
           openssh-server,
 -         proxmox-archive-keyring,
 -         proxmox-default-kernel,
--         proxmox-kernel-helper (>= 8.0.3),
-          pve-manager (>= 8.0.4),
+-         proxmox-kernel-helper (>= 9.0~),
+          pve-manager (>= 9.0~),
           pve-qemu-kvm,
-          qemu-server,
+          qemu-server (>= 9.0~),

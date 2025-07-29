@@ -1,8 +1,7 @@
 diff --git a/debian/rules b/debian/rules
-index 5c4e361..539ad63 100755
 --- a/debian/rules
 +++ b/debian/rules
-@@ -38,7 +38,6 @@ endif
+@@ -39,7 +39,6 @@ endif
  
  	# guest-agent is only required for guest systems
  	./configure \
@@ -10,10 +9,3 @@ index 5c4e361..539ad63 100755
  	    --docdir=/usr/share/doc/pve-qemu-kvm \
  	    --localstatedir=/var \
  	    --prefix=/usr \
-diff --git a/qemu b/qemu
-index ae35f03..3a7f9a6 160000
---- a/qemu
-+++ b/qemu
-@@ -1 +1 @@
--Subproject commit ae35f033b874c627d81d51070187fbf55f0bf1a7
-+Subproject commit 3a7f9a605d8e6e900372d13e62b06990d9ecf30e

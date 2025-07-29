@@ -1,5 +1,4 @@
 diff --git a/debian/rules b/debian/rules
-index c52d4fb..76f00a7 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -8,6 +8,7 @@ BUILD_TYPE ?= RELEASE

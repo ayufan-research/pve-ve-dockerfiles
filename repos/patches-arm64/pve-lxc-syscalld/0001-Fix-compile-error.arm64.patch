@@ -1,5 +1,4 @@
 diff --git a/src/sys_quotactl.rs b/src/sys_quotactl.rs
-index 8a243fd..b125502 100644
 --- a/src/sys_quotactl.rs
 +++ b/src/sys_quotactl.rs
 @@ -113,7 +113,7 @@ pub async fn q_getinfo(

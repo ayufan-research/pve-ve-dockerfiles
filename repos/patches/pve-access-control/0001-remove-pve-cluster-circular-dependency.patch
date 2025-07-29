@@ -1,5 +1,4 @@
 diff --git a/debian/control b/debian/control
-index 06a4a59..f0e3561 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -6,7 +6,6 @@ Build-Depends: debhelper-compat (= 13),

@@ -1,5 +1,4 @@
 diff --git a/debian/proxmox-firewall.install b/debian/proxmox-firewall.install
-index 8eb376c..90fed8a 100644
 --- a/debian/proxmox-firewall.install
 +++ b/debian/proxmox-firewall.install
 @@ -1 +1 @@

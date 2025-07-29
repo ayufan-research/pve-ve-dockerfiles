@@ -1,5 +1,4 @@
 diff --git a/debian/control b/debian/control
-index 2e8c876..bc884e2 100644
 --- a/debian/control
 +++ b/debian/control
 @@ -10,7 +10,6 @@ Build-Depends: check,
