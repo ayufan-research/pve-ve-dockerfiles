@@ -34,14 +34,16 @@ jobs:
     needs: [draft]
     timeout-minutes: 360
     runs-on: ${{ matrix.runs_on }}
+    continue-on-error: ${{ matrix.continue-on-error || false }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - runs_on: ubuntu-24.04-arm
             arch: arm64
-          # - runs_on: ubuntu-24.04
-          #   arch: amd64
+          - runs_on: ubuntu-24.04
+            arch: amd64
+            continue_on_error: true
     env:
       ARCH: ${{ matrix.arch }}
     steps:
