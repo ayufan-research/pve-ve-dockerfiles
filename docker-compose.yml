@@ -2,7 +2,7 @@ version: '2.3'
 
 services:
   pve:
-    image: ${IMAGE:-ayufan/proxmox-ve:latest}
+    image: ${IMAGE:-ayufan/proxmox-ve:${TAG:-latest}}
     hostname: pve
     environment:
       TZ: Europe/Warsaw
