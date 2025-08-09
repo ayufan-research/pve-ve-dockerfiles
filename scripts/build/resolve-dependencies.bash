@@ -38,6 +38,7 @@ get_deps_with_path() {
   traversed_deps[$parent_dep_path]=1
 
   while read cargo_dep cargo_git; do
+    [[ -z "$cargo_dep" ]] && continue
     [[ -z "${found_deps["$cargo_dep"]}" ]] && continue
     local cargo_dep_path="${found_deps["$cargo_dep"]}"
     [[ -z "$cargo_dep_path" ]] && cargo_dep_path="${found_deps["$cargo_dep-rs"]}"
