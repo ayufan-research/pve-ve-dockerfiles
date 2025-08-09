@@ -1,8 +1,7 @@
 # DRAFT: Proxmox VE in a Container
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ayufan-research/pve-ve-dockerfiles?label=GitHub%20STABLE)](https://github.com/ayufan-research/pve-ve-dockerfiles/releases) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/ayufan-research/pve-ve-dockerfiles?include_prereleases&color=red&label=GitHub%20BETA)](https://github.com/ayufan-research/pve-ve-dockerfiles/releases/latest)
-
-[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/ayufan/proxmox-ve/latest?label=Docker%20LATEST)](https://hub.docker.com/r/ayufan/proxmox-ve/tags) [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/ayufan/proxmox-ve?sort=semver&color=red&label=Docker%20BETA)](https://hub.docker.com/r/ayufan/proxmox-ve/tags)
+- [![GitHub release (latest by date)](https://img.shields.io/github/v/release/ayufan-research/pve-ve-dockerfiles?label=GitHub%20Release)](https://github.com/ayufan-research/pve-ve-dockerfiles/releases) [![Docker Image Version (latest stable (amd64))](https://img.shields.io/docker/v/ayufan/proxmox-ve/latest?arch=amd64&label=Docker:%20latest)](https://hub.docker.com/r/ayufan/proxmox-ve/tags) [![Docker Image Version (latest stable (arm64))](https://img.shields.io/docker/v/ayufan/proxmox-ve/latest?arch=arm64&label=Docker:%20latest)](https://hub.docker.com/r/ayufan/proxmox-ve/tags)
+- [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/ayufan-research/pve-ve-dockerfiles?include_prereleases&color=red&label=GitHub%20Pre-Release)](https://github.com/ayufan-research/pve-ve-dockerfiles/releases/latest) [![Docker Image Version (latest stable (amd64))](https://img.shields.io/docker/v/ayufan/proxmox-ve/beta?arch=amd64&color=red&label=Docker:%20beta)](https://hub.docker.com/r/ayufan/proxmox-ve/tags) [![Docker Image Version (latest stable (arm64))](https://img.shields.io/docker/v/ayufan/proxmox-ve/beta?arch=arm64&color=red&label=Docker:%20beta)](https://hub.docker.com/r/ayufan/proxmox-ve/tags)
 
 This is an unofficial compilation of Proxmox VE
 to run it in a container for AMD64 and ARM64.
@@ -42,14 +41,32 @@ at https://hub.docker.com/r/ayufan/proxmox-ve.
 Or:
 
 ```bash
+# Latest stable / release tag
 docker pull ayufan/proxmox-ve:latest
+
+# Latest pre-release / beta tag
+docker pull ayufan/proxmox-ve:beta
 ```
+
+Each [GitHub Releases](https://github.com/ayufan-research/pve-ve-dockerfiles/releases) includes the following binary assets:
+
+- `proxmox-ve-server-*.tgz` - contains all archived debian installation files with the `./install` script
 
 ## Run
 
 ```bash
+wget https://raw.githubusercontent.com/ayufan-research/pve-ve-dockerfiles/refs/heads/master/docker-compose.yml
 docker-compose up -d
 ```
+
+**Run beta variant:**
+
+```bash
+wget https://raw.githubusercontent.com/ayufan-research/pve-ve-dockerfiles/refs/heads/master/docker-compose.yml
+TAG=beta docker-compose up -d
+```
+
+See the example [docker-compose.yml](./docker-compose.yml).
 
 ## Configure container
 
@@ -95,6 +112,20 @@ I tested limited amount of features:
 
 - Running QEMU VMs on ARM64, including MikroTik on Ampere.
 - Running LXC containers on ARM64 in privileged mode, the unprivileged fails.
+
+## Install server on bare-metal or virtualized host
+
+Docker is convienient, but in some cases it might be simply better to install natively.
+
+You can pull compiled `*.deb` files from [GitHub Releases](https://github.com/ayufan-research/pve-ve-dockerfiles/releases).
+
+Replace the `v7.4.0` with the latest version.
+
+```bash
+wget https://github.com/ayufan-research/pve-ve-dockerfiles/releases/download/v4.0.12/proxmox-ve-v7.4.0-$(dpkg --print-architecture).tgz
+tar zxf proxmox-ve-server-*.tgz
+proxmox-ve-server-*/install
+```
 
 ## Changelog
 
