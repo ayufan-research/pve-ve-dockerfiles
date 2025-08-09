@@ -95,3 +95,20 @@ jobs:
       if: vars.DOCKERHUB_TEST_REGISTRY
       run:
         ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" manifest
+    - name: Comment image name on PR
+      if: vars.DOCKERHUB_TEST_REGISTRY && github.event_name == 'pull_request'
+      env:
+        REGISTRY: ${{ env.REGISTRY }}
+        TAG: ${{ env.TAG }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const imageName = `${{ env.REGISTRY }}:${{ env.TAG }}`;
+          const body = `✅ Docker image pushed: \`${imageName}\``;
+
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: body
+          });
