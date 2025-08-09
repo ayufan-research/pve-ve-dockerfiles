@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index e6a7553..46d5edb 100644
+index 719a865..7bfa1df 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -54,7 +54,7 @@ cargo-build:

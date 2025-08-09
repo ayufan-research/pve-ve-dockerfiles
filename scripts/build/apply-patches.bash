@@ -22,5 +22,5 @@ for dir; do
 
     git -C "$repo_name" diff --cached > "$patch"
     git -C "$repo_name" commit -m "$(basename $patch)"
-  done < <(find "$dir" -name "*.patch")
+  done < <(find "$dir" -name "*.patch" | sort)
 done
