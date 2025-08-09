@@ -123,4 +123,5 @@ RUN /src/scripts/release/apt-install.bash --gen /release/install /release \
 
 ARG VERSION
 ARG ARCH
-RUN /src/scripts/release/bundle-tgz.bash /proxmox-ve-server-${VERSION}-${ARCH}.tgz /release/.
+ARG TAG=
+RUN /src/scripts/release/bundle-tgz.bash /proxmox-ve-server-${TAG:-${VERSION}}-${ARCH}.tgz /release/.
