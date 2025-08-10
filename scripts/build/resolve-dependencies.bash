@@ -69,18 +69,28 @@ update_deps() {
   unset traversed_deps
   declare -A traversed_deps
 
-  while read cargo_dep cargo_dep_path; do
-    echo "$cargo_dep => $cargo_dep_path"
-    grep -q "$cargo_dep.*git" "$cargo_toml" && continue # TODO: this is not fully working\
+  unset output_deps
+  declare -A output_deps
 
-    if [[ -z "$replaced" ]]; then
-      replace_patch_crates_io "$cargo_toml"
-      replaced=1
-    fi
+  while read nested_cargo_toml; do
+    local nested_cargo_package=$(basename $(dirname "$nested_cargo_toml"))
 
-    echo "$cargo_package: Cargo dep: $cargo_dep => found => $cargo_dep_path"
-    echo "$cargo_dep = { path = \"$cargo_dep_path\" }" >> "$cargo_toml"
-  done < <(get_deps_with_path "$cargo_toml" "$cargo_package" "" | sort -u)
+    while read cargo_dep cargo_dep_path; do
+      [[ -n "${output_deps["$cargo_dep"]}" ]] && continue
+      output_deps["$cargo_dep"]=1
+
+      echo "$cargo_dep => $cargo_dep_path"
+      grep -q "$cargo_dep.*git" "$cargo_toml" && continue # TODO: this is not fully working
+
+      if [[ -z "$replaced" ]]; then
+        replace_patch_crates_io "$cargo_toml"
+        replaced=1
+      fi
+
+      echo "$cargo_package: Cargo dep: $cargo_dep => found => $cargo_dep_path"
+      echo "$cargo_dep = { path = \"$cargo_dep_path\" }" >> "$cargo_toml"
+    done < <(get_deps_with_path "$nested_cargo_toml" "$nested_cargo_package" "" | sort -u)
+  done < <(find "$(dirname "$cargo_toml")" -name Cargo.toml -not -path "*/vendor/*" -not -path "*/.build/*" | sort)
 }
 
 search_dir="${1:-.}"
@@ -95,6 +105,6 @@ while read CARGO_TOML; do
     git -C "$git_repo" diff --cached | cat
     git -C "$git_repo" commit -m "resolve-dependencies.bash"
   fi
-done < <(find "$search_dir" -name Cargo.toml -not -path "*/vendor/*" -not -path "*/.build/*")
+done < <(find "$search_dir" -name Cargo.toml -not -path "*/vendor/*" -not -path "*/.build/*" | sort)
 
 echo "Done."
