@@ -58,6 +58,14 @@ case "$CROSS_ARCH" in
     export ARCH=arm32
     ;;
 
+  arm64)
+    export ARCH=arm64
+    ;;
+
+  amd64)
+    export ARCH=amd64
+    ;;
+
   *)
     ;;
 esac
