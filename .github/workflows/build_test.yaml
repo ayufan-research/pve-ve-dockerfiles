@@ -12,7 +12,7 @@ jobs:
   docker-build:
     timeout-minutes: 360
     runs-on: ${{ matrix.runs_on }}
-    continue-on-error: ${{ matrix.continue-on-error || false }}
+    continue-on-error: ${{ matrix.continue_on_error || false }}
     strategy:
       fail-fast: false
       matrix:
@@ -44,27 +44,25 @@ jobs:
           echo "TAG=ref-${{ github.ref_name }}" >> $GITHUB_ENV;
         fi
     - name: Compile and release for ${{matrix.arch}}
-      id: compile_cmd
       run:
         ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" build-tgz build-image
       continue-on-error: ${{ matrix.continue_on_error || false }}
 
     # Push Artifacts to GitHub
     - uses: actions/upload-artifact@v4
-      if: success() && steps.compile_cmd.outcome == 'success'
       with:
         name: proxmox-ve-${{ matrix.arch }}
         path: release/*.tgz
 
     # Push to DockerHub
     - name: Login to Docker Hub
-      if: success() && steps.compile_cmd.outcome == 'success' && vars.DOCKERHUB_TEST_REGISTRY
+      if: vars.DOCKERHUB_TEST_REGISTRY
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_TEST_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TEST_TOKEN }}
     - name: Run docker push for ${{matrix.arch}}
-      if: success() && steps.compile_cmd.outcome == 'success' && vars.DOCKERHUB_TEST_REGISTRY
+      if: vars.DOCKERHUB_TEST_REGISTRY
       run:
         ./release.bash "${{ env.REGISTRY }}:${{ env.TAG }}" push-image
     - name: Free disk space after build
