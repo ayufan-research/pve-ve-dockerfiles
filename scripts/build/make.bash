@@ -1,9 +1,13 @@
 #!/bin/bash
 
 if [[ $# -lt 1 ]]; then
-  echo "usage: $0 <name> [operations...]"
+  echo "usage: $0 <name> [options] [operations...]"
   exit 1
 fi
+
+REPO="$1"
+DEPS=
+shift
 
 set -xeo pipefail
 export DEBIAN_FRONTEND=noninteractive
@@ -32,10 +36,6 @@ while [[ -n "$1" ]]; do
 
   shift
 done
-
-REPO="$1"
-DEPS=
-shift
 
 mkdir -p build
 cd build
@@ -80,7 +80,6 @@ if [[ -z "$DEBUG" ]]; then
   ../scripts/build/strip-cargo.bash "$REPO"
   ../scripts/build/apply-patches.bash "../repos/patches/$REPO" "../repos/patches-$ARCH/$REPO"
   ../scripts/build/resolve-dependencies.bash "$REPO"
-  ../scripts/build/experimental-cargo.bash "$REPO"
 fi
 
 do_dpkg_build_dep() {
